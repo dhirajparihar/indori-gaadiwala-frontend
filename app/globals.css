@@ -1,26 +1,262 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  background-color: white;
+  color: rgb(17 24 39);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.btn-primary {
+  background-color: rgb(37 99 235);
+  color: white;
+  font-weight: 600;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.btn-primary:hover {
+  background-color: rgb(29 78 216);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.btn-secondary {
+  background-color: rgb(249 115 22);
+  color: white;
+  font-weight: 600;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.btn-secondary:hover {
+  background-color: rgb(234 88 12);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.btn-outline {
+  border: 2px solid rgb(37 99 235);
+  color: rgb(37 99 235);
+  font-weight: 600;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  background-color: rgb(239 246 255);
+}
+
+.btn-dark {
+  background-color: rgb(15 23 42);
+  color: white;
+  font-weight: 600;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.btn-dark:hover {
+  background-color: rgb(2 6 23);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.btn-red {
+  background-color: rgb(220 38 38);
+  color: white;
+  font-weight: 600;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.btn-red:hover {
+  background-color: rgb(185 28 28);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.card {
+  background-color: white;
+  border: 1px solid rgb(229 231 235);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: box-shadow 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.input {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid rgb(209 213 219);
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(37 99 235);
+  border-color: transparent;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.badge-success {
+  background-color: rgb(220 252 231);
+  color: rgb(22 101 52);
+}
+
+.badge-warning {
+  background-color: rgb(255 237 213);
+  color: rgb(154 52 18);
+}
+
+.badge-info {
+  background-color: rgb(219 234 254);
+  color: rgb(30 64 175);
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  overflow: hidden;
+  background-image: url('/hero-thar.png');
+  background-size: cover;
+  background-position: left bottom -60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* Move content to the right */
+  padding: 4rem 4%;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Gradient: Left 50% is 100% transparent to show the car clearly, then fades in for text */
+  background: linear-gradient(to right, transparent 50%, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0.98) 85%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: right;
+  /* Align text to right */
+  max-width: 800px;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 60vh;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background-position: center;
+  }
+
+  .hero::before {
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 100%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.hero-car {
+  position: absolute;
+  width: 450px;
+  opacity: 0.95;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .hero-car {
+    display: none;
+  }
+}
+
+/* LEFT CAR - Red Ferrari - 3/4 visible */
+.left-car {
+  left: -100px;
+  bottom: 30px;
+  /* transform: rotate(-3deg); */
+}
+
+/* RIGHT CAR - Blue Camaro - 3/4 visible */
+.right-car {
+  right: -100px;
+  bottom: 20px;
+  transform: scaleX(-1);
+}
+
+/* Hero Buttons */
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* LARGE SCREENS - cars visible beside text */
+@media (min-width: 1400px) {
+  .hero-car {
+    width: 450px;
+  }
+
+  .left-car {
+    left: 8%;
+  }
+
+  .right-car {
+    right: 8%;
+  }
+}
+
+/* TABLET - smaller cars */
+@media (max-width: 1200px) {
+  .hero-car {
+    width: 300px;
+  }
+
+  .left-car {
+    left: 2%;
+  }
+
+  .right-car {
+    right: 2%;
+  }
+}
+
+/* MOBILE – hide cars */
+@media (max-width: 900px) {
+  .hero {
+    min-height: 450px;
+  }
+
+  .hero-car {
+    display: none;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
 }

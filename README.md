@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gaadiwala Next.js Frontend
 
-## Getting Started
+A modern, clean frontend for the Gaadiwala used vehicle marketplace platform, built with Next.js 14 and inspired by CarDekho's minimal design.
 
-First, run the development server:
+## 🎨 Design
 
+- **Clean & Minimal**: White background with professional aesthetics
+- **Color Scheme**: Blue (#2563eb) primary, Orange (#f97316) secondary
+- **Responsive**: Mobile-first design
+- **Modern UI**: Card-based layouts with subtle shadows and smooth transitions
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ installed
+- Backend server running on http://localhost:5000
+
+### Installation
+
+1. **Install dependencies**:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Start development server**:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Open in browser**:
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📱 Pages
 
-## Learn More
+### User Pages
+- **Homepage** (`/`) - Hero section, featured vehicles, features
+- **Browse Vehicles** (`/vehicles`) - Vehicle listing with filters
+- **Vehicle Detail** (`/vehicles/[id]`) - Detailed view with booking form
 
-To learn more about Next.js, take a look at the following resources:
+### Admin Pages
+- **Login** (`/admin/login`) - Admin authentication
+- **Dashboard** (`/admin/dashboard`) - Admin panel (use old HTML version for full features)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔧 Configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Environment Variables
+Create `.env.local` file:
+```
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
 
-## Deploy on Vercel
+## 🛠️ Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+- **HTTP Client**: Axios
+- **Icons**: React Icons
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📂 Project Structure
+
+```
+├── app/                    # Next.js app directory
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx           # Homepage
+│   ├── vehicles/          # Vehicle pages
+│   └── admin/             # Admin pages
+├── components/            # React components
+│   ├── layout/           # Layout components
+│   └── ui/               # UI components
+├── lib/                   # Utilities
+│   ├── api.ts            # API client
+│   └── types.ts          # TypeScript types
+└── public/               # Static assets
+```
+
+## 🎯 Features
+
+- ✅ Clean, minimal design
+- ✅ Responsive layout
+- ✅ Advanced filtering
+- ✅ Image galleries
+- ✅ Booking forms
+- ✅ Admin authentication
+- ✅ TypeScript support
+- ✅ SEO optimized
+
+## 🔗 Backend Integration
+
+The frontend connects to the backend API running on `http://localhost:5000`.
+
+Make sure the backend server is running before starting the frontend.
+
+## 📝 Default Admin Credentials
+
+- **Email**: admin@gaadiwala.com
+- **Password**: admin123
+
+## 🚧 Note
+
+For full admin panel functionality (vehicle CRUD, booking management), use the original HTML/JS admin panel located in the `frontend/admin/` directory until the Next.js admin panel is fully implemented.
+
+## 📄 License
+
+Open source - Educational purposes
+
+---
+
+Made with ❤️ for vehicle enthusiasts
