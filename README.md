@@ -93,10 +93,6 @@ The frontend connects to the backend API running on `http://localhost:5000`.
 
 Make sure the backend server is running before starting the frontend.
 
-## 📝 Default Admin Credentials
-
-- **Email**: admin@gaadiwala.com
-- **Password**: admin123
 
 ## 🚧 Note
 
