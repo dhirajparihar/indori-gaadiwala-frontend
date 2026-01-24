@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +34,9 @@ export default function RootLayout({
           pauseOnHover
           theme="colored"
         />
-        <Navbar />
+        <Suspense fallback={<div className="h-20 bg-white shadow-sm" />}>
+          <Navbar />
+        </Suspense>
         <main className="min-h-screen">
           {children}
         </main>
