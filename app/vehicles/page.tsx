@@ -7,7 +7,9 @@ import { Vehicle } from '@/lib/types';
 import VehicleCard from '@/components/ui/VehicleCard';
 import { FaFilter, FaTimes } from 'react-icons/fa';
 
-export default function VehiclesPage() {
+import { Suspense } from 'react';
+
+function VehiclesContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -33,10 +35,10 @@ export default function VehiclesPage() {
         loadVehicles(currentFilters);
     }, [searchParams]);
 
-    const loadVehicles = async (currentFilters: any) => {
+    const loadVehicles = async (currentFilters: { type: string; fuelType: string; transmission: string; maxPrice: string }) => {
         setLoading(true);
         try {
-            const params: any = {};
+            const params: Record<string, string> = {};
             if (currentFilters.type) params.type = currentFilters.type;
             if (currentFilters.fuelType) params.fuelType = currentFilters.fuelType;
             if (currentFilters.transmission) params.transmission = currentFilters.transmission;
@@ -191,5 +193,17 @@ export default function VehiclesPage() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function VehiclesPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-gray-50 flex justify-center items-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+            </div>
+        }>
+            <VehiclesContent />
+        </Suspense>
     );
 }

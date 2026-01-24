@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState } from 'react';
@@ -25,8 +26,9 @@ export default function AdminLoginPage() {
             } else {
                 setError(response.data.message || 'Invalid credentials');
             }
-        } catch (err: any) {
-            setError(err.response?.data?.message || 'Login failed. Please try again.');
+        } catch (err: unknown) {
+            const error = err as any;
+            setError(error.response?.data?.message || 'Login failed. Please try again.');
         } finally {
             setLoading(false);
         }

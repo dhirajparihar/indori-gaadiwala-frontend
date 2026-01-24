@@ -12,7 +12,7 @@ interface EditVehicleModalProps {
 }
 
 export default function EditVehicleModal({ vehicle, onClose, onSuccess }: EditVehicleModalProps) {
-    const [form, setForm] = useState<any>({});
+    const [form, setForm] = useState<Partial<Vehicle>>({});
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
@@ -87,7 +87,7 @@ export default function EditVehicleModal({ vehicle, onClose, onSuccess }: EditVe
                             <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                             <select
                                 value={form.status || 'available'}
-                                onChange={(e) => setForm({ ...form, status: e.target.value })}
+                                onChange={(e) => setForm({ ...form, status: e.target.value as 'available' | 'sold' | 'reserved' })}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="available">Available</option>
@@ -98,7 +98,7 @@ export default function EditVehicleModal({ vehicle, onClose, onSuccess }: EditVe
                             <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
                             <select
                                 value={form.type || 'car'}
-                                onChange={(e) => setForm({ ...form, type: e.target.value })}
+                                onChange={(e) => setForm({ ...form, type: e.target.value as 'car' | 'bike' | 'commercial' })}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="car">Car</option>

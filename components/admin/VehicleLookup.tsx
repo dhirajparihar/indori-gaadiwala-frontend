@@ -52,8 +52,9 @@ export default function VehicleLookup() {
             } else {
                 setError(response.data.message || 'Vehicle not found');
             }
-        } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to fetch vehicle details.');
+        } catch (err: unknown) {
+            const error = err as any;
+            setError(error.response?.data?.message || 'Failed to fetch vehicle details.');
         } finally {
             setLoading(false);
         }

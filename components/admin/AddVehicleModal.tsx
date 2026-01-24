@@ -60,9 +60,10 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                 featured: false
             });
             setSelectedImages([]);
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error creating vehicle:', error);
-            toast.error(`Failed to create vehicle: ${error.response?.data?.message || error.message}`);
+            const err = error as any;
+            toast.error(`Failed to create vehicle: ${err.response?.data?.message || err.message}`);
         } finally {
             setUploading(false);
         }

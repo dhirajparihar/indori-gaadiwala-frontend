@@ -19,21 +19,21 @@ api.interceptors.request.use((config) => {
 
 // Vehicles API
 export const vehiclesApi = {
-    getAll: (params?: any) => api.get('/vehicles', { params }),
+    getAll: (params?: Record<string, unknown>) => api.get('/vehicles', { params }),
     getById: (id: string) => api.get(`/vehicles/${id}`),
     create: (data: FormData) => api.post('/vehicles', data, {
         headers: { 'Content-Type': 'multipart/form-data' }
     }),
-    update: (id: string, data: any) => api.put(`/vehicles/${id}`, data),
+    update: (id: string, data: Record<string, unknown> | FormData) => api.put(`/vehicles/${id}`, data),
     delete: (id: string) => api.delete(`/vehicles/${id}`),
 };
 
 // Bookings API
 export const bookingsApi = {
-    create: (data: any) => api.post('/bookings', data),
-    getAll: (params?: any) => api.get('/bookings', { params }),
+    create: (data: Record<string, unknown>) => api.post('/bookings', data),
+    getAll: (params?: Record<string, unknown>) => api.get('/bookings', { params }),
     getById: (id: string) => api.get(`/bookings/${id}`),
-    update: (id: string, data: any) => api.put(`/bookings/${id}`, data),
+    update: (id: string, data: Record<string, unknown>) => api.put(`/bookings/${id}`, data),
     delete: (id: string) => api.delete(`/bookings/${id}`),
 };
 
@@ -42,7 +42,7 @@ export const authApi = {
     login: (credentials: { email: string; password: string }) =>
         api.post('/auth/login', credentials),
     verify: () => api.get('/auth/verify'),
-    register: (data: any) => api.post('/auth/register', data),
+    register: (data: Record<string, unknown>) => api.post('/auth/register', data),
 };
 
 // Leads API
@@ -50,7 +50,7 @@ export const leadsApi = {
     create: (data: { name: string; phone: string }) =>
         api.post('/leads', data),
     getAll: () => api.get('/leads'),
-    update: (id: string, data: any) => api.put(`/leads/${id}`, data),
+    update: (id: string, data: Record<string, unknown>) => api.put(`/leads/${id}`, data),
     delete: (id: string) => api.delete(`/leads/${id}`),
 };
 
@@ -61,7 +61,7 @@ export const sellerInquiriesApi = {
     }),
     getAll: () => api.get('/seller-inquiries'),
     getById: (id: string) => api.get(`/seller-inquiries/${id}`),
-    update: (id: string, data: any) => api.put(`/seller-inquiries/${id}`, data),
+    update: (id: string, data: Record<string, unknown>) => api.put(`/seller-inquiries/${id}`, data),
     delete: (id: string) => api.delete(`/seller-inquiries/${id}`),
     lookupByRegNo: (regNo: string) => api.get(`/seller-inquiries/lookup/${regNo}`),
     publicLookupByRegNo: (regNo: string) => api.get(`/seller-inquiries/public-lookup/${regNo}`),

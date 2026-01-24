@@ -7,7 +7,7 @@ import { sellerInquiriesApi } from '@/lib/api';
 export default function RTOPage() {
     const [regNo, setRegNo] = useState('');
     const [loading, setLoading] = useState(false);
-    const [vehicleDetails, setVehicleDetails] = useState<any>(null);
+    const [vehicleDetails, setVehicleDetails] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
     const [error, setError] = useState('');
 
     const handleSearch = async (e: React.FormEvent) => {
@@ -27,7 +27,7 @@ export default function RTOPage() {
             } else {
                 setError(response.data.message || 'Details not found');
             }
-        } catch (err: any) {
+        } catch (err: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
             console.error('Lookup error:', err);
             setError(err.response?.data?.message || 'Failed to fetch vehicle details. Please try again.');
         } finally {

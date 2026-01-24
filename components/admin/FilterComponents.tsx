@@ -51,7 +51,7 @@ export function SortSelect({ value, onChange, options }: SortSelectProps) {
 }
 
 interface ExportButtonProps {
-    data: any[];
+    data: Record<string, any>[];
     filename: string;
     columns: { key: string; label: string }[];
 }

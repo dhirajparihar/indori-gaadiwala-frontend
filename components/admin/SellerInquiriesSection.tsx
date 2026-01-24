@@ -7,43 +7,7 @@ import { toast } from 'react-toastify';
 import CollapsibleSection from './CollapsibleSection';
 import { StatusFilter, SortSelect, ExportButton } from './FilterComponents';
 
-interface SellerInquiry {
-    _id: string;
-    name: string;
-    phone: string;
-    regNo: string;
-    kmDriven: number;
-    demand: number;
-    type: 'car' | 'bike' | 'commercial';
-    make?: string;
-    model?: string;
-    variant?: string;
-    year?: string;
-    fuelType?: string;
-    transmissionType?: string;
-    bodyType?: string;
-    registeredPlace?: string;
-    registeredAt?: string;
-    rcStatus?: string;
-    rcOwnerCount?: string;
-    rcOwnerNameMasked?: string;
-    insuranceCompany?: string;
-    insuranceUpTo?: string;
-    fitnessUpTo?: string;
-    taxUpTo?: string;
-    pucUpTo?: string;
-    manufacturingMonthYr?: string;
-    color?: string;
-    seatCap?: string;
-    vehicleCategory?: string;
-    hypothecation?: boolean;
-    financier?: string;
-    photo?: string;
-    rcCard?: string;
-    status: string;
-    notes?: string;
-    createdAt: string;
-}
+import { SellerInquiry } from '@/lib/types';
 
 interface SellerInquiriesSectionProps {
     inquiries: SellerInquiry[];

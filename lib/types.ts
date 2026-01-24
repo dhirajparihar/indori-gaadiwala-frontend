@@ -44,3 +44,60 @@ export interface User {
     name: string;
     role: 'admin' | 'superadmin';
 }
+
+export interface Lead {
+    _id: string;
+    name: string;
+    phone: string;
+    vehicleId?: string; // or vehicle object
+    status: 'new' | 'contacted' | 'converted' | 'lost';
+    notes?: string;
+    createdAt: string;
+}
+
+export interface SellerInquiry {
+    _id: string;
+    name: string;
+    phone: string;
+    regNo: string;
+    kmDriven: number;
+    demand: number;
+    type?: 'car' | 'bike' | 'commercial';
+    status: 'new' | 'contacted' | 'completed' | 'rejected' | 'inspection_scheduled' | 'purchased';
+    notes?: string;
+    createdAt: string;
+    updatedAt?: string;
+
+    // RTO / Vehicle Details
+    make?: string;
+    model?: string;
+    variant?: string;
+    year?: string;
+    fuelType?: string;
+    transmissionType?: string;
+    bodyType?: string;
+    registeredPlace?: string;
+    registeredAt?: string;
+    rcStatus?: string;
+    rcOwnerCount?: string;
+    rcOwnerNameMasked?: string;
+    insuranceCompany?: string;
+    insuranceUpTo?: string;
+    fitnessUpTo?: string;
+    taxUpTo?: string;
+    pucUpTo?: string;
+    manufacturingMonthYr?: string;
+    color?: string;
+    seatCap?: string;
+    vehicleCategory?: string;
+    hypothecation?: boolean;
+    financier?: string;
+
+    // Images
+    photos?: string[];
+    // For compatibility with frontend component expecting 'photo' string
+    photo?: string;
+    rcCard?: string;
+
+    vehicleDetails?: any;
+}

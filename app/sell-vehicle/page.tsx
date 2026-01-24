@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState, FormEvent, ChangeEvent } from 'react';
@@ -10,7 +11,7 @@ export default function SellVehiclePage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
-    const [vehicleDetails, setVehicleDetails] = useState<any>(null);
+    const [vehicleDetails, setVehicleDetails] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
 
     const [formData, setFormData] = useState({
         name: '',
@@ -111,9 +112,10 @@ export default function SellVehiclePage() {
                 setVehicleDetails(response.data.data);
                 toast.success('Your inquiry has been submitted successfully!');
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error submitting inquiry:', error);
-            toast.error(error.response?.data?.message || 'Failed to submit inquiry. Please try again.');
+            const err = error as any;
+            toast.error(err.response?.data?.message || 'Failed to submit inquiry. Please try again.');
         } finally {
             setLoading(false);
         }

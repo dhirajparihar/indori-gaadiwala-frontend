@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { vehiclesApi, bookingsApi, leadsApi, sellerInquiriesApi } from '@/lib/api';
-import { Vehicle, Booking } from '@/lib/types';
+import { Vehicle, Booking, Lead, SellerInquiry } from '@/lib/types';
 import { FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
@@ -31,8 +32,8 @@ export default function AdminDashboardPage() {
     });
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [bookings, setBookings] = useState<Booking[]>([]);
-    const [leads, setLeads] = useState<any[]>([]);
-    const [sellerInquiries, setSellerInquiries] = useState<any[]>([]);
+    const [leads, setLeads] = useState<Lead[]>([]);
+    const [sellerInquiries, setSellerInquiries] = useState<SellerInquiry[]>([]);
 
     // Modals
     const [showAddVehicleModal, setShowAddVehicleModal] = useState(false);
@@ -51,12 +52,18 @@ export default function AdminDashboardPage() {
     // Load all data
     const loadDashboardData = async () => {
         try {
-            const [vehiclesRes, bookingsRes, leadsRes, inquiriesRes] = await Promise.all([
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const responses: any[] = await Promise.all([
                 vehiclesApi.getAll(),
                 bookingsApi.getAll(),
                 leadsApi.getAll(),
                 sellerInquiriesApi.getAll()
             ]);
+
+            const vehiclesRes = responses[0];
+            const bookingsRes = responses[1];
+            const leadsRes = responses[2];
+            const inquiriesRes = responses[3];
 
             const vehiclesData = vehiclesRes.data.data || [];
             const bookingsData = bookingsRes.data.data || [];
