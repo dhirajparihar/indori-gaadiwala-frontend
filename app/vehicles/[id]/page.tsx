@@ -144,6 +144,25 @@ export default function VehicleDetailPage() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    {/* Mobile Title & Price - Only visible on mobile */}
+                    <div className="lg:hidden">
+                        <div className="card p-5 space-y-4">
+                            <div>
+                                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 leading-tight">{vehicle.title}</h1>
+                                <div className="flex items-baseline space-x-2">
+                                    <span className="text-2xl sm:text-3xl font-bold text-green-600">
+                                        {formatPrice(vehicle.price)}
+                                    </span>
+                                    {vehicle.originalPrice > vehicle.price && (
+                                        <span className="text-sm sm:text-base text-red-500 line-through">
+                                            {formatPrice(vehicle.originalPrice)}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Left Column - Images & Details */}
                     <div className="lg:col-span-2 space-y-4">
                         {/* Main Image */}
@@ -281,19 +300,19 @@ export default function VehicleDetailPage() {
                     {/* Right Column - Title, Price & Form */}
                     <div className="lg:col-span-1">
                         <div className="card p-5 sticky top-20 space-y-5">
-                            <div>
+                            {/* Desktop Title & Price - Only visible on desktop */}
+                            <div className="hidden lg:block">
                                 <h1 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">{vehicle.title}</h1>
                                 <div className="flex items-baseline space-x-2">
-                                    <span className="text-3xl font-bold text-primary-600">
+                                    <span className="text-3xl font-bold text-green-600">
                                         {formatPrice(vehicle.price)}
                                     </span>
                                     {vehicle.originalPrice > vehicle.price && (
-                                        <span className="text-base text-gray-500 line-through">
+                                        <span className="text-base text-red-500 line-through">
                                             {formatPrice(vehicle.originalPrice)}
                                         </span>
                                     )}
                                 </div>
-
                             </div>
 
                             <div className="border-t pt-4">
