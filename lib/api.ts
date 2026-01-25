@@ -8,6 +8,7 @@ const API_URL = (() => {
 
 export const api = axios.create({
     baseURL: API_URL,
+    withCredentials: true,
 });
 
 // Add auth token to requests
