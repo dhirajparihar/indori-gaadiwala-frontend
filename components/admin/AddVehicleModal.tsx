@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { vehiclesApi } from '@/lib/api';
+import { vehiclesApi, sellerInquiriesApi } from '@/lib/api';
 import { createVehicleWithImages } from '@/lib/vehicleHelpers';
 import { toast } from 'react-toastify';
 
@@ -24,11 +24,50 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
         description: '',
         features: '',
         status: 'available',
-        featured: false
+        featured: false,
+        owners: ''
     });
 
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [uploading, setUploading] = useState(false);
+    const [vehicleNumber, setVehicleNumber] = useState('');
+    const [fetchingVehicle, setFetchingVehicle] = useState(false);
+
+    // Function to fetch vehicle details by registration number
+    const fetchVehicleDetails = async (regNo: string) => {
+        if (!regNo || regNo.length < 4) return;
+        
+        setFetchingVehicle(true);
+        try {
+            // Using the same API as VehicleLookup
+            const response = await sellerInquiriesApi.lookupByRegNo(regNo);
+            
+            if (response.data.success) {
+                const data = response.data.data;
+                
+                // Map API response to form fields
+                setFormData(prev => ({
+                    ...prev,
+                    title: `${data.year} ${data.make} ${data.model}`,
+                    brand: data.make || '',
+                    model: data.model || '',
+                    year: parseInt(data.year) || new Date().getFullYear(),
+                    fuelType: data.fuelType || 'Petrol',
+                    transmission: data.transmissionType === 'AT' ? 'Automatic' : 'Manual',
+                    description: `Vehicle Details:\nRegistration: ${data.regNo}\nColor: ${data.color}\nBody Type: ${data.bodyType}\nRegistered At: ${data.registeredAt}\nInsurance Up To: ${data.insuranceUpTo}\nFitness Up To: ${data.fitnessUpTo}`,
+                    features: `${data.bodyType}, ${data.fuelType}, ${data.transmissionType === 'AT' ? 'Automatic' : 'Manual'} Transmission`,
+                    owners: data.rcOwnerCount || ''
+                }));
+                
+                toast.success('Vehicle details fetched successfully!');
+            }
+        } catch (error) {
+            console.error('Error fetching vehicle details:', error);
+            toast.error('Failed to fetch vehicle details. Please enter manually.');
+        } finally {
+            setFetchingVehicle(false);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -57,9 +96,11 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                 description: '',
                 features: '',
                 status: 'available',
-                featured: false
+                featured: false,
+                owners: ''
             });
             setSelectedImages([]);
+            setVehicleNumber('');
         } catch (error: unknown) {
             console.error('Error creating vehicle:', error);
             const err = error as any;
@@ -72,6 +113,16 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
     const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setSelectedImages(Array.from(e.target.files));
+        }
+    };
+
+    const handleVehicleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.toUpperCase();
+        setVehicleNumber(value);
+        
+        // Auto-fetch when user enters a complete registration number (typical format: XX00XX0000)
+        if (value.length >= 10) {
+            fetchVehicleDetails(value);
         }
     };
 
@@ -92,6 +143,34 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
 
                 <form onSubmit={handleSubmit} className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Vehicle Number */}
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Vehicle Registration Number *
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={vehicleNumber}
+                                    onChange={handleVehicleNumberChange}
+                                    className="input flex-1"
+                                    placeholder="e.g., MP09CE2757"
+                                    maxLength={10}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => fetchVehicleDetails(vehicleNumber)}
+                                    disabled={fetchingVehicle || !vehicleNumber}
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {fetchingVehicle ? 'Fetching...' : 'Fetch Details'}
+                                </button>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-1">
+                                Enter vehicle number to auto-fill details (e.g., MP09CE2757)
+                            </p>
+                        </div>
+
                         {/* Title */}
                         <div className="md:col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -214,6 +293,21 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                                 onChange={(e) => setFormData({ ...formData, mileage: e.target.value })}
                                 className="input"
                                 placeholder="35,000 km"
+                            />
+                        </div>
+
+                        {/* Owners */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Number of Owners *
+                            </label>
+                            <input
+                                type="text"
+                                required
+                                value={formData.owners}
+                                onChange={(e) => setFormData({ ...formData, owners: e.target.value })}
+                                className="input"
+                                placeholder="e.g., 1, 2, 3"
                             />
                         </div>
 
