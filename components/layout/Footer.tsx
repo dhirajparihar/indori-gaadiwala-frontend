@@ -69,11 +69,16 @@ export default function Footer() {
                     <div>
                         <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-xs">Follow Us</h4>
                         <div className="flex space-x-5">
+                            <a 
+                                href="https://www.instagram.com/shree_dadaji_motors?igsh=MTgwenE5ZnRyN3hjNQ==" 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-pink-600 hover:text-white transition-all duration-300"
+                            >
+                                <FaInstagram size={20} />
+                            </a>
                             {[
                                 { icon: <FaFacebook size={20} />, href: '#' },
-                                { icon: <FaTwitter size={20} />, href: '#' },
-                                { icon: <FaInstagram size={20} />, href: '#' },
-                                { icon: <FaYoutube size={20} />, href: '#' },
                             ].map((social, i) => (
                                 <a key={i} href={social.href} className="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition-all duration-300">
                                     {social.icon}
