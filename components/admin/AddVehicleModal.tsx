@@ -54,7 +54,7 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                     year: parseInt(data.year) || new Date().getFullYear(),
                     fuelType: data.fuelType || 'Petrol',
                     transmission: data.transmissionType === 'AT' ? 'Automatic' : 'Manual',
-                    description: `Vehicle Details:\nRegistration: ${data.regNo}\nColor: ${data.color}\nBody Type: ${data.bodyType}\nRegistered At: ${data.registeredAt}\nInsurance Up To: ${data.insuranceUpTo}\nFitness Up To: ${data.fitnessUpTo}`,
+                    description: `Vehicle Details:\nColor: ${data.color}\nBody Type: ${data.bodyType}\nRegistered At: ${data.registeredAt}\nInsurance Up To: ${data.insuranceUpTo}\nFitness Up To: ${data.fitnessUpTo}`,
                     features: `${data.bodyType}, ${data.fuelType}, ${data.transmissionType === 'AT' ? 'Automatic' : 'Manual'} Transmission`,
                     owners: data.rcOwnerCount || ''
                 }));
@@ -412,17 +412,52 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Images (up to 10)
                             </label>
-                            <input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={handleImageSelect}
-                                className="input"
-                            />
+                            <div className="relative">
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={handleImageSelect}
+                                    className="sr-only"
+                                    id="image-upload"
+                                />
+                                <label 
+                                    htmlFor="image-upload"
+                                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
+                                >
+                                    <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
+                                    <span className="text-sm text-gray-600">Click to upload or drag and drop</span>
+                                    <span className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB each</span>
+                                </label>
+                            </div>
                             {selectedImages.length > 0 && (
-                                <p className="text-sm text-gray-600 mt-2">
-                                    {selectedImages.length} image(s) selected
-                                </p>
+                                <div className="mt-3">
+                                    <p className="text-sm text-gray-600 mb-2">
+                                        {selectedImages.length} image(s) selected:
+                                    </p>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                                        {selectedImages.map((file, index) => (
+                                            <div key={index} className="relative group">
+                                                <img 
+                                                    src={URL.createObjectURL(file)} 
+                                                    alt={`Preview ${index + 1}`}
+                                                    className="w-full h-20 object-cover rounded-lg"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setSelectedImages(prev => prev.filter((_, i) => i !== index));
+                                                    }}
+                                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             )}
                         </div>
                     </div>
