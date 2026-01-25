@@ -63,7 +63,7 @@ export default function HomePage() {
             <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl font-medium">
               From buying to financing, RTO paperwork to ownership transfer — You handle the steering. We handle everything else.
             </p>
-            <div className="hero-buttons flex flex-wrap gap-3 justify-center md:justify-end">
+            <div className="hero-buttons flex flex-col sm:flex-row gap-3 justify-center md:justify-end">
               <Link href="/vehicles" className="btn-primary inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
                 <FaCar />
                 <span>Buy Vehicle</span>
