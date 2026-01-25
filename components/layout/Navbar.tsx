@@ -30,10 +30,10 @@ export default function Navbar() {
     return (
         <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-20">
+                <div className="flex justify-between items-center h-14">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-2 shrink-0">
-                        <Image src="/logo-icon.png" alt="Logo" width={42} height={42} className="object-contain" priority />
+                    <Link href="/" className="flex items-center space-x-1 shrink-0">
+                        <Image src="/logo-4.png" alt="Logo" width={56} height={56} className="object-contain" priority />
                         <span className="text-2xl font-black text-blue-600 tracking-tighter">Indori Gaadiwala</span>
                     </Link>
 
