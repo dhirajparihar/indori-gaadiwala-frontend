@@ -15,9 +15,9 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
     return (
         <Link href={`/vehicles/${vehicle._id}`}>
-            <div className="card overflow-hidden group cursor-pointer h-full">
+            <div className="card overflow-hidden group cursor-pointer h-full vehicle-card">
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden bg-gray-100">
+                <div className="relative h-48 sm:h-52 overflow-hidden bg-gray-100">
                     <Image
                         src={imageUrl}
                         alt={vehicle.title}
@@ -39,28 +39,28 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
-                    <h3 className="font-bold text-lg text-gray-900 mb-3 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                <div className="p-4 sm:p-5">
+                    <h3 className="font-bold text-lg sm:text-xl text-gray-900 mb-3 line-clamp-1 group-hover:text-blue-600 transition-colors">
                         {vehicle.title}
                     </h3>
 
                     {/* Meta Info */}
                     <div className="grid grid-cols-2 gap-y-3 gap-x-2 mb-4 text-sm">
                         <div className="flex items-center space-x-2 text-gray-600">
-                            <FaCalendar className="text-blue-500" />
-                            <span className="font-medium">{vehicle.year}</span>
+                            <FaCalendar className="text-blue-500 flex-shrink-0" />
+                            <span className="font-medium text-xs sm:text-sm">{vehicle.year}</span>
                         </div>
                         <div className="flex items-center space-x-2 text-gray-600">
-                            <FaGasPump className="text-blue-500" />
-                            <span className="font-medium">{vehicle.fuelType}</span>
+                            <FaGasPump className="text-blue-500 flex-shrink-0" />
+                            <span className="font-medium text-xs sm:text-sm">{vehicle.fuelType}</span>
                         </div>
                         <div className="flex items-center space-x-2 text-gray-600">
-                            <FaCog className="text-blue-500" />
-                            <span className="font-medium">{vehicle.transmission}</span>
+                            <FaCog className="text-blue-500 flex-shrink-0" />
+                            <span className="font-medium text-xs sm:text-sm">{vehicle.transmission}</span>
                         </div>
                         <div className="flex items-center space-x-2 text-gray-600">
-                            <FaTachometerAlt className="text-blue-500" />
-                            <span className="font-medium">{vehicle.mileage}</span>
+                            <FaTachometerAlt className="text-blue-500 flex-shrink-0" />
+                            <span className="font-medium text-xs sm:text-sm truncate">{vehicle.mileage}</span>
                         </div>
                     </div>
 
@@ -68,7 +68,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                     <div className="flex items-center justify-between border-t border-gray-100 pt-3">
                         <div className="flex flex-col">
                             <div className="flex items-baseline space-x-2">
-                                <span className="text-xl font-black text-gray-900">
+                                <span className="text-lg sm:text-xl font-black text-gray-900 price">
                                     {formatPrice(vehicle.price)}
                                 </span>
                                 {vehicle.originalPrice > vehicle.price && (

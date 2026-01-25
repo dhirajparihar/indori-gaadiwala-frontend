@@ -28,13 +28,14 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+        <nav className="bg-white border-b border-gray-100 sticky top-0 z-50 nav-container">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-14">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-1 shrink-0">
+                    <Link href="/" className="flex items-center space-x-1 shrink-0 nav-logo">
                         <Image src="/logo-4.png" alt="Logo" width={56} height={56} className="object-contain" priority />
-                        <span className="text-2xl font-black text-blue-600 tracking-tighter">Indori Gaadiwala</span>
+                        <span className="text-2xl font-black text-blue-600 tracking-tighter hidden sm:block">Indori Gaadiwala</span>
+                        <span className="text-xl font-black text-blue-600 tracking-tighter sm:hidden">IndoriGaadiwala</span>
                     </Link>
 
                     {/* Desktop Menu */}
@@ -69,21 +70,22 @@ export default function Navbar() {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden text-gray-700"
+                        className="md:hidden text-gray-700 p-2 rounded-lg hover:bg-gray-100 transition-colors"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label="Toggle menu"
                     >
-                        {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+                        {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
                     </button>
                 </div>
 
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden py-4 border-t border-gray-50 flex flex-col space-y-1">
+                    <div className="md:hidden py-4 border-t border-gray-50 flex flex-col space-y-1 mobile-menu">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`px-4 py-2.5 text-base font-medium rounded-lg transition-colors ${pathname === link.href ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'
+                                className={`px-4 py-3 text-base font-medium rounded-lg transition-colors ${pathname === link.href ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'
                                     }`}
                                 onClick={() => setMobileMenuOpen(false)}
                             >
@@ -93,13 +95,13 @@ export default function Navbar() {
                                 </div>
                             </Link>
                         ))}
-                        <div className="pt-4 px-4">
+                        <div className="pt-4 px-4 border-t border-gray-100">
                             <Link
                                 href="/sell-vehicle"
-                                className="block w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl text-center shadow-sm"
+                                className="block w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl text-center shadow-sm transition-colors"
                                 onClick={() => setMobileMenuOpen(false)}
                             >
-                                Sell Your Vehicle
+                                Sell Vehicle
                             </Link>
                         </div>
                     </div>

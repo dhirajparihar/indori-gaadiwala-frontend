@@ -14,6 +14,7 @@ function VehiclesContent() {
     const searchParams = useSearchParams();
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
+    const [showFilters, setShowFilters] = useState(false);
 
     // Initial state from URL
     const [filters, setFilters] = useState({
