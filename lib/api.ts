@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const RAW_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = (() => {
+    const trimmed = RAW_API_URL.replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+})();
 
 export const api = axios.create({
     baseURL: API_URL,
@@ -71,7 +75,8 @@ export const sellerInquiriesApi = {
 export const getImageUrl = (path: string) => {
     if (!path) return '/placeholder-car.jpg';
     if (path.startsWith('http')) return path;
-    return `http://localhost:5000${path}`;
+    const baseHost = API_URL.replace(/\/+$/, '').replace(/\/api$/, '');
+    return `${baseHost}${path.startsWith('/') ? '' : '/'}${path}`;
 };
 
 // Format price
