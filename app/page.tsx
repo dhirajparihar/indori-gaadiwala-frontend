@@ -53,8 +53,8 @@ export default function HomePage() {
       <section className="hero">
         {/* Hero Content */}
         <div className="hero-content">
-          <div className="flex flex-col items-end justify-center">
-            <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold text-orange-500 mb-4 whitespace-nowrap drop-shadow-md">
+          <div className="flex flex-col items-center md:items-end justify-center text-center md:text-right">
+            <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold text-orange-500 mb-4 drop-shadow-md">
               Indori Gaadiwala
             </h2>
             <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-6 drop-shadow-sm">
@@ -63,7 +63,7 @@ export default function HomePage() {
             <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl font-medium">
               From buying to financing, RTO paperwork to ownership transfer — You handle the steering. We handle everything else.
             </p>
-            <div className="hero-buttons !justify-end flex flex-wrap gap-3">
+            <div className="hero-buttons flex flex-wrap gap-3 justify-center md:justify-end">
               <Link href="/vehicles?type=car" className="btn-primary inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
                 <FaCar />
                 <span>Browse Cars</span>
