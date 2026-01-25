@@ -217,23 +217,23 @@ export default function SellVehiclePage() {
                             <label className="block text-sm font-semibold text-gray-700 mb-3">
                                 Select Vehicle Type <span className="text-red-500">*</span>
                             </label>
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-3 gap-2 sm:gap-4 max-w-xs mx-auto sm:max-w-none sm:mx-0">
                                 {[
-                                    { value: 'car', label: 'Car', icon: <FaCar /> },
-                                    { value: 'bike', label: 'Bike', icon: <FaMotorcycle /> },
-                                    { value: 'commercial', label: 'Commercial', icon: <FaTruck /> }
+                                    { value: 'car', label: 'Car'},
+                                    { value: 'bike', label: 'Bike'},
+                                    { value: 'commercial', label: 'Commercial'}
                                 ].map((type) => (
                                     <button
                                         key={type.value}
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, type: type.value }))}
-                                        className={`flex flex-col items-center justify-center p-4 border-2 rounded-xl transition-all ${formData.type === type.value
+                                        className={`flex flex-col items-center justify-center p-2 sm:p-4 border-2 rounded-xl transition-all ${formData.type === type.value
                                             ? 'border-red-600 bg-red-50 text-red-600 shadow-md scale-105'
                                             : 'border-gray-100 hover:border-red-200 text-gray-500'
                                             }`}
                                     >
-                                        <div className="text-2xl mb-2">{type.icon}</div>
-                                        <span className="text-sm font-bold">{type.label}</span>
+                                        <div className="text-xl sm:text-2xl mb-1 sm:mb-2">{type.icon}</div>
+                                        <span className="text-xs sm:text-sm font-bold">{type.label}</span>
                                     </button>
                                 ))}
                             </div>
