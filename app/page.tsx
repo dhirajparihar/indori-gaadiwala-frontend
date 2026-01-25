@@ -64,25 +64,13 @@ export default function HomePage() {
               From buying to financing, RTO paperwork to ownership transfer — You handle the steering. We handle everything else.
             </p>
             <div className="hero-buttons flex flex-wrap gap-3 justify-center md:justify-end">
-              <Link href="/vehicles?type=car" className="btn-primary inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+              <Link href="/vehicles" className="btn-primary inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
                 <FaCar />
-                <span>Browse Cars</span>
-              </Link>
-              <Link href="/vehicles?type=bike" className="btn-secondary inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                <FaMotorcycle />
-                <span>Browse Bikes</span>
-              </Link>
-              <Link href="/vehicles?type=commercial" className="btn-dark inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                <FaSearch />
-                <span>Commercial</span>
+                <span>Buy Vehicle</span>
               </Link>
               <Link href="/sell-vehicle" className="btn-red inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
                 <FaPlus />
                 <span>Sell Vehicle</span>
-              </Link>
-              <Link href="/vehicles" className="btn-outline inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-                <FaSearch />
-                <span>View All</span>
               </Link>
             </div>
           </div>
