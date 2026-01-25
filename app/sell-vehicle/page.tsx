@@ -232,7 +232,6 @@ export default function SellVehiclePage() {
                                             : 'border-gray-100 hover:border-red-200 text-gray-500'
                                             }`}
                                     >
-                                        <div className="text-xl sm:text-2xl mb-1 sm:mb-2">{type.icon}</div>
                                         <span className="text-xs sm:text-sm font-bold">{type.label}</span>
                                     </button>
                                 ))}
