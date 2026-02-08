@@ -72,6 +72,10 @@ export default function HomePage() {
                 <FaPlus />
                 <span>Sell Vehicle</span>
               </Link>
+              <Link href="/services/rto" className="btn-secondary inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                <FaSearch />
+                <span>Vehicle Search</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -152,10 +156,10 @@ export default function HomePage() {
               <p className="text-gray-500 mb-6 leading-relaxed">
                 Hassle-free registration and transfer. We handle all RC transfer, NOC, and paperwork.
               </p>
-              <Link href="/services/rto" className="flex items-center text-blue-600 font-bold hover:text-blue-700 transition-colors">
+              <div className="flex items-center text-blue-600 font-bold">
                 <span>Learn More</span>
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
+              </div>
             </div>
 
             {/* Insurance */}

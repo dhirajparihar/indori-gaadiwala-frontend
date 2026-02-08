@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FaSearch, FaCar, FaIdCard, FaSpinner, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { FaSearch, FaCar, FaIdCard, FaSpinner, FaCheckCircle, FaExclamationTriangle, FaInfoCircle } from 'react-icons/fa';
 import { sellerInquiriesApi } from '@/lib/api';
 
 export default function RTOPage() {
@@ -51,36 +51,71 @@ export default function RTOPage() {
                     </div>
 
                     {/* Search Box */}
-                    <div className="card p-8 mb-8 shadow-lg border-blue-100">
-                        <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                            <FaSearch className="mr-2 text-blue-600" />
-                            Vehicle Registration Search
-                        </h2>
-                        <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
-                            <div className="flex-1">
-                                <input
-                                    type="text"
-                                    value={regNo}
-                                    onChange={(e) => setRegNo(e.target.value.toUpperCase())}
-                                    placeholder="Enter Vehicle Number (e.g. MP09AB0000)"
-                                    className="w-full px-5 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-50 outline-none transition-all uppercase font-bold tracking-wider"
-                                />
+                    <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl border border-gray-100 mb-8 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-full blur-3xl opacity-50"></div>
+                        <div className="relative z-10">
+                            <div className="flex items-center mb-6">
+                                <div className="bg-blue-600 p-3 rounded-xl text-white mr-4">
+                                    <FaSearch className="text-xl" />
+                                </div>
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-900">Vehicle Details Search</h2>
+                                    <p className="text-sm text-gray-500">Enter vehicle number to get instant details</p>
+                                </div>
                             </div>
-                            <button
-                                type="submit"
-                                disabled={loading || !regNo}
-                                className="btn-primary py-4 px-8 text-lg flex items-center justify-center space-x-2 min-w-[160px]"
-                            >
-                                {loading ? (
-                                    <>
-                                        <FaSpinner className="animate-spin" />
-                                        <span>Checking...</span>
-                                    </>
-                                ) : (
-                                    <span>Get Details</span>
-                                )}
-                            </button>
-                        </form>
+                            
+                            <form onSubmit={handleSearch} className="space-y-4">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 text-gray-800 placeholder-gray-400 text-lg font-medium transition-all duration-300"
+                                        placeholder="ENTER VEHICLE NUMBER (E.G. MP09AB0000)"
+                                        value={regNo}
+                                        onChange={(e) => setRegNo(e.target.value.toUpperCase())}
+                                        required
+                                    />
+                                    </div>
+                                
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <button
+                                        type="submit"
+                                        className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-blue-500/20 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                        disabled={loading}
+                                    >
+                                        {loading ? (
+                                            <div className="flex items-center justify-center space-x-2">
+                                                <FaSpinner className="animate-spin" />
+                                                <span>Searching...</span>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center justify-center space-x-2">
+                                                <FaSearch />
+                                                <span>Get Vehicle Details</span>
+                                            </div>
+                                        )}
+                                    </button>
+                                </div>
+                                
+                                <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                                    <span className="flex items-center bg-red-50 text-red-600 px-3 py-1 rounded-full">
+                                        <FaCheckCircle className="mr-1" />
+                                        Owner Details
+                                    </span>
+                                    <span className="flex items-center bg-blue-50 text-blue-600 px-3 py-1 rounded-full">
+                                        <FaCheckCircle className="mr-1" />
+                                        Instant Check
+                                    </span>
+                                    <span className="flex items-center bg-green-50 text-green-600 px-3 py-1 rounded-full">
+                                        <FaCheckCircle className="mr-1" />
+                                        Complete Details
+                                    </span>
+                                    <span className="flex items-center bg-purple-50 text-purple-600 px-3 py-1 rounded-full">
+                                        <FaCheckCircle className="mr-1" />
+                                        RC Information
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     {/* Error Message */}
@@ -93,90 +128,48 @@ export default function RTOPage() {
 
                     {/* Results */}
                     {vehicleDetails && (
-                        <div className="animate-fade-in space-y-6">
-                            {/* Summary Card */}
-                            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                                <div className="bg-blue-600 p-6 text-white flex justify-between items-center">
-                                    <div>
-                                        <h3 className="text-2xl font-bold">{vehicleDetails.regNo}</h3>
-                                        <p className="opacity-90">{vehicleDetails.make} {vehicleDetails.model}</p>
+                        <div className="animate-fade-in">
+                            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b">
+                                    <div className="font-bold text-xl text-gray-900 mb-2">
+                                        {vehicleDetails.make} {vehicleDetails.model} {vehicleDetails.variant && `- ${vehicleDetails.variant}`}
                                     </div>
-                                    <div className="h-12 w-12 bg-white/20 rounded-full flex items-center justify-center text-2xl">
-                                        <FaCar />
-                                    </div>
-                                </div>
-                                <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    <div className="info-item">
-                                        <label className="text-xs font-bold text-gray-500 uppercase">Owner Name</label>
-                                        <p className="text-gray-900 font-medium">{vehicleDetails.rcOwnerNameMasked || 'N/A'}</p>
-                                    </div>
-                                    <div className="info-item">
-                                        <label className="text-xs font-bold text-gray-500 uppercase">Registration Date</label>
-                                        <p className="text-gray-900 font-medium">{vehicleDetails.registeredAt || 'N/A'}</p>
-                                    </div>
-                                    <div className="info-item">
-                                        <label className="text-xs font-bold text-gray-500 uppercase">Fuel Type</label>
-                                        <p className="text-gray-900 font-medium">{vehicleDetails.fuelType || 'N/A'}</p>
-                                    </div>
-                                    <div className="info-item">
-                                        <label className="text-xs font-bold text-gray-500 uppercase">Vehicle Class</label>
-                                        <p className="text-gray-900 font-medium break-words">{vehicleDetails.vehicleClassDesc || 'N/A'}</p>
-                                    </div>
-                                    <div className="info-item">
-                                        <label className="text-xs font-bold text-gray-500 uppercase">RC Status</label>
-                                        <div className="flex items-center space-x-2">
-                                            {vehicleDetails.rcStatus === 'ACTIVE' ? (
-                                                <FaCheckCircle className="text-green-500" />
-                                            ) : (
-                                                <div className="w-2 h-2 rounded-full bg-gray-400" />
-                                            )}
-                                            <p className="text-gray-900 font-medium">{vehicleDetails.rcStatus || 'N/A'}</p>
-                                        </div>
-                                    </div>
-                                    <div className="info-item">
-                                        <label className="text-xs font-bold text-gray-500 uppercase">RTO Location</label>
-                                        <p className="text-gray-900 font-medium">{vehicleDetails.registeredPlace || 'N/A'}</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full font-bold">{vehicleDetails.regNo}</span>
+                                        {vehicleDetails.year && <span className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">{vehicleDetails.year}</span>}
+                                        {vehicleDetails.fuelType && <span className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded-full">{vehicleDetails.fuelType}</span>}
+                                        {vehicleDetails.transmissionType && <span className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-full">{vehicleDetails.transmissionType}</span>}
+                                        {vehicleDetails.bodyType && <span className="px-3 py-1 text-sm bg-orange-100 text-orange-700 rounded-full">{vehicleDetails.bodyType}</span>}
+                                        {vehicleDetails.color && <span className="px-3 py-1 text-sm bg-pink-100 text-pink-700 rounded-full">{vehicleDetails.color}</span>}
                                     </div>
                                 </div>
-                            </div>
-
-                            {/* Additional Info Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="card p-6">
-                                    <h4 className="flex items-center font-bold text-gray-900 mb-4 border-b pb-2">
-                                        <FaIdCard className="mr-2 text-blue-600" />
-                                        Insurance Details
-                                    </h4>
-                                    <div className="space-y-3">
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500 text-sm">Insurer</span>
-                                            <span className="font-medium">{vehicleDetails.insuranceCompany || 'N/A'}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500 text-sm">Valid Upto</span>
-                                            <span className="font-medium text-green-600">{vehicleDetails.insuranceUpTo || 'N/A'}</span>
-                                        </div>
+                                <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                                    <div className="bg-gray-50 p-3 rounded-lg">
+                                        <div className="text-xs text-gray-500 uppercase font-medium mb-2">Registration</div>
+                                        {vehicleDetails.registeredPlace && <div className="text-gray-900 font-medium">{vehicleDetails.registeredPlace}</div>}
+                                        {vehicleDetails.registeredAt && <div className="text-gray-600">Reg: {vehicleDetails.registeredAt}</div>}
+                                        {vehicleDetails.rcStatus && <div className={vehicleDetails.rcStatus === 'Active' ? 'text-green-600' : 'text-red-600'}>{vehicleDetails.rcStatus}</div>}
+                                        {vehicleDetails.rcOwnerCount && <div className="text-gray-600">{vehicleDetails.rcOwnerCount} Owner(s)</div>}
                                     </div>
-                                </div>
-
-                                <div className="card p-6">
-                                    <h4 className="flex items-center font-bold text-gray-900 mb-4 border-b pb-2">
-                                        <FaCar className="mr-2 text-blue-600" />
-                                        Vehicle Specs
-                                    </h4>
-                                    <div className="space-y-3">
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500 text-sm">Color</span>
-                                            <span className="font-medium">{vehicleDetails.color || 'N/A'}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500 text-sm">Engine No</span>
-                                            <span className="font-medium font-mono text-sm">Masked</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-500 text-sm">Chassis No</span>
-                                            <span className="font-medium font-mono text-sm">Masked</span>
-                                        </div>
+                                    <div className="bg-gray-50 p-3 rounded-lg">
+                                        <div className="text-xs text-gray-500 uppercase font-medium mb-2">Insurance & Fitness</div>
+                                        {vehicleDetails.insuranceCompany && <div className="text-gray-700 text-sm truncate" title={vehicleDetails.insuranceCompany}>{vehicleDetails.insuranceCompany}</div>}
+                                        {vehicleDetails.insuranceUpTo && <div><span className="text-gray-500">Ins:</span> <span className={new Date(vehicleDetails.insuranceUpTo) > new Date() ? 'text-green-600' : 'text-red-600'}>{vehicleDetails.insuranceUpTo}</span></div>}
+                                        {vehicleDetails.fitnessUpTo && <div><span className="text-gray-500">Fitness:</span> <span className={new Date(vehicleDetails.fitnessUpTo) > new Date() ? 'text-green-600' : 'text-red-600'}>{vehicleDetails.fitnessUpTo}</span></div>}
+                                        {vehicleDetails.taxUpTo && <div><span className="text-gray-500">Tax:</span> {vehicleDetails.taxUpTo}</div>}
+                                    </div>
+                                    <div className="bg-gray-50 p-3 rounded-lg">
+                                        <div className="text-xs text-gray-500 uppercase font-medium mb-2">Manufacturing</div>
+                                        {vehicleDetails.manufacturingMonthYr && <div><span className="text-gray-500">Mfg:</span> {vehicleDetails.manufacturingMonthYr}</div>}
+                                        {vehicleDetails.regnYear && <div><span className="text-gray-500">Regn Year:</span> {vehicleDetails.regnYear}</div>}
+                                        {vehicleDetails.seatCap && <div><span className="text-gray-500">Seats:</span> {vehicleDetails.seatCap}</div>}
+                                        {vehicleDetails.vehicleCategory && <div><span className="text-gray-500">Category:</span> {vehicleDetails.vehicleCategory}</div>}
+                                    </div>
+                                    <div className="bg-gray-50 p-3 rounded-lg">
+                                        <div className="text-xs text-gray-500 uppercase font-medium mb-2">Other Info</div>
+                                        {vehicleDetails.rcOwnerNameMasked && <div><span className="text-gray-500">Owner:</span> {vehicleDetails.rcOwnerNameMasked}</div>}
+                                        {vehicleDetails.hypothecation && <div className="text-orange-600 mt-1">⚠️ Under Finance{vehicleDetails.financier && `: ${vehicleDetails.financier}`}</div>}
+                                        {vehicleDetails.variantDisplayName && <div className="text-gray-600 text-xs mt-1 truncate" title={vehicleDetails.variantDisplayName}>{vehicleDetails.variantDisplayName}</div>}
                                     </div>
                                 </div>
                             </div>
