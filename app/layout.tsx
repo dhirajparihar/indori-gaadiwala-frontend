@@ -12,6 +12,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Indori Gaadiwala - Premium Used Vehicles at Unbeatable Prices",
   description: "Find the best deals on used cars and bikes in Indore at discounted prices. Quality second-hand vehicles with great savings.",
+  verification: {
+    google: "google7fd536219bc0349c.html",
+  },
 };
 
 export default function RootLayout({
