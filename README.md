@@ -93,19 +93,8 @@ The frontend connects to the backend API running on `http://localhost:5000`.
 
 Make sure the backend server is running before starting the frontend.
 
-## 📝 Default Admin Credentials
 
-- **Email**: admin@gaadiwala.com
-- **Password**: admin123
-
-## 🚧 Note
-
-For full admin panel functionality (vehicle CRUD, booking management), use the original HTML/JS admin panel located in the `frontend/admin/` directory until the Next.js admin panel is fully implemented.
-
-## 📄 License
-
-Open source - Educational purposes
 
 ---
 
-Made with ❤️ for vehicle enthusiasts
+Made with ❤️ 
