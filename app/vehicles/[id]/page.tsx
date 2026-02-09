@@ -8,23 +8,6 @@ import { Vehicle } from '@/lib/types';
 import EMICalculator from '@/components/ui/EMICalculator';
 import { FaArrowLeft, FaCalendar, FaGasPump, FaCog, FaTachometerAlt, FaCheckCircle, FaPaperPlane, FaTimes, FaChevronLeft, FaChevronRight, FaCar, FaMotorcycle, FaTruck } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { createMetadata } from '@/lib/metadata';
-import { Metadata } from 'next';
-
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  try {
-    const response = await vehiclesApi.getById(params.id);
-    const vehicle = response.data.data;
-    
-    return createMetadata(
-      vehicle.title,
-      `${vehicle.title} - ${vehicle.year} ${vehicle.brand} ${vehicle.model}. ${vehicle.fuelType} transmission, ${vehicle.mileage}. Best price in Indore.`,
-      `/vehicles/${params.id}`
-    );
-  } catch (error) {
-    return createMetadata('Vehicle Details', 'Find detailed information about this quality used vehicle in Indore.');
-  }
-}
 
 export default function VehicleDetailPage() {
     const params = useParams();
