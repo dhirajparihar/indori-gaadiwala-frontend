@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   verification: {
     google: "google7fd536219bc0349c.html",
   },
+  alternates: {
+    canonical: 'https://www.indorigaadiwala.com',
+  },
 };
 
 export default function RootLayout({

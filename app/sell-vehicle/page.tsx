@@ -6,6 +6,14 @@ import { useRouter } from 'next/navigation';
 import { sellerInquiriesApi } from '@/lib/api';
 import { toast } from 'react-toastify';
 import { FaCar, FaUpload, FaCheckCircle, FaSpinner, FaMotorcycle, FaTruck } from 'react-icons/fa';
+import { createMetadata } from '@/lib/metadata';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = createMetadata(
+  'Sell Your Vehicle',
+  'Sell your used car, bike, or commercial vehicle in Indore instantly. Get the best price from Indori Gaadiwala. Quick paperwork and payment.',
+  '/sell-vehicle'
+);
 
 export default function SellVehiclePage() {
     const router = useRouter();

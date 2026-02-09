@@ -6,8 +6,16 @@ import { vehiclesApi } from '@/lib/api';
 import { Vehicle } from '@/lib/types';
 import VehicleCard from '@/components/ui/VehicleCard';
 import { FaFilter, FaTimes } from 'react-icons/fa';
+import { createMetadata } from '@/lib/metadata';
+import { Metadata } from 'next';
 
 import { Suspense } from 'react';
+
+export const metadata: Metadata = createMetadata(
+  'Browse Vehicles',
+  'Browse our extensive collection of quality used cars, bikes, and commercial vehicles in Indore. Find your perfect vehicle at unbeatable prices.',
+  '/vehicles'
+);
 
 function VehiclesContent() {
     const router = useRouter();
