@@ -5,8 +5,7 @@ const HOSTNAMES = {
   alternatives: [
     'indorigaadiwala.com',
     'gaadiwala-nextjs.vercel.app',
-    'indorigaadiwala.vercel.app',
-    'localhost:3000'
+    'indorigaadiwala.vercel.app'
   ]
 }
 
