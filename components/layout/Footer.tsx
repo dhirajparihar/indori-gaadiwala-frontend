@@ -52,15 +52,18 @@ export default function Footer() {
                         <ul className="space-y-4">
                             <li className="flex items-center space-x-3 text-sm">
                                 <FaEnvelope className="text-blue-500" />
-                                <span className="hover:text-white transition-colors cursor-pointer">info@gaadiwala.com</span>
+                                <span className="hover:text-white transition-colors cursor-pointer">indorigaadiwala@gmail.com</span>
                             </li>
                             <li className="flex items-center space-x-3 text-sm">
                                 <FaPhone className="text-blue-500" />
-                                <span className="hover:text-white transition-colors cursor-pointer">+91 9617773344</span>
+                                <div className="space-y-1">
+                                    <span className="hover:text-white transition-colors cursor-pointer block">+91 9617773344</span>
+                                    <span className="hover:text-white transition-colors cursor-pointer block">+91 9826303723</span>
+                                </div>
                             </li>
                             <li className="flex items-center space-x-3 text-sm">
                                 <FaMapMarkerAlt className="text-blue-500" />
-                                <span className="hover:text-white transition-colors cursor-pointer">Bhicholi Mardana, Pipliyahana Road, Indore</span>
+                                <span className="hover:text-white transition-colors cursor-pointer">Rajendra Dharkar Marg, Near Vaishno Dham Temple, In front of Gurukripa, Bhicholi Mardana, Indore</span>
                             </li>
                         </ul>
                     </div>
