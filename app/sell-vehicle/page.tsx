@@ -125,42 +125,42 @@ export default function SellVehiclePage() {
         return (
             <div className="min-h-screen bg-white py-12">
                 <div className="max-w-2xl mx-auto px-4">
-                    <div className="bg-[#F8FAFC] border border-[#E4E4E7] rounded-3xl p-8 text-center">
-                        <div className="w-20 h-20 bg-zinc-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <FaCheckCircle className="text-4xl text-black" />
+                    <div className="bg-[#FAFAF8] border border-[#E5E7EB] rounded-[24px] p-8 text-center shadow-sm">
+                        <div className="w-20 h-20 bg-[#D4A63F]/10 rounded-full flex items-center justify-center mx-auto mb-6 text-[#D4A63F]">
+                            <FaCheckCircle className="text-4xl" />
                         </div>
                         <h1 className="text-3xl font-black text-gray-900 mb-4 font-display">Inquiry Submitted Successfully!</h1>
-                        <p className="text-neutral-500 mb-8 font-medium">
+                        <p className="text-gray-500 mb-8 font-medium font-sans">
                             Thank you for submitting your vehicle details. Our team will contact you shortly.
                         </p>
 
                         {vehicleDetails.make && (
-                            <div className="bg-white border border-[#E4E4E7] rounded-2xl p-6 mb-8 text-left">
+                            <div className="bg-white border border-[#E5E7EB] rounded-2xl p-6 mb-8 text-left shadow-sm">
                                 <h3 className="text-lg font-bold text-gray-900 mb-4 font-display">Vehicle Details Found</h3>
-                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div className="grid grid-cols-2 gap-4 text-sm font-sans">
                                     <div>
-                                        <span className="text-gray-500">Make:</span>
-                                        <span className="ml-2 font-semibold text-gray-900">{vehicleDetails.make}</span>
+                                        <span className="text-gray-550">Make:</span>
+                                        <span className="ml-2 font-bold text-gray-900">{vehicleDetails.make}</span>
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Model:</span>
-                                        <span className="ml-2 font-semibold text-gray-900">{vehicleDetails.modelName}</span>
+                                        <span className="text-gray-550">Model:</span>
+                                        <span className="ml-2 font-bold text-gray-900">{vehicleDetails.modelName}</span>
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Variant:</span>
-                                        <span className="ml-2 font-semibold text-gray-900">{vehicleDetails.variantName}</span>
+                                        <span className="text-gray-550">Variant:</span>
+                                        <span className="ml-2 font-bold text-gray-900">{vehicleDetails.variantName}</span>
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Year:</span>
-                                        <span className="ml-2 font-semibold text-gray-900">{vehicleDetails.year}</span>
+                                        <span className="text-gray-550">Year:</span>
+                                        <span className="ml-2 font-bold text-gray-900">{vehicleDetails.year}</span>
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Fuel Type:</span>
-                                        <span className="ml-2 font-semibold text-gray-900">{vehicleDetails.fuelType}</span>
+                                        <span className="text-gray-550">Fuel Type:</span>
+                                        <span className="ml-2 font-bold text-gray-900">{vehicleDetails.fuelType}</span>
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Owner Count:</span>
-                                        <span className="ml-2 font-semibold text-gray-900">{vehicleDetails.ownerCount}</span>
+                                        <span className="text-gray-550">Owner Count:</span>
+                                        <span className="ml-2 font-bold text-gray-900">{vehicleDetails.ownerCount}</span>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@ export default function SellVehiclePage() {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <button
                                 onClick={() => router.push('/')}
-                                className="btn-primary px-8 py-3"
+                                className="btn-primary px-8 py-3.5"
                             >
                                 Go to Home
                             </button>
@@ -182,7 +182,7 @@ export default function SellVehiclePage() {
                                     setPhotoPreviews([]);
                                     setRcCardPreview('');
                                 }}
-                                className="btn-outline px-8 py-3"
+                                className="btn-secondary px-8 py-3.5"
                             >
                                 Submit Another
                             </button>
@@ -198,24 +198,24 @@ export default function SellVehiclePage() {
             <div className="max-w-2xl mx-auto px-4">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-zinc-100 rounded-full mb-4">
-                        <FaCar className="text-2xl text-black" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-[#FAFAF8] rounded-full mb-4 border border-[#E5E7EB] text-[#D4A63F]">
+                        <FaCar className="text-2xl" />
                     </div>
                     <h1 className="text-3xl md:text-4xl font-extrabold text-black mb-3 font-display tracking-tight">
                         Sell Your Vehicle
                     </h1>
-                    <p className="text-neutral-500 text-base font-medium">
+                    <p className="text-gray-500 text-base font-medium font-sans">
                         Get the best price for your car, bike, or commercial vehicle. Fill in the details below and we&apos;ll get back to you.
                     </p>
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="bg-[#F8FAFC] border border-[#E4E4E7] rounded-3xl p-8 shadow-none">
+                <form onSubmit={handleSubmit} className="bg-[#FAFAF8] border border-[#E5E7EB] rounded-[24px] p-6 sm:p-8 shadow-sm">
                     <div className="space-y-6">
                         {/* Vehicle Type Selection */}
                         <div>
-                            <label className="block text-xs font-bold text-[#09090B] uppercase mb-3 tracking-wider">
-                                Select Vehicle Type <span className="text-black">*</span>
+                            <label className="block text-xs font-bold text-[#111111] uppercase mb-3 tracking-widest font-sans">
+                                Select Vehicle Type <span className="text-[#D4A63F]">*</span>
                             </label>
                             <div className="grid grid-cols-3 gap-3">
                                 {[
@@ -227,10 +227,11 @@ export default function SellVehiclePage() {
                                         key={type.value}
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, type: type.value }))}
-                                        className={`flex flex-col items-center justify-center py-3.5 px-4 border border-[#E4E4E7] rounded-full transition-all text-sm font-bold ${formData.type === type.value
-                                            ? 'border-black bg-black text-white'
-                                            : 'bg-white hover:border-black text-[#71717A]'
-                                            }`}
+                                        className={`flex flex-col items-center justify-center py-3.5 px-4 border rounded-full transition-all text-xs font-extrabold font-sans uppercase tracking-wider ${
+                                            formData.type === type.value
+                                                ? 'border-[#D4A63F] bg-[#111111] text-[#D4A63F]'
+                                                : 'border-[#E5E7EB] bg-white hover:border-[#D4A63F] text-gray-500'
+                                        }`}
                                     >
                                         <span>{type.label}</span>
                                     </button>
@@ -239,8 +240,8 @@ export default function SellVehiclePage() {
                         </div>
                         {/* Name */}
                         <div>
-                            <label className="block text-xs font-bold text-[#09090B] uppercase mb-2 tracking-wider">
-                                Your Name <span className="text-black">*</span>
+                            <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                Your Name <span className="text-[#D4A63F]">*</span>
                             </label>
                             <input
                                 type="text"
@@ -248,15 +249,15 @@ export default function SellVehiclePage() {
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 placeholder="Enter your full name"
-                                className="w-full px-5 py-3 border border-[#E4E4E7] rounded-full focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-colors bg-white text-sm"
+                                className="w-full px-5 py-3.5 border border-[#E5E7EB] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-sm font-sans"
                                 required
                             />
                         </div>
 
                         {/* Mobile Number */}
                         <div>
-                            <label className="block text-xs font-bold text-[#09090B] uppercase mb-2 tracking-wider">
-                                Mobile Number <span className="text-black">*</span>
+                            <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                Mobile Number <span className="text-[#D4A63F]">*</span>
                             </label>
                             <input
                                 type="tel"
@@ -264,15 +265,15 @@ export default function SellVehiclePage() {
                                 value={formData.phone}
                                 onChange={handleInputChange}
                                 placeholder="Enter 10-digit mobile number"
-                                className="w-full px-5 py-3 border border-[#E4E4E7] rounded-full focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-colors bg-white text-sm"
+                                className="w-full px-5 py-3.5 border border-[#E5E7EB] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-sm font-sans"
                                 required
                             />
                         </div>
 
                         {/* Vehicle Reg No */}
                         <div>
-                            <label className="block text-xs font-bold text-[#09090B] uppercase mb-2 tracking-wider">
-                                Vehicle Registration No. <span className="text-black">*</span>
+                            <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                Vehicle Registration No. <span className="text-[#D4A63F]">*</span>
                             </label>
                             <input
                                 type="text"
@@ -280,16 +281,16 @@ export default function SellVehiclePage() {
                                 value={formData.regNo}
                                 onChange={handleInputChange}
                                 placeholder="e.g., MP09CD1234"
-                                className="w-full px-5 py-3 border border-[#E4E4E7] rounded-full focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-colors bg-white text-sm uppercase"
+                                className="w-full px-5 py-3.5 border border-[#E5E7EB] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-sm uppercase font-sans"
                                 required
                             />
-                            <p className="text-xs text-neutral-400 mt-1.5 ml-2">Enter in capital letters without spaces (e.g., MP09CD1234)</p>
+                            <p className="text-[10px] text-gray-400 mt-2 ml-3 font-semibold font-sans tracking-wide">Enter in capital letters without spaces (e.g., MP09CD1234)</p>
                         </div>
 
                         {/* KM Driven */}
                         <div>
-                            <label className="block text-xs font-bold text-[#09090B] uppercase mb-2 tracking-wider">
-                                KM Driven <span className="text-black">*</span>
+                            <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                KM Driven <span className="text-[#D4A63F]">*</span>
                             </label>
                             <input
                                 type="text"
@@ -297,15 +298,15 @@ export default function SellVehiclePage() {
                                 value={formData.kmDriven}
                                 onChange={handleInputChange}
                                 placeholder="Enter total kilometers driven"
-                                className="w-full px-5 py-3 border border-[#E4E4E7] rounded-full focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-colors bg-white text-sm"
+                                className="w-full px-5 py-3.5 border border-[#E5E7EB] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-sm font-sans"
                                 required
                             />
                         </div>
 
                         {/* Demand */}
                         <div>
-                            <label className="block text-xs font-bold text-[#09090B] uppercase mb-2 tracking-wider">
-                                Expected Price (₹) <span className="text-black">*</span>
+                            <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                Expected Price (₹) <span className="text-[#D4A63F]">*</span>
                             </label>
                             <input
                                 type="text"
@@ -313,15 +314,15 @@ export default function SellVehiclePage() {
                                 value={formData.demand}
                                 onChange={handleInputChange}
                                 placeholder="Enter your expected price"
-                                className="w-full px-5 py-3 border border-[#E4E4E7] rounded-full focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-colors bg-white text-sm"
+                                className="w-full px-5 py-3.5 border border-[#E5E7EB] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-sm font-sans"
                                 required
                             />
                         </div>
 
                         {/* Upload Photo (Optional) */}
                         <div>
-                            <label className="block text-xs font-bold text-[#09090B] uppercase mb-2 tracking-wider">
-                                Upload Vehicle Photos <span className="text-neutral-400 lowercase">(Optional, max 5)</span>
+                            <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                Upload Vehicle Photos <span className="text-gray-450 lowercase font-medium font-sans">(Optional, max 5)</span>
                             </label>
                             <div className="relative">
                                 <input
@@ -337,12 +338,12 @@ export default function SellVehiclePage() {
                                     <div className="space-y-3">
                                         <div className="grid grid-cols-3 gap-3">
                                             {photoPreviews.map((preview, index) => (
-                                                <div key={index} className="relative group rounded-xl overflow-hidden border border-[#E4E4E7]">
+                                                <div key={index} className="relative group rounded-xl overflow-hidden border border-[#E5E7EB] shadow-sm">
                                                     <img src={preview} alt={`Vehicle ${index + 1}`} className="h-24 w-full object-cover" />
                                                     <button
                                                         type="button"
                                                         onClick={() => removePhoto(index)}
-                                                        className="absolute top-1.5 right-1.5 bg-black text-white rounded-full w-6 h-6 flex items-center justify-center text-sm opacity-90 hover:opacity-100 transition-opacity"
+                                                        className="absolute top-1.5 right-1.5 bg-[#111111] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-90 hover:opacity-100 transition-opacity"
                                                     >
                                                         ×
                                                     </button>
@@ -352,9 +353,9 @@ export default function SellVehiclePage() {
                                         {photos.length < 5 && (
                                             <label
                                                 htmlFor="photo-upload"
-                                                className="flex items-center justify-center w-full px-4 py-4 border border-dashed border-[#E4E4E7] rounded-2xl cursor-pointer hover:border-black hover:bg-white bg-white transition-colors"
+                                                className="flex items-center justify-center w-full px-4 py-4 border border-dashed border-[#E5E7EB] rounded-2xl cursor-pointer hover:border-[#D4A63F] hover:bg-white bg-white transition-colors"
                                             >
-                                                <div className="text-center">
+                                                <div className="text-center font-sans">
                                                     <FaUpload className="mx-auto text-lg text-gray-400 mb-1" />
                                                     <span className="text-gray-500 text-xs font-semibold">Add more photos ({5 - photos.length} remaining)</span>
                                                 </div>
@@ -364,9 +365,9 @@ export default function SellVehiclePage() {
                                 ) : (
                                     <label
                                         htmlFor="photo-upload"
-                                        className="flex items-center justify-center w-full px-4 py-8 border border-dashed border-[#E4E4E7] rounded-2xl cursor-pointer hover:border-black hover:bg-white bg-white transition-colors"
+                                        className="flex items-center justify-center w-full px-4 py-8 border border-dashed border-[#E5E7EB] rounded-2xl cursor-pointer hover:border-[#D4A63F] hover:bg-white bg-white transition-colors"
                                     >
-                                        <div className="text-center text-neutral-500">
+                                        <div className="text-center text-gray-500 font-sans">
                                             <FaUpload className="mx-auto text-xl text-gray-400 mb-2" />
                                             <span className="text-sm font-semibold">Click to upload vehicle photos (up to 5)</span>
                                         </div>
@@ -377,8 +378,8 @@ export default function SellVehiclePage() {
 
                         {/* Upload RC Card (Optional) */}
                         <div>
-                            <label className="block text-xs font-bold text-[#09090B] uppercase mb-2 tracking-wider">
-                                Upload RC Card <span className="text-neutral-400 lowercase">(Optional)</span>
+                            <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                Upload RC Card <span className="text-gray-450 lowercase font-medium font-sans">(Optional)</span>
                             </label>
                             <div className="relative">
                                 <input
@@ -390,12 +391,12 @@ export default function SellVehiclePage() {
                                 />
                                 <label
                                     htmlFor="rc-upload"
-                                    className="flex items-center justify-center w-full px-4 py-8 border border-dashed border-[#E4E4E7] rounded-2xl cursor-pointer hover:border-black hover:bg-white bg-white transition-colors"
+                                    className="flex items-center justify-center w-full px-4 py-8 border border-dashed border-[#E5E7EB] rounded-2xl cursor-pointer hover:border-[#D4A63F] hover:bg-white bg-white transition-colors"
                                 >
                                     {rcCardPreview ? (
                                         <img src={rcCardPreview} alt="RC Card" className="h-32 object-contain rounded" />
                                     ) : (
-                                        <div className="text-center text-neutral-500">
+                                        <div className="text-center text-gray-500 font-sans">
                                             <FaUpload className="mx-auto text-xl text-gray-400 mb-2" />
                                             <span className="text-sm font-semibold">Click to upload RC card</span>
                                         </div>
@@ -408,12 +409,12 @@ export default function SellVehiclePage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full btn-primary py-4 rounded-full flex items-center justify-center space-x-2 text-base shadow-none"
+                            className="w-full btn-primary py-4 rounded-full flex items-center justify-center space-x-2 text-base shadow-none font-sans"
                         >
                             {loading ? (
                                 <>
-                                    <FaSpinner className="animate-spin" />
-                                    <span>Submitting...</span>
+                                    <FaSpinner className="animate-spin text-[#D4A63F]" />
+                                    <span>Submitting inquiry...</span>
                                 </>
                             ) : (
                                 <span>Submit Inquiry</span>
@@ -423,7 +424,7 @@ export default function SellVehiclePage() {
                 </form>
 
                 {/* Info */}
-                <div className="mt-8 text-center text-gray-500 text-sm">
+                <div className="mt-8 text-center text-gray-500 text-sm font-sans">
                     <p>We value your privacy. Your information is safe with us.</p>
                 </div>
             </div>
