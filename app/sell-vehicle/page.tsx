@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { sellerInquiriesApi } from '@/lib/api';
 import { toast } from 'react-toastify';
 import { FaCar, FaUpload, FaCheckCircle, FaSpinner, FaMotorcycle, FaTruck } from 'react-icons/fa';
+import { compressImage } from '@/lib/imageCompressor';
 
 export default function SellVehiclePage() {
     const router = useRouter();
@@ -98,11 +99,16 @@ export default function SellVehiclePage() {
             formDataToSend.append('kmDriven', formData.kmDriven);
             formDataToSend.append('demand', formData.demand);
 
-            photos.forEach((photo) => {
+            // Compress and append photos
+            const compressedPhotos = await Promise.all(photos.map(photo => compressImage(photo)));
+            compressedPhotos.forEach((photo) => {
                 formDataToSend.append('photo', photo);
             });
+            
+            // Compress and append RC Card
             if (rcCard) {
-                formDataToSend.append('rcCard', rcCard);
+                const compressedRc = await compressImage(rcCard);
+                formDataToSend.append('rcCard', compressedRc);
             }
 
             const response = await sellerInquiriesApi.create(formDataToSend);

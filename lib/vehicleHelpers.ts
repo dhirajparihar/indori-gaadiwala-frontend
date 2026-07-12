@@ -1,3 +1,5 @@
+import { compressImage } from './imageCompressor';
+
 // Helper function to create vehicle
 export const createVehicleWithImages = async (formData: any, images: File[]) => {
     const data = new FormData();
@@ -15,8 +17,9 @@ export const createVehicleWithImages = async (formData: any, images: File[]) => 
         }
     });
 
-    // Append images
-    images.forEach((image) => {
+    // Compress and append images
+    const compressedImages = await Promise.all(images.map(image => compressImage(image)));
+    compressedImages.forEach((image) => {
         data.append('images', image);
     });
 
