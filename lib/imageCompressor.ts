@@ -7,7 +7,7 @@
  * @param maxHeight Maximum height in pixels (default 1600)
  * @param quality Quality factor between 0.0 and 1.0 (default 0.8)
  */
-export const compressImage = (file: File, maxWidth = 1600, maxHeight = 1600, quality = 0.8): Promise<File> => {
+export const compressImage = (file: File, maxWidth = 1200, maxHeight = 1200, quality = 0.7): Promise<File> => {
     return new Promise((resolve) => {
         // If it's not an image file or if window/FileReader is not available (SSR), return the original file
         if (typeof window === 'undefined' || !file.type.startsWith('image/')) {
@@ -57,6 +57,9 @@ export const compressImage = (file: File, maxWidth = 1600, maxHeight = 1600, qua
                             type: 'image/jpeg',
                             lastModified: Date.now(),
                         });
+                        
+                        console.log(`[Image Compressor] "${file.name}": Original size = ${(file.size / 1024 / 1024).toFixed(2)}MB, Compressed size = ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`);
+                        
                         // Only return the compressed file if it's actually smaller
                         if (compressedFile.size < file.size) {
                             resolve(compressedFile);
