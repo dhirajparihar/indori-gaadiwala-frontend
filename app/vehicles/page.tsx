@@ -5,8 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { vehiclesApi } from '@/lib/api';
 import { Vehicle } from '@/lib/types';
 import VehicleCard from '@/components/ui/VehicleCard';
-import { FaFilter, FaTimes } from 'react-icons/fa';
-
+import { FaFilter, FaTimes, FaChevronDown } from 'react-icons/fa';
 import { Suspense } from 'react';
 
 function VehiclesContent() {
@@ -14,7 +13,6 @@ function VehiclesContent() {
     const searchParams = useSearchParams();
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
-    const [showFilters, setShowFilters] = useState(false);
 
     // Initial state from URL
     const [filters, setFilters] = useState({
@@ -77,85 +75,98 @@ function VehiclesContent() {
 
     return (
         <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-black mb-2 font-display tracking-tight">
-                        Browse <span className="text-black">{pageTitle}</span>
+                <div className="mb-10">
+                    <span className="text-[#D4A63F] text-xs font-extrabold uppercase tracking-widest block mb-2 font-sans">Showroom</span>
+                    <h1 className="text-3xl md:text-5xl font-black text-[#111111] mb-3 font-display tracking-tight">
+                        Browse <span className="text-[#D4A63F]">{pageTitle}</span>
                     </h1>
-                    <p className="text-neutral-500 font-medium">Find your perfect ride from our extensive collection</p>
+                    <p className="text-gray-500 font-medium font-sans">Find your perfect pre-owned ride from our premium Indore collection</p>
                 </div>
 
                 {/* Filters */}
-                <div className="bg-[#F8FAFC] rounded-3xl border border-[#E4E4E7] p-6 mb-8">
-                    <div className="flex flex-col lg:flex-row gap-4 items-end">
-                        <div className="flex-1 w-full grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-[#FAFAF8] rounded-[24px] border border-[#E5E7EB] p-6 sm:p-8 mb-10 shadow-sm">
+                    <div className="flex flex-col lg:flex-row gap-5 items-end">
+                        <div className="flex-1 w-full grid grid-cols-2 md:grid-cols-4 gap-5">
                             <div>
-                                <label className="block text-[10px] font-bold text-neutral-400 uppercase mb-1.5 tracking-wider">Type</label>
-                                <select
-                                    className="w-full px-4 py-2.5 bg-white border border-[#E4E4E7] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
-                                    value={filters.type}
-                                    onChange={(e) => handleFilterChange('type', e.target.value)}
-                                >
-                                    <option value="">All Types</option>
-                                    <option value="car">Cars</option>
-                                    <option value="bike">Bikes</option>
-                                    <option value="commercial">Commercial</option>
-                                </select>
+                                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest font-sans">Type</label>
+                                <div className="relative">
+                                    <select
+                                        className="w-full px-4 py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
+                                        value={filters.type}
+                                        onChange={(e) => handleFilterChange('type', e.target.value)}
+                                    >
+                                        <option value="">All Types</option>
+                                        <option value="car">Cars</option>
+                                        <option value="bike">Bikes</option>
+                                        <option value="commercial">Commercial</option>
+                                    </select>
+                                    <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                                </div>
                             </div>
 
                             <div>
-                                <label className="block text-[10px] font-bold text-neutral-400 uppercase mb-1.5 tracking-wider">Fuel</label>
-                                <select
-                                    className="w-full px-4 py-2.5 bg-white border border-[#E4E4E7] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
-                                    value={filters.fuelType}
-                                    onChange={(e) => handleFilterChange('fuelType', e.target.value)}
-                                >
-                                    <option value="">All Fuel</option>
-                                    <option value="Petrol">Petrol</option>
-                                    <option value="Diesel">Diesel</option>
-                                    <option value="Electric">Electric</option>
-                                    <option value="Hybrid">Hybrid</option>
-                                    <option value="CNG">CNG</option>
-                                </select>
+                                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest font-sans">Fuel</label>
+                                <div className="relative">
+                                    <select
+                                        className="w-full px-4 py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
+                                        value={filters.fuelType}
+                                        onChange={(e) => handleFilterChange('fuelType', e.target.value)}
+                                    >
+                                        <option value="">All Fuel</option>
+                                        <option value="Petrol">Petrol</option>
+                                        <option value="Diesel">Diesel</option>
+                                        <option value="Electric">Electric</option>
+                                        <option value="Hybrid">Hybrid</option>
+                                        <option value="CNG">CNG</option>
+                                    </select>
+                                    <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                                </div>
                             </div>
 
                             <div>
-                                <label className="block text-[10px] font-bold text-neutral-400 uppercase mb-1.5 tracking-wider">Transmission</label>
-                                <select
-                                    className="w-full px-4 py-2.5 bg-white border border-[#E4E4E7] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
-                                    value={filters.transmission}
-                                    onChange={(e) => handleFilterChange('transmission', e.target.value)}
-                                >
-                                    <option value="">All</option>
-                                    <option value="Manual">Manual</option>
-                                    <option value="Automatic">Automatic</option>
-                                    <option value="Semi-Automatic">Semi-Automatic</option>
-                                </select>
+                                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest font-sans">Transmission</label>
+                                <div className="relative">
+                                    <select
+                                        className="w-full px-4 py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
+                                        value={filters.transmission}
+                                        onChange={(e) => handleFilterChange('transmission', e.target.value)}
+                                    >
+                                        <option value="">All</option>
+                                        <option value="Manual">Manual</option>
+                                        <option value="Automatic">Automatic</option>
+                                        <option value="Semi-Automatic">Semi-Automatic</option>
+                                    </select>
+                                    <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                                </div>
                             </div>
 
                             <div>
-                                <label className="block text-[10px] font-bold text-neutral-400 uppercase mb-1.5 tracking-wider">Budget</label>
-                                <select
-                                    className="w-full px-4 py-2.5 bg-white border border-[#E4E4E7] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
-                                    value={filters.maxPrice}
-                                    onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                                >
-                                    <option value="">Any Price</option>
-                                    <option value="200000">Under ₹2 Lakh</option>
-                                    <option value="500000">Under ₹5 Lakh</option>
-                                    <option value="1000000">Under ₹10 Lakh</option>
-                                    <option value="2000000">Under ₹20 Lakh</option>
-                                </select>
+                                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest font-sans">Budget</label>
+                                <div className="relative">
+                                    <select
+                                        className="w-full px-4 py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
+                                        value={filters.maxPrice}
+                                        onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                                    >
+                                        <option value="">Any Price</option>
+                                        <option value="200000">Under ₹2 Lakh</option>
+                                        <option value="500000">Under ₹5 Lakh</option>
+                                        <option value="1000000">Under ₹10 Lakh</option>
+                                        <option value="2000000">Under ₹20 Lakh</option>
+                                    </select>
+                                    <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                                </div>
                             </div>
                         </div>
 
                         <div className="flex gap-3 w-full lg:w-auto">
-                            <button onClick={applyFilters} className="flex-1 lg:flex-none btn-primary py-2.5 px-6 text-sm flex items-center justify-center gap-2">
-                                <FaFilter className="text-xs" />
+                            <button onClick={applyFilters} className="flex-1 lg:flex-none btn-primary py-3 px-7 text-sm">
+                                <FaFilter className="text-xs text-[#D4A63F]" />
                                 <span>Apply</span>
                             </button>
-                            <button onClick={clearFilters} className="flex-1 lg:flex-none btn-secondary py-2.5 px-6 text-sm flex items-center justify-center gap-2">
+                            <button onClick={clearFilters} className="flex-1 lg:flex-none btn-secondary py-3 px-7 text-sm">
                                 <FaTimes className="text-xs" />
                                 <span>Clear</span>
                             </button>
@@ -165,28 +176,28 @@ function VehiclesContent() {
 
                 {/* Results Count */}
                 <div className="mb-6">
-                    <p className="text-neutral-500 font-medium text-sm">
-                        {loading ? 'Loading...' : `Found ${vehicles.length} vehicle${vehicles.length !== 1 ? 's' : ''}`}
+                    <p className="text-gray-500 font-medium text-sm font-sans">
+                        {loading ? 'Searching vehicles...' : `Showing ${vehicles.length} vehicle${vehicles.length !== 1 ? 's' : ''} in Indore`}
                     </p>
                 </div>
 
                 {/* Vehicles Grid */}
                 {loading ? (
-                    <div className="flex justify-center py-12">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
+                    <div className="flex justify-center py-20">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#D4A63F]"></div>
                     </div>
                 ) : vehicles.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {vehicles.map((vehicle) => (
                             <VehicleCard key={vehicle._id} vehicle={vehicle} />
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-16 bg-[#F8FAFC] rounded-3xl border border-[#E4E4E7]">
-                        <div className="text-5xl mb-4">🔍</div>
-                        <h3 className="text-2xl font-bold text-black mb-2 font-display">No Vehicles Found</h3>
-                        <p className="text-neutral-500 mb-6 font-medium text-sm">Try adjusting your filters to see more results</p>
-                        <button onClick={clearFilters} className="btn-primary">
+                    <div className="text-center py-20 bg-[#FAFAF8] rounded-[24px] border border-[#E5E7EB] shadow-sm max-w-2xl mx-auto">
+                        <div className="text-5xl mb-6">🔍</div>
+                        <h3 className="text-2xl font-bold text-[#111111] mb-2 font-display">No Vehicles Found</h3>
+                        <p className="text-gray-500 mb-8 font-medium text-sm font-sans max-w-sm mx-auto">We couldn't find matches. Try broadening your filters to view other premium models.</p>
+                        <button onClick={clearFilters} className="btn-primary py-3.5 px-8">
                             Reset Filters
                         </button>
                     </div>
@@ -200,7 +211,7 @@ export default function VehiclesPage() {
     return (
         <Suspense fallback={
             <div className="min-h-screen bg-white flex justify-center items-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#D4A63F]"></div>
             </div>
         }>
             <VehiclesContent />

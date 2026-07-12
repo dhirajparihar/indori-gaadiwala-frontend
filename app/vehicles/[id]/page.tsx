@@ -100,15 +100,15 @@ export default function VehicleDetailPage() {
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#D4A63F]"></div>
             </div>
         );
     }
 
     if (!vehicle) {
         return (
-            <div className="text-center py-16">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">Vehicle not found</h2>
+            <div className="text-center py-20">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4 font-display">Vehicle not found</h2>
                 <button onClick={() => router.push('/vehicles')} className="btn-primary">
                     Back to Vehicles
                 </button>
@@ -122,31 +122,31 @@ export default function VehicleDetailPage() {
 
     return (
         <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Back Button */}
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-6">
                     <button
                         onClick={() => router.back()}
-                        className="flex items-center space-x-2 text-gray-600 hover:text-black transition-colors"
+                        className="flex items-center space-x-2 text-gray-600 hover:text-black font-semibold transition-colors font-sans text-sm"
                     >
                         <FaArrowLeft />
                         <span>Back</span>
                     </button>
                     <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-2 text-gray-500 font-semibold bg-[#F8FAFC] px-4 py-1.5 rounded-full border border-[#E4E4E7]">
-                            {vehicle.type === 'car' ? <FaCar className="text-black" /> : vehicle.type === 'bike' ? <FaMotorcycle className="text-black" /> : <FaTruck className="text-black" />}
-                            <span className="capitalize">{vehicle.type}</span>
+                        <div className="flex items-center space-x-2 text-gray-600 font-bold bg-[#FAFAF8] px-4 py-2 rounded-full border border-[#E5E7EB] shadow-sm font-sans text-xs uppercase tracking-wide">
+                            {vehicle.type === 'car' ? <FaCar className="text-[#D4A63F]" /> : vehicle.type === 'bike' ? <FaMotorcycle className="text-[#D4A63F]" /> : <FaTruck className="text-[#D4A63F]" />}
+                            <span>{vehicle.type}</span>
                         </div>
                         <span className={`badge ${vehicle.status === 'available' ? 'badge-success' : 'badge-warning'}`}>
-                            {vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1)}
+                            {vehicle.status}
                         </span>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Mobile Title & Price - Only visible on mobile */}
                     <div className="lg:hidden">
-                        <div className="card p-5 space-y-4">
+                        <div className="card p-6 space-y-4">
                             <div>
                                 <h1 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2 leading-tight font-display">{vehicle.title}</h1>
                                 <div className="flex items-baseline space-x-2">
@@ -154,7 +154,7 @@ export default function VehicleDetailPage() {
                                         {formatPrice(vehicle.price)}
                                     </span>
                                     {vehicle.originalPrice > vehicle.price && (
-                                        <span className="text-sm sm:text-base text-gray-400 line-through font-display font-medium">
+                                        <span className="text-sm sm:text-base text-gray-400 line-through font-display font-medium font-sans">
                                             {formatPrice(vehicle.originalPrice)}
                                         </span>
                                     )}
@@ -164,18 +164,18 @@ export default function VehicleDetailPage() {
                     </div>
 
                     {/* Left Column - Images & Details */}
-                    <div className="lg:col-span-2 space-y-4">
+                    <div className="lg:col-span-2 space-y-6">
                         {/* Main Image */}
                         <div className="card overflow-hidden">
                             <div
-                                className="relative h-80 bg-gray-100 cursor-pointer group"
+                                className="relative h-80 sm:h-[450px] bg-[#FAFAF8] cursor-pointer group"
                                 onClick={() => openLightbox(selectedImage)}
                             >
                                 <Image
                                     src={images[selectedImage]}
                                     alt={vehicle.title}
                                     fill
-                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    className="object-cover transition-transform duration-500 group-hover:scale-102"
                                     priority
                                     onError={(e) => {
                                         const target = e.target as HTMLImageElement;
@@ -183,12 +183,12 @@ export default function VehicleDetailPage() {
                                     }}
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                                    <span className="text-white opacity-0 group-hover:opacity-100 bg-black/50 px-4 py-2 rounded-full text-sm font-medium transition-opacity">
+                                    <span className="text-white opacity-0 group-hover:opacity-100 bg-black/50 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-opacity shadow-lg">
                                         Click to Expand
                                     </span>
                                 </div>
                                 {vehicle.discount > 0 && (
-                                    <div className="absolute top-4 right-4 bg-black text-white px-3.5 py-1.5 rounded-full text-base font-bold z-10 uppercase">
+                                    <div className="absolute top-4 right-4 bg-[#D4A63F] text-black px-4 py-1.5 rounded-full text-sm font-extrabold z-10 uppercase shadow-md">
                                         {vehicle.discount}% OFF
                                     </div>
                                 )}
@@ -198,17 +198,17 @@ export default function VehicleDetailPage() {
                                     <>
                                         <button
                                             onClick={prevImage}
-                                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/70 text-white p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20"
+                                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-3 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20 shadow-md"
                                             aria-label="Previous image"
                                         >
-                                            <FaChevronLeft size={15} />
+                                            <FaChevronLeft size={16} />
                                         </button>
                                         <button
                                             onClick={nextImage}
-                                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white/70 text-white p-2 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20"
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-3 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20 shadow-md"
                                             aria-label="Next image"
                                         >
-                                            <FaChevronRight size={15} />
+                                            <FaChevronRight size={16} />
                                         </button>
                                     </>
                                 )}
@@ -216,13 +216,14 @@ export default function VehicleDetailPage() {
 
                             {/* Thumbnails */}
                             {images.length > 1 && (
-                                <div className="grid grid-cols-6 gap-2 p-2 bg-white">
+                                <div className="grid grid-cols-6 gap-2.5 p-3 bg-white border-t border-[#E5E7EB]">
                                     {images.map((img, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImage(index)}
-                                            className={`relative h-16 rounded overflow-hidden border-2 transition-all ${selectedImage === index ? 'border-black' : 'border-gray-200'
-                                                }`}
+                                            className={`relative h-16 rounded-xl overflow-hidden border-2 transition-all ${
+                                                selectedImage === index ? 'border-[#D4A63F]' : 'border-[#E5E7EB]'
+                                            }`}
                                         >
                                             <Image
                                                 src={img}
@@ -237,57 +238,57 @@ export default function VehicleDetailPage() {
                         </div>
 
                         {/* Specifications Card */}
-                        <div className="card p-4">
-                            <h2 className="text-lg font-bold text-gray-900 mb-3 border-b border-[#E4E4E7] pb-2 font-display">Specifications</h2>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-y-3 gap-x-4">
+                        <div className="card p-6">
+                            <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-[#E5E7EB] pb-3 font-display">Specifications</h2>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-y-5 gap-x-6">
                                 <div>
-                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Brand</p>
-                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.brand}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest font-sans">Brand</p>
+                                    <p className="font-bold text-gray-900 text-sm mt-1 font-sans">{vehicle.brand}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Model</p>
-                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.model}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest font-sans">Model</p>
+                                    <p className="font-bold text-gray-900 text-sm mt-1 font-sans">{vehicle.model}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Year</p>
-                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.year}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest font-sans">Year</p>
+                                    <p className="font-bold text-gray-900 text-sm mt-1 font-sans">{vehicle.year}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Fuel</p>
-                                    <p className="font-semibold text-gray-900 capitalize text-sm mt-0.5">{vehicle.fuelType}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest font-sans">Fuel</p>
+                                    <p className="font-bold text-gray-900 capitalize text-sm mt-1 font-sans">{vehicle.fuelType}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Transmission</p>
-                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.transmission}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest font-sans">Transmission</p>
+                                    <p className="font-bold text-gray-900 text-sm mt-1 font-sans">{vehicle.transmission}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">KM Driven</p>
-                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.mileage}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest font-sans">KM Driven</p>
+                                    <p className="font-bold text-gray-900 text-sm mt-1 font-sans">{vehicle.mileage}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Owners</p>
-                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.ownerCount || 1} Owner(s)</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest font-sans">Owners</p>
+                                    <p className="font-bold text-gray-900 text-sm mt-1 font-sans">{vehicle.ownerCount || 1} Owner(s)</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Type</p>
-                                    <p className="font-semibold text-gray-900 capitalize text-sm mt-0.5">{vehicle.type}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest font-sans">Type</p>
+                                    <p className="font-bold text-gray-900 capitalize text-sm mt-1 font-sans">{vehicle.type}</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Description & Features Row */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="card p-4">
-                                <h2 className="text-lg font-bold text-gray-900 mb-2 font-display">Description</h2>
-                                <p className="text-neutral-500 text-sm leading-relaxed line-clamp-6">{vehicle.description}</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="card p-6">
+                                <h2 className="text-xl font-bold text-[#111111] mb-3 font-display">Description</h2>
+                                <p className="text-gray-500 text-sm leading-relaxed font-sans">{vehicle.description}</p>
                             </div>
                             {vehicle.features && vehicle.features.length > 0 && (
-                                <div className="card p-4">
-                                    <h2 className="text-lg font-bold text-gray-900 mb-2 font-display">Features</h2>
-                                    <div className="grid grid-cols-1 gap-1.5">
+                                <div className="card p-6">
+                                    <h2 className="text-xl font-bold text-[#111111] mb-3 font-display">Features</h2>
+                                    <div className="grid grid-cols-1 gap-2.5">
                                         {vehicle.features.slice(0, 6).map((feature, index) => (
-                                            <div key={index} className="flex items-center space-x-2 text-[#71717A] text-sm">
-                                                <FaCheckCircle className="text-black flex-shrink-0 text-xs" />
+                                            <div key={index} className="flex items-center space-x-2.5 text-gray-500 text-sm font-sans">
+                                                <FaCheckCircle className="text-[#D4A63F] flex-shrink-0 text-sm" />
                                                 <span className="truncate">{feature}</span>
                                             </div>
                                         ))}
@@ -299,30 +300,30 @@ export default function VehicleDetailPage() {
 
                     {/* Right Column - Title, Price & Form */}
                     <div className="lg:col-span-1">
-                        <div className="card p-5 sticky top-20 space-y-5">
+                        <div className="card p-6 sticky top-24 space-y-6 bg-white">
                             {/* Desktop Title & Price - Only visible on desktop */}
-                            <div className="hidden lg:block">
-                                <h1 className="text-2xl font-black text-gray-900 mb-2 leading-tight font-display">{vehicle.title}</h1>
+                            <div className="hidden lg:block border-b border-[#E5E7EB] pb-5">
+                                <h1 className="text-2xl font-black text-gray-900 mb-3 leading-tight font-display">{vehicle.title}</h1>
                                 <div className="flex items-baseline space-x-2">
                                     <span className="text-3xl font-black text-black font-display">
                                         {formatPrice(vehicle.price)}
                                     </span>
                                     {vehicle.originalPrice > vehicle.price && (
-                                        <span className="text-base text-gray-400 line-through font-display font-medium">
+                                        <span className="text-base text-gray-400 line-through font-display font-medium font-sans">
                                             {formatPrice(vehicle.originalPrice)}
                                         </span>
                                     )}
                                 </div>
                             </div>
 
-                            <div className="border-t border-[#E4E4E7] pt-4">
-                                <h3 className="text-lg font-bold text-gray-900 mb-3 font-display">Contact Now</h3>
-                                <form onSubmit={handleSubmit} className="space-y-3">
+                            <div className="pt-2">
+                                <h3 className="text-lg font-bold text-gray-900 mb-4 font-display">Inquire Now</h3>
+                                <form onSubmit={handleSubmit} className="space-y-4">
                                     <div>
                                         <input
                                             type="text"
                                             placeholder="Your Name"
-                                            className="input py-2.5 text-sm"
+                                            className="input py-3 text-sm font-sans"
                                             value={formData.customerName}
                                             onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
                                             required
@@ -333,7 +334,7 @@ export default function VehicleDetailPage() {
                                             type="number"
                                             step="5000"
                                             placeholder="Your Offered Price (₹)"
-                                            className="input py-2.5 text-sm"
+                                            className="input py-3 text-sm font-sans"
                                             value={formData.offeredPrice}
                                             onChange={(e) => setFormData({ ...formData, offeredPrice: e.target.value })}
                                         />
@@ -342,7 +343,7 @@ export default function VehicleDetailPage() {
                                         <input
                                             type="tel"
                                             placeholder="Phone Number"
-                                            className="input py-2.5 text-sm"
+                                            className="input py-3 text-sm font-sans"
                                             value={formData.customerPhone}
                                             onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
                                             required
@@ -351,7 +352,7 @@ export default function VehicleDetailPage() {
                                     <div>
                                         <textarea
                                             placeholder="Message (Optional)"
-                                            className="input py-3 text-sm min-h-[80px] rounded-2xl"
+                                            className="input py-3 text-sm min-h-[90px] rounded-2xl font-sans"
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                         />
@@ -359,16 +360,16 @@ export default function VehicleDetailPage() {
                                     <button
                                         type="submit"
                                         disabled={submitting}
-                                        className="btn-primary w-full py-2.5 flex items-center justify-center space-x-2 text-sm"
+                                        className="btn-primary w-full py-3.5 flex items-center justify-center space-x-2 text-sm"
                                     >
                                         <FaPaperPlane className="text-xs" />
-                                        <span>{submitting ? 'Sending...' : 'Send Inquiry'}</span>
+                                        <span>{submitting ? 'Sending Request...' : 'Send Inquiry'}</span>
                                     </button>
                                 </form>
                             </div>
 
                             {/* EMI Calculator */}
-                            <div className="pt-2">
+                            <div className="pt-4 border-t border-[#E5E7EB]">
                                 <EMICalculator price={vehicle.price} />
                             </div>
                         </div>
@@ -377,11 +378,11 @@ export default function VehicleDetailPage() {
 
                 {/* Lightbox Modal */}
                 {isLightboxOpen && (
-                    <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center backdrop-blur-sm" onClick={closeLightbox}>
+                    <div className="fixed inset-0 z-55 bg-black/95 flex items-center justify-center backdrop-blur-sm" onClick={closeLightbox}>
                         {/* Close Button */}
                         <button
                             onClick={closeLightbox}
-                            className="absolute top-4 right-4 text-white/70 hover:text-white z-50 p-2 rounded-full hover:bg-white/10 transition-colors"
+                            className="absolute top-6 right-6 text-white/70 hover:text-white z-50 p-2 rounded-full hover:bg-white/10 transition-colors"
                         >
                             <FaTimes size={30} />
                         </button>
@@ -389,7 +390,7 @@ export default function VehicleDetailPage() {
                         {/* Prev Button */}
                         <button
                             onClick={prevImage}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-3 rounded-full hover:bg-white/10 transition-colors"
+                            className="absolute left-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-3 rounded-full hover:bg-white/10 transition-colors"
                         >
                             <FaChevronLeft size={40} />
                         </button>
@@ -406,7 +407,7 @@ export default function VehicleDetailPage() {
                             />
 
                             {/* Counter */}
-                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/90 bg-black/50 px-4 py-1 rounded-full text-sm font-medium">
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/90 bg-black/50 px-4 py-1.5 rounded-full text-sm font-medium">
                                 {selectedImage + 1} / {images.length}
                             </div>
                         </div>
@@ -414,7 +415,7 @@ export default function VehicleDetailPage() {
                         {/* Next Button */}
                         <button
                             onClick={nextImage}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-3 rounded-full hover:bg-white/10 transition-colors"
+                            className="absolute right-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-3 rounded-full hover:bg-white/10 transition-colors"
                         >
                             <FaChevronRight size={40} />
                         </button>
