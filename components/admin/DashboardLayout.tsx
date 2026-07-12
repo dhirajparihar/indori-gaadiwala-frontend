@@ -147,6 +147,44 @@ export default function DashboardLayout({ children, onLogout, onAddVehicle, stat
                 </div>
             </header>
 
+            {/* Mobile Quick Navigation Bar */}
+            <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-16 z-20 overflow-x-auto py-2.5 px-4 flex space-x-2 shadow-sm">
+                <button
+                    onClick={() => scrollToSection('stats')}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 active:bg-gray-300 text-xs font-semibold whitespace-nowrap"
+                >
+                    <span>Overview</span>
+                </button>
+                <button
+                    onClick={() => scrollToSection('vehicles')}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 active:bg-gray-300 text-xs font-semibold whitespace-nowrap"
+                >
+                    <FaCar />
+                    <span>Vehicles</span>
+                </button>
+                <button
+                    onClick={() => scrollToSection('bookings')}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 active:bg-gray-300 text-xs font-semibold whitespace-nowrap"
+                >
+                    <FaClipboardList />
+                    <span>Bookings</span>
+                </button>
+                <button
+                    onClick={() => scrollToSection('leads')}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 active:bg-gray-300 text-xs font-semibold whitespace-nowrap"
+                >
+                    <FaUsers />
+                    <span>Leads</span>
+                </button>
+                <button
+                    onClick={() => scrollToSection('seller-inquiries')}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 active:bg-gray-300 text-xs font-semibold whitespace-nowrap"
+                >
+                    <FaTag />
+                    <span>Inquiries</span>
+                </button>
+            </div>
+
             {/* Page Content */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {children}

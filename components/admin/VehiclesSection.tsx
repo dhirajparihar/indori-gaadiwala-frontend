@@ -106,13 +106,13 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete }: Vehicles
                 <>
                     {/* Toolbar */}
                     <div className="p-4 border-b border-gray-100 flex flex-wrap items-center gap-4">
-                        <div className="relative">
+                        <div className="relative w-full sm:w-auto">
                             <input
                                 type="text"
                                 placeholder="Search vehicles..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 w-full sm:w-64 text-sm"
                             />
                             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                         </div>
@@ -140,8 +140,8 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete }: Vehicles
                         />
                     </div>
 
-                    {/* Table */}
-                    <div className="overflow-x-auto">
+                    {/* Table for larger screens */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full">
                             <thead className="bg-gray-50">
                                 <tr>
@@ -238,6 +238,92 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete }: Vehicles
                                 )}
                             </tbody>
                         </table>
+                    </div>
+
+                    {/* Card Stack for mobile screens */}
+                    <div className="block md:hidden space-y-4 p-4">
+                        {filteredVehicles.length > 0 ? (
+                            filteredVehicles.map((vehicle) => (
+                                <div key={vehicle._id} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm space-y-3">
+                                    <div className="flex items-center gap-3">
+                                        <img
+                                            src={vehicle.images?.[0] || '/placeholder-car.jpg'}
+                                            alt={vehicle.title}
+                                            className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
+                                        />
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-bold text-gray-900 truncate text-sm">{vehicle.title}</h4>
+                                            <p className="text-xs text-gray-500 truncate">{vehicle.brand} {vehicle.model}</p>
+                                            <div className="flex flex-wrap items-center gap-2 mt-1">
+                                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-700">
+                                                    {vehicle.type === 'car' ? <FaCar /> : vehicle.type === 'bike' ? <FaMotorcycle /> : <FaTruck />}
+                                                    <span className="capitalize">{vehicle.type}</span>
+                                                </span>
+                                                <span className={`px-1.5 py-0.5 text-[10px] font-semibold rounded ${vehicle.status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                                    }`}>
+                                                    {vehicle.status}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="border-t border-gray-100 pt-2 flex justify-between items-end gap-2">
+                                        <div>
+                                            <span className="text-[10px] text-gray-500 block uppercase font-bold tracking-wider">Specs</span>
+                                            <span className="text-xs text-gray-800">
+                                                {vehicle.year} • {vehicle.kmDriven?.toLocaleString()} km • {vehicle.fuelType}
+                                            </span>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="text-sm font-bold text-green-600">₹{vehicle.price.toLocaleString()}</div>
+                                            {vehicle.originalPrice && (
+                                                <div className="text-xs text-gray-400 line-through">₹{vehicle.originalPrice.toLocaleString()}</div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="border-t border-gray-100 pt-2 flex justify-between items-center gap-2">
+                                        <button
+                                            onClick={() => onEdit(vehicle)}
+                                            className="inline-flex items-center gap-1 px-2.5 py-1.5 border border-primary-200 text-primary-700 hover:bg-primary-50 rounded-lg text-xs font-semibold"
+                                            title="Edit"
+                                        >
+                                            <FaEdit /> Edit
+                                        </button>
+
+                                        {deleteConfirmId === vehicle._id ? (
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-xs text-red-500 font-medium">Delete?</span>
+                                                <button
+                                                    onClick={() => handleDeleteClick(vehicle._id)}
+                                                    className="px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700"
+                                                >
+                                                    Yes
+                                                </button>
+                                                <button
+                                                    onClick={() => setDeleteConfirmId(null)}
+                                                    className="px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300"
+                                                >
+                                                    No
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <button
+                                                onClick={() => setDeleteConfirmId(vehicle._id)}
+                                                className="text-red-500 hover:text-red-700 flex items-center gap-1 text-xs font-semibold px-2 py-1.5 rounded-lg border border-red-200 hover:bg-red-50"
+                                                title="Delete"
+                                            >
+                                                <FaTrash /> Delete
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="text-center py-8 text-gray-500 bg-white border border-gray-200 rounded-xl">
+                                {searchQuery || statusFilter || typeFilter ? 'No vehicles match your filters' : 'No vehicles yet'}
+                            </div>
+                        )}
                     </div>
                 </>
             )}

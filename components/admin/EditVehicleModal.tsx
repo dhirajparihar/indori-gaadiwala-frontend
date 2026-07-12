@@ -47,7 +47,7 @@ export default function EditVehicleModal({ vehicle, onClose, onSuccess }: EditVe
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-xl">
+            <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-xl max-h-[90vh] overflow-y-auto">
                 <h3 className="text-xl font-bold text-gray-900 mb-6">Edit Vehicle</h3>
 
                 <div className="space-y-4">
