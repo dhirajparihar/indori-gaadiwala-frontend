@@ -58,16 +58,16 @@ export default function EMICalculator({ price: propPrice, initialPrice = 500000 
     };
 
     return (
-        <div className="card p-5 bg-gradient-to-br from-blue-50 to-white border-blue-100">
-            <div className="flex items-center space-x-2 mb-4 text-blue-800">
-                <FaCalculator className="text-xl" />
-                <h3 className="font-bold text-lg">EMI Calculator</h3>
+        <div className="card p-5 bg-[#F8FAFC] border-[#E4E4E7]">
+            <div className="flex items-center space-x-2 mb-4 text-black font-display">
+                <FaCalculator className="text-lg" />
+                <h3 className="font-bold text-base">EMI Calculator</h3>
             </div>
 
             {/* EMI Display */}
-            <div className="text-center mb-6 bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
-                <p className="text-sm text-gray-500 font-medium mb-1">Monthly EMI</p>
-                <div className="text-3xl font-black text-blue-600">
+            <div className="text-center mb-6 bg-white p-5 rounded-2xl border border-[#E4E4E7] shadow-none">
+                <p className="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">Monthly EMI</p>
+                <div className="text-3xl font-black text-black font-display">
                     {formatCurrency(emi)}<span className="text-sm text-gray-400 font-normal">/mo</span>
                 </div>
             </div>
@@ -75,27 +75,25 @@ export default function EMICalculator({ price: propPrice, initialPrice = 500000 
             <div className="space-y-6">
                 {/* Vehicle Price Input */}
                 <div>
-                    <div className="flex justify-between text-sm mb-2 font-semibold text-gray-700">
+                    <div className="flex justify-between text-xs mb-2 font-bold uppercase text-gray-500">
                         <label>Vehicle Price</label>
                     </div>
                     {isFixedPrice ? (
-                        <div className="w-full px-4 py-2 bg-blue-50 border border-blue-100 rounded-lg font-bold text-gray-700">
+                        <div className="w-full px-4 py-2.5 bg-zinc-100 border border-zinc-200 rounded-full font-bold text-gray-700 text-sm">
                             {formatCurrency(price)}
                         </div>
                     ) : (
                         <div className="relative">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm">₹</span>
                             <input
                                 type="number"
                                 value={price}
                                 onChange={(e) => {
                                     const val = Number(e.target.value);
                                     setPrice(val);
-                                    // Reset down payment to 20% if price changes drastically or just check logic?
-                                    // Let's keep down payment as is unless it exceeds price
                                     if (downPayment > val) setDownPayment(Math.round(val * 0.2));
                                 }}
-                                className="w-full pl-8 pr-4 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-bold text-gray-900"
+                                className="w-full pl-8 pr-4 py-2.5 border border-[#E4E4E7] rounded-full focus:outline-none focus:ring-1 focus:ring-black focus:border-black font-bold text-gray-900 transition-all text-sm"
                             />
                         </div>
                     )}
@@ -103,9 +101,9 @@ export default function EMICalculator({ price: propPrice, initialPrice = 500000 
 
                 {/* Down Payment Slider */}
                 <div>
-                    <div className="flex justify-between text-sm mb-2 font-semibold text-gray-700">
+                    <div className="flex justify-between text-xs mb-2 font-bold uppercase text-gray-500">
                         <label>Down Payment</label>
-                        <span className="text-blue-600">{formatCurrency(downPayment)}</span>
+                        <span className="text-black">{formatCurrency(downPayment)}</span>
                     </div>
                     <input
                         type="range"
@@ -114,9 +112,9 @@ export default function EMICalculator({ price: propPrice, initialPrice = 500000 
                         step={1000}
                         value={downPayment}
                         onChange={(e) => setDownPayment(Number(e.target.value))}
-                        className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                        className="w-full h-1 bg-zinc-200 rounded-full appearance-none cursor-pointer accent-black"
                     />
-                    <div className="flex justify-between text-xs text-gray-400 mt-1">
+                    <div className="flex justify-between text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-wider">
                         <span>₹0</span>
                         <span>{formatCurrency(price)}</span>
                     </div>
@@ -124,9 +122,9 @@ export default function EMICalculator({ price: propPrice, initialPrice = 500000 
 
                 {/* Interest Rate Slider */}
                 <div>
-                    <div className="flex justify-between text-sm mb-2 font-semibold text-gray-700">
+                    <div className="flex justify-between text-xs mb-2 font-bold uppercase text-gray-500">
                         <label>Interest Rate (p.a)</label>
-                        <span className="text-blue-600">{interestRate}%</span>
+                        <span className="text-black">{interestRate}%</span>
                     </div>
                     <input
                         type="range"
@@ -135,9 +133,9 @@ export default function EMICalculator({ price: propPrice, initialPrice = 500000 
                         step={0.1}
                         value={interestRate}
                         onChange={(e) => setInterestRate(Number(e.target.value))}
-                        className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                        className="w-full h-1 bg-zinc-200 rounded-full appearance-none cursor-pointer accent-black"
                     />
-                    <div className="flex justify-between text-xs text-gray-400 mt-1">
+                    <div className="flex justify-between text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-wider">
                         <span>5%</span>
                         <span>20%</span>
                     </div>
@@ -145,9 +143,9 @@ export default function EMICalculator({ price: propPrice, initialPrice = 500000 
 
                 {/* Tenure Slider */}
                 <div>
-                    <div className="flex justify-between text-sm mb-2 font-semibold text-gray-700">
+                    <div className="flex justify-between text-xs mb-2 font-bold uppercase text-gray-500">
                         <label>Loan Tenure</label>
-                        <span className="text-blue-600">{tenure} Months</span>
+                        <span className="text-black">{tenure} Months</span>
                     </div>
                     <input
                         type="range"
@@ -156,18 +154,18 @@ export default function EMICalculator({ price: propPrice, initialPrice = 500000 
                         step={6}
                         value={tenure}
                         onChange={(e) => setTenure(Number(e.target.value))}
-                        className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                        className="w-full h-1 bg-zinc-200 rounded-full appearance-none cursor-pointer accent-black"
                     />
-                    <div className="flex justify-between text-xs text-gray-400 mt-1">
+                    <div className="flex justify-between text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-wider">
                         <span>1 Year</span>
                         <span>7 Years</span>
                     </div>
                 </div>
 
                 {/* Loan Amount Summary */}
-                <div className="pt-4 border-t border-blue-100 flex justify-between items-center text-sm font-medium">
+                <div className="pt-4 border-t border-[#E4E4E7] flex justify-between items-center text-sm font-semibold">
                     <span className="text-gray-500">Loan Amount</span>
-                    <span className="text-gray-900">{formatCurrency(Math.max(0, price - downPayment))}</span>
+                    <span className="text-gray-900 font-display">{formatCurrency(Math.max(0, price - downPayment))}</span>
                 </div>
             </div>
         </div>

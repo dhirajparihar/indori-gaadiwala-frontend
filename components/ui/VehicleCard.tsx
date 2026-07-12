@@ -28,11 +28,11 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                             target.src = '/placeholder-car.jpg';
                         }}
                     />
-                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md p-2 rounded-xl shadow-lg z-10 text-orange-600">
-                        {vehicle.type === 'car' ? <FaCar className="text-lg" /> : vehicle.type === 'bike' ? <FaMotorcycle className="text-lg" /> : <FaTruck className="text-lg" />}
+                    <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm p-2 rounded-full border border-[#E4E4E7] z-10 text-black">
+                        {vehicle.type === 'car' ? <FaCar className="text-sm" /> : vehicle.type === 'bike' ? <FaMotorcycle className="text-sm" /> : <FaTruck className="text-sm" />}
                     </div>
                     {vehicle.discount > 0 && (
-                        <div className="absolute top-3 right-3 bg-red-600 text-white px-3 py-1 rounded-lg text-xs font-bold shadow-lg z-10 tracking-wide uppercase">
+                        <div className="absolute top-3 right-3 bg-black text-white px-3 py-1 rounded-full text-xs font-bold z-10 tracking-wide uppercase">
                             {vehicle.discount}% OFF
                         </div>
                     )}
@@ -40,35 +40,35 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
                 {/* Content */}
                 <div className="p-4 sm:p-5">
-                    <h3 className="font-bold text-lg sm:text-xl text-gray-900 mb-3 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                    <h3 className="font-bold text-lg sm:text-xl text-gray-900 mb-3 line-clamp-1 group-hover:text-black transition-colors font-display">
                         {vehicle.title}
                     </h3>
 
                     {/* Meta Info */}
                     <div className="grid grid-cols-2 gap-y-3 gap-x-2 mb-4 text-sm">
-                        <div className="flex items-center space-x-2 text-gray-600">
-                            <FaCalendar className="text-blue-500 flex-shrink-0" />
+                        <div className="flex items-center space-x-2 text-[#71717A]">
+                            <FaCalendar className="text-[#71717A] flex-shrink-0" />
                             <span className="font-medium text-xs sm:text-sm">{vehicle.year}</span>
                         </div>
-                        <div className="flex items-center space-x-2 text-gray-600">
-                            <FaGasPump className="text-blue-500 flex-shrink-0" />
+                        <div className="flex items-center space-x-2 text-[#71717A]">
+                            <FaGasPump className="text-[#71717A] flex-shrink-0" />
                             <span className="font-medium text-xs sm:text-sm">{vehicle.fuelType}</span>
                         </div>
-                        <div className="flex items-center space-x-2 text-gray-600">
-                            <FaCog className="text-blue-500 flex-shrink-0" />
+                        <div className="flex items-center space-x-2 text-[#71717A]">
+                            <FaCog className="text-[#71717A] flex-shrink-0" />
                             <span className="font-medium text-xs sm:text-sm">{vehicle.transmission}</span>
                         </div>
-                        <div className="flex items-center space-x-2 text-gray-600">
-                            <FaTachometerAlt className="text-blue-500 flex-shrink-0" />
+                        <div className="flex items-center space-x-2 text-[#71717A]">
+                            <FaTachometerAlt className="text-[#71717A] flex-shrink-0" />
                             <span className="font-medium text-xs sm:text-sm truncate">{vehicle.mileage}</span>
                         </div>
                     </div>
 
                     {/* Price */}
-                    <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+                    <div className="flex items-center justify-between border-t border-[#E4E4E7] pt-3">
                         <div className="flex flex-col">
                             <div className="flex items-baseline space-x-2">
-                                <span className="text-lg sm:text-xl font-black text-gray-900 price">
+                                <span className="text-lg sm:text-xl font-black text-gray-900 price font-display">
                                     {formatPrice(vehicle.price)}
                                 </span>
                                 {vehicle.originalPrice > vehicle.price && (
@@ -77,10 +77,10 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                                     </span>
                                 )}
                             </div>
-                            <span className="text-xs text-blue-600 font-bold uppercase tracking-wider mt-0.5"> EMI Available</span>
+                            <span className="text-[10px] text-[#71717A] font-bold uppercase tracking-wider mt-0.5"> EMI Available</span>
                         </div>
-                        <div className="h-8 w-8 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
-                            <span className="text-blue-600 group-hover:text-white transition-colors">→</span>
+                        <div className="h-8 w-8 rounded-full bg-zinc-100 flex items-center justify-center group-hover:bg-black transition-colors">
+                            <span className="text-black group-hover:text-white transition-colors">→</span>
                         </div>
                     </div>
                 </div>

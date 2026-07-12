@@ -76,25 +76,24 @@ function VehiclesContent() {
     const pageTitle = filters.type === 'car' ? 'Cars' : filters.type === 'bike' ? 'Bikes' : filters.type === 'commercial' ? 'Commercial Vehicles' : 'All Vehicles';
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                        Browse <span className="text-primary-600">{pageTitle}</span>
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-black mb-2 font-display tracking-tight">
+                        Browse <span className="text-black">{pageTitle}</span>
                     </h1>
-                    <p className="text-gray-600">Find your perfect ride from our extensive collection</p>
+                    <p className="text-neutral-500 font-medium">Find your perfect ride from our extensive collection</p>
                 </div>
 
                 {/* Filters */}
-                {/* Filters */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-8">
+                <div className="bg-[#F8FAFC] rounded-3xl border border-[#E4E4E7] p-6 mb-8">
                     <div className="flex flex-col lg:flex-row gap-4 items-end">
-                        <div className="flex-1 w-full grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div className="flex-1 w-full grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Type</label>
+                                <label className="block text-[10px] font-bold text-neutral-400 uppercase mb-1.5 tracking-wider">Type</label>
                                 <select
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                    className="w-full px-4 py-2.5 bg-white border border-[#E4E4E7] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
                                     value={filters.type}
                                     onChange={(e) => handleFilterChange('type', e.target.value)}
                                 >
@@ -106,9 +105,9 @@ function VehiclesContent() {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Fuel</label>
+                                <label className="block text-[10px] font-bold text-neutral-400 uppercase mb-1.5 tracking-wider">Fuel</label>
                                 <select
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                    className="w-full px-4 py-2.5 bg-white border border-[#E4E4E7] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
                                     value={filters.fuelType}
                                     onChange={(e) => handleFilterChange('fuelType', e.target.value)}
                                 >
@@ -122,9 +121,9 @@ function VehiclesContent() {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Transmission</label>
+                                <label className="block text-[10px] font-bold text-neutral-400 uppercase mb-1.5 tracking-wider">Transmission</label>
                                 <select
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                    className="w-full px-4 py-2.5 bg-white border border-[#E4E4E7] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
                                     value={filters.transmission}
                                     onChange={(e) => handleFilterChange('transmission', e.target.value)}
                                 >
@@ -136,9 +135,9 @@ function VehiclesContent() {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Budget</label>
+                                <label className="block text-[10px] font-bold text-neutral-400 uppercase mb-1.5 tracking-wider">Budget</label>
                                 <select
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                    className="w-full px-4 py-2.5 bg-white border border-[#E4E4E7] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all"
                                     value={filters.maxPrice}
                                     onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
                                 >
@@ -151,12 +150,12 @@ function VehiclesContent() {
                             </div>
                         </div>
 
-                        <div className="flex gap-2 w-full lg:w-auto">
-                            <button onClick={applyFilters} className="flex-1 lg:flex-none btn-primary py-2 px-4 text-sm h-[38px] flex items-center justify-center gap-2">
+                        <div className="flex gap-3 w-full lg:w-auto">
+                            <button onClick={applyFilters} className="flex-1 lg:flex-none btn-primary py-2.5 px-6 text-sm flex items-center justify-center gap-2">
                                 <FaFilter className="text-xs" />
                                 <span>Apply</span>
                             </button>
-                            <button onClick={clearFilters} className="flex-1 lg:flex-none py-2 px-4 text-sm h-[38px] flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-600 border border-gray-300 rounded-lg transition-all">
+                            <button onClick={clearFilters} className="flex-1 lg:flex-none btn-secondary py-2.5 px-6 text-sm flex items-center justify-center gap-2">
                                 <FaTimes className="text-xs" />
                                 <span>Clear</span>
                             </button>
@@ -165,8 +164,8 @@ function VehiclesContent() {
                 </div>
 
                 {/* Results Count */}
-                <div className="mb-4">
-                    <p className="text-gray-600">
+                <div className="mb-6">
+                    <p className="text-neutral-500 font-medium text-sm">
                         {loading ? 'Loading...' : `Found ${vehicles.length} vehicle${vehicles.length !== 1 ? 's' : ''}`}
                     </p>
                 </div>
@@ -174,7 +173,7 @@ function VehiclesContent() {
                 {/* Vehicles Grid */}
                 {loading ? (
                     <div className="flex justify-center py-12">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
                     </div>
                 ) : vehicles.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -183,10 +182,10 @@ function VehiclesContent() {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-16">
-                        <div className="text-6xl mb-4">🔍</div>
-                        <h3 className="text-2xl font-semibold text-gray-900 mb-2">No Vehicles Found</h3>
-                        <p className="text-gray-600 mb-6">Try adjusting your filters to see more results</p>
+                    <div className="text-center py-16 bg-[#F8FAFC] rounded-3xl border border-[#E4E4E7]">
+                        <div className="text-5xl mb-4">🔍</div>
+                        <h3 className="text-2xl font-bold text-black mb-2 font-display">No Vehicles Found</h3>
+                        <p className="text-neutral-500 mb-6 font-medium text-sm">Try adjusting your filters to see more results</p>
                         <button onClick={clearFilters} className="btn-primary">
                             Reset Filters
                         </button>
@@ -200,8 +199,8 @@ function VehiclesContent() {
 export default function VehiclesPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+            <div className="min-h-screen bg-white flex justify-center items-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
             </div>
         }>
             <VehiclesContent />

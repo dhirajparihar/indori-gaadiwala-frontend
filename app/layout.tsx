@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/layout/Navbar";
@@ -7,7 +7,8 @@ import Footer from "@/components/layout/Footer";
 import { ToastContainer } from "react-toastify";
 import { Suspense } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-display" });
 
 export const metadata: Metadata = {
   title: "Indori Gaadiwala - Premium Used Vehicles at Unbeatable Prices",
@@ -48,7 +49,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${outfit.variable} font-sans antialiased`}>
         <ToastContainer
           position="top-right"
           autoClose={3000}

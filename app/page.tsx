@@ -54,53 +54,51 @@ export default function HomePage() {
         {/* Hero Content */}
         <div className="hero-content">
           <div className="flex flex-col items-center md:items-end justify-center text-center md:text-right">
-            <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold text-orange-500 mb-4 drop-shadow-md">
+            <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-black mb-4 tracking-tight font-display">
               Indori Gaadiwala
             </h2>
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-6 drop-shadow-sm">
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-zinc-800 mb-6 font-display">
               Buy, Sell & Transfer Vehicles Made Easy
             </h1>
-            <p className="text-lg md:text-xl text-gray-700 mb-10 max-w-2xl font-medium">
+            <p className="text-lg md:text-xl text-neutral-500 mb-10 max-w-2xl font-medium leading-relaxed">
               From buying to financing, RTO paperwork to ownership transfer — You handle the steering. We handle everything else.
             </p>
             <div className="hero-buttons flex flex-col sm:flex-row gap-3 justify-center md:justify-end">
-              <Link href="/vehicles" className="btn-primary inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+              <Link href="/vehicles" className="btn-primary inline-flex items-center justify-center space-x-2 text-base">
                 <FaCar />
                 <span>Buy Vehicle</span>
               </Link>
-              <Link href="/sell-vehicle" className="btn-red inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+              <Link href="/sell-vehicle" className="btn-secondary inline-flex items-center justify-center space-x-2 text-base">
                 <FaPlus />
                 <span>Sell Vehicle</span>
               </Link>
-              <Link href="/services/rto" className="btn-secondary inline-flex items-center justify-center space-x-2 text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+              <Link href="/services/rto" className="btn-secondary inline-flex items-center justify-center space-x-2 text-base">
                 <FaSearch />
                 <span>Vehicle Search</span>
               </Link>
             </div>
           </div>
         </div>
-
-
       </section>
 
       {/* Featured Vehicles */}
-      <section className="py-20 bg-[#F9FAFB]">
+      <section className="py-20 bg-[#F8FAFC]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
             <div>
-              <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-2 tracking-tight">
-                Featured <span className="text-blue-600">Vehicles</span>
+              <h2 className="text-3xl md:text-5xl font-extrabold text-black mb-2 tracking-tight font-display">
+                Featured Vehicles
               </h2>
-              <p className="text-gray-500 font-medium text-lg">Handpicked premium selection for you</p>
+              <p className="text-zinc-500 font-medium text-lg">Handpicked premium selection for you</p>
             </div>
-            <Link href="/vehicles" className="hidden md:flex items-center text-blue-600 font-bold hover:text-blue-700 transition-colors">
+            <Link href="/vehicles" className="hidden md:flex items-center text-black font-bold hover:text-zinc-700 transition-colors">
               View All Vehicles <span className="ml-1.5 focus:translate-x-1 transition-transform">→</span>
             </Link>
           </div>
 
           {loading ? (
             <div className="flex justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
             </div>
           ) : featuredVehicles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -109,7 +107,7 @@ export default function HomePage() {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-500 py-20 font-medium">No vehicles available yet.</p>
+            <p className="text-center text-zinc-500 py-20 font-medium">No vehicles available yet.</p>
           )}
 
           <div className="mt-12 text-center md:hidden">
@@ -119,59 +117,60 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
       {/* Our Services */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
-              Our <span className="text-blue-600">Services</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-black mb-4 tracking-tight font-display">
+              Our Services
             </h2>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto font-medium">
+            <p className="text-lg text-zinc-500 max-w-2xl mx-auto font-medium">
               Complete vehicle solutions - from purchase to registration and protection
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Finance */}
-            <div className="group bg-white rounded-2xl p-8 border border-gray-100 hover:border-blue-100 transition-all duration-300 shadow-sm hover:shadow-xl">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-50 text-blue-600 rounded-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+            <div className="group card p-8 hover:border-black transition-all duration-300">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-zinc-100 text-black rounded-full mb-6 group-hover:bg-black group-hover:text-white transition-all duration-300">
                 <FaMoneyBillWave className="text-2xl" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">Easy Finance</h3>
-              <p className="text-gray-500 mb-6 leading-relaxed">
+              <h3 className="text-2xl font-bold text-black mb-3 tracking-tight font-display">Easy Finance</h3>
+              <p className="text-zinc-500 mb-6 leading-relaxed">
                 Easy EMI options and quick loan approvals. Get your dream vehicle with flexible payment plans.
               </p>
-              <Link href="/services/finance" className="flex items-center text-blue-600 font-bold hover:text-blue-700 transition-colors">
+              <Link href="/services/finance" className="flex items-center text-black font-bold hover:text-zinc-700 transition-colors">
                 <span>Learn More</span>
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>
 
             {/* RTO */}
-            <div className="group bg-white rounded-2xl p-8 border border-gray-100 hover:border-blue-100 transition-all duration-300 shadow-sm hover:shadow-xl">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-blue-50 text-blue-600 rounded-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+            <div className="group card p-8 hover:border-black transition-all duration-300">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-zinc-100 text-black rounded-full mb-6 group-hover:bg-black group-hover:text-white transition-all duration-300">
                 <FaFileAlt className="text-2xl" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">RTO Services</h3>
-              <p className="text-gray-500 mb-6 leading-relaxed">
+              <h3 className="text-2xl font-bold text-black mb-3 tracking-tight font-display">RTO Services</h3>
+              <p className="text-zinc-500 mb-6 leading-relaxed">
                 Hassle-free registration and transfer. We handle all RC transfer, NOC, and paperwork.
               </p>
-              <div className="flex items-center text-blue-600 font-bold">
+              <Link href="/services/rto" className="flex items-center text-black font-bold hover:text-zinc-700 transition-colors">
                 <span>Learn More</span>
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-              </div>
+              </Link>
             </div>
 
             {/* Insurance */}
-            <div className="group bg-white rounded-2xl p-8 border border-gray-100 hover:border-blue-100 transition-all duration-300 shadow-sm hover:shadow-xl">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-orange-50 text-orange-600 rounded-xl mb-6 group-hover:bg-orange-600 group-hover:text-white transition-all duration-300">
+            <div className="group card p-8 hover:border-black transition-all duration-300">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-zinc-100 text-black rounded-full mb-6 group-hover:bg-black group-hover:text-white transition-all duration-300">
                 <FaUmbrella className="text-2xl" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">Insurance</h3>
-              <p className="text-gray-500 mb-6 leading-relaxed">
+              <h3 className="text-2xl font-bold text-black mb-3 tracking-tight font-display">Insurance</h3>
+              <p className="text-zinc-500 mb-6 leading-relaxed">
                 Comprehensive coverage at best rates. Protect your vehicle with our trusted partners.
               </p>
-              <Link href="/services/insurance" className="flex items-center text-blue-600 font-bold hover:text-blue-700 transition-colors">
+              <Link href="/services/insurance" className="flex items-center text-black font-bold hover:text-zinc-700 transition-colors">
                 <span>Learn More</span>
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
               </Link>
@@ -181,13 +180,13 @@ export default function HomePage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20 bg-[#F3F4F6]">
+      <section className="py-20 bg-[#F8FAFC]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
-              Why Choose <span className="text-blue-600">Us</span>?
+            <h2 className="text-3xl md:text-5xl font-extrabold text-black mb-4 tracking-tight font-display">
+              Why Choose Us?
             </h2>
-            <p className="text-lg text-gray-500 max-w-xl mx-auto font-medium">
+            <p className="text-lg text-zinc-500 max-w-xl mx-auto font-medium">
               We make buying used vehicles simple, safe, and affordable
             </p>
           </div>
@@ -200,11 +199,11 @@ export default function HomePage() {
               { icon: <FaShieldAlt />, title: 'Trusted', text: 'Transparent pricing and genuine paperwork.' },
             ].map((feature, i) => (
               <div key={i} className="text-center flex flex-col items-center">
-                <div className="flex items-center justify-center w-14 h-14 bg-white text-blue-600 rounded-2xl shadow-sm mb-5 text-2xl">
+                <div className="flex items-center justify-center w-14 h-14 bg-white text-black border border-[#E4E4E7] rounded-full shadow-none mb-5 text-2xl">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{feature.text}</p>
+                <h3 className="text-lg font-bold text-black mb-2 font-display">{feature.title}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed">{feature.text}</p>
               </div>
             ))}
           </div>
@@ -214,16 +213,16 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-blue-600 rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl relative overflow-hidden group">
+          <div className="bg-black rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden group">
             <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-700" />
             <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight font-display">
                 Ready to Find Your Perfect Vehicle?
               </h2>
-              <p className="text-blue-50 mb-8 max-w-lg mx-auto font-medium">
+              <p className="text-zinc-400 mb-8 max-w-lg mx-auto font-medium">
                 Browse our extensive collection of cars and bikes at amazing prices.
               </p>
-              <Link href="/vehicles" className="inline-flex items-center justify-center bg-white text-blue-600 font-bold py-4 px-10 rounded-xl hover:scale-105 transition-all shadow-lg hover:shadow-white/20">
+              <Link href="/vehicles" className="inline-flex items-center justify-center bg-white text-black font-bold py-4 px-10 rounded-full hover:scale-105 transition-all shadow-none">
                 Start Browsing Now <span className="ml-2">→</span>
               </Link>
             </div>

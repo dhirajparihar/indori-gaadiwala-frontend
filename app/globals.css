@@ -1,131 +1,120 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #000000;
+  --color-secondary: #000000;
+  --color-accent: #1A1A1A;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F8FAFC;
+  --color-on-surface: #09090B;
+  --color-on-surface-muted: #71717A;
+  --color-border: #E4E4E7;
+  
+  --font-sans: var(--font-sans), "Inter", sans-serif;
+  --font-display: var(--font-display), "Outfit", sans-serif;
+}
+
 body {
-  background-color: white;
-  color: rgb(17 24 39);
+  background-color: #FFFFFF;
+  color: #09090B;
+  font-family: var(--font-sans), sans-serif;
 }
 
-.btn-primary {
-  background-color: rgb(37 99 235);
-  color: white;
-  font-weight: 600;
-  padding: 0.625rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), sans-serif;
 }
 
-.btn-primary:hover {
-  background-color: rgb(29 78 216);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+.btn-primary, .btn-dark, .btn-red {
+  background-color: #000000;
+  color: #FFFFFF;
+  font-weight: 700;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #000000;
+  font-size: 14px;
+  letter-spacing: 0.01em;
 }
 
-.btn-secondary {
-  background-color: rgb(249 115 22);
-  color: white;
-  font-weight: 600;
-  padding: 0.625rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+.btn-primary:hover, .btn-dark:hover, .btn-red:hover {
+  background-color: #1A1A1A;
+  border-color: #1A1A1A;
 }
 
-.btn-secondary:hover {
-  background-color: rgb(234 88 12);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+.btn-outline, .btn-secondary {
+  border: 1px solid #000000;
+  color: #000000;
+  background-color: transparent;
+  font-weight: 700;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  transition: all 0.2s ease-in-out;
+  font-size: 14px;
+  letter-spacing: 0.01em;
 }
 
-.btn-outline {
-  border: 2px solid rgb(37 99 235);
-  color: rgb(37 99 235);
-  font-weight: 600;
-  padding: 0.625rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s;
-}
-
-.btn-outline:hover {
-  background-color: rgb(239 246 255);
-}
-
-.btn-dark {
-  background-color: rgb(15 23 42);
-  color: white;
-  font-weight: 600;
-  padding: 0.625rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
-
-.btn-dark:hover {
-  background-color: rgb(2 6 23);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-}
-
-.btn-red {
-  background-color: rgb(220 38 38);
-  color: white;
-  font-weight: 600;
-  padding: 0.625rem 1.5rem;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-}
-
-.btn-red:hover {
-  background-color: rgb(185 28 28);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+.btn-outline:hover, .btn-secondary:hover {
+  background-color: #000000;
+  color: #FFFFFF;
 }
 
 .card {
-  background-color: white;
-  border: 1px solid rgb(229 231 235);
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  transition: box-shadow 0.2s;
+  background-color: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 1.5rem; /* heavily rounded 24px */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: none;
 }
 
 .card:hover {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  border-color: #000000;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
 }
 
 .input {
   width: 100%;
-  padding: 0.625rem 1rem;
-  border: 1px solid rgb(209 213 219);
-  border-radius: 0.5rem;
-  transition: all 0.2s;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #E4E4E7;
+  border-radius: 9999px; /* ROUND_FULL */
+  background-color: #FFFFFF;
+  transition: all 0.2s ease-in-out;
+  color: #09090B;
+  font-size: 14px;
 }
 
 .input:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgb(37 99 235);
-  border-color: transparent;
+  border-color: #000000;
+  box-shadow: 0 0 0 1px #000000;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.75rem;
+  padding: 0.35rem 1rem;
   border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .badge-success {
-  background-color: rgb(220 252 231);
-  color: rgb(22 101 52);
+  background-color: #F1F5F9;
+  color: #09090B;
+  border: 1px solid #E4E4E7;
 }
 
 .badge-warning {
-  background-color: rgb(255 237 213);
-  color: rgb(154 52 18);
+  background-color: #000000;
+  color: #FFFFFF;
+  border: 1px solid #000000;
 }
 
 .badge-info {
-  background-color: rgb(219 234 254);
-  color: rgb(30 64 175);
+  background-color: #FFFFFF;
+  color: #09090B;
+  border: 1px solid #E4E4E7;
 }
 
 /* Hero Section */

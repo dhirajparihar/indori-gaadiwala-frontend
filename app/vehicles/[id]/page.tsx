@@ -121,20 +121,20 @@ export default function VehicleDetailPage() {
         : ['/placeholder-car.jpg'];
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 {/* Back Button */}
                 <div className="flex justify-between items-center mb-4">
                     <button
                         onClick={() => router.back()}
-                        className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors"
+                        className="flex items-center space-x-2 text-gray-600 hover:text-black transition-colors"
                     >
                         <FaArrowLeft />
                         <span>Back</span>
                     </button>
                     <div className="flex items-center space-x-3">
-                        <div className="flex items-center space-x-2 text-gray-500 font-medium bg-white px-3 py-1 rounded-full shadow-sm border border-gray-100">
-                            {vehicle.type === 'car' ? <FaCar className="text-blue-600" /> : vehicle.type === 'bike' ? <FaMotorcycle className="text-orange-600" /> : <FaTruck className="text-gray-800" />}
+                        <div className="flex items-center space-x-2 text-gray-500 font-semibold bg-[#F8FAFC] px-4 py-1.5 rounded-full border border-[#E4E4E7]">
+                            {vehicle.type === 'car' ? <FaCar className="text-black" /> : vehicle.type === 'bike' ? <FaMotorcycle className="text-black" /> : <FaTruck className="text-black" />}
                             <span className="capitalize">{vehicle.type}</span>
                         </div>
                         <span className={`badge ${vehicle.status === 'available' ? 'badge-success' : 'badge-warning'}`}>
@@ -148,13 +148,13 @@ export default function VehicleDetailPage() {
                     <div className="lg:hidden">
                         <div className="card p-5 space-y-4">
                             <div>
-                                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 leading-tight">{vehicle.title}</h1>
+                                <h1 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2 leading-tight font-display">{vehicle.title}</h1>
                                 <div className="flex items-baseline space-x-2">
-                                    <span className="text-2xl sm:text-3xl font-bold text-green-600">
+                                    <span className="text-2xl sm:text-3xl font-black text-black font-display">
                                         {formatPrice(vehicle.price)}
                                     </span>
                                     {vehicle.originalPrice > vehicle.price && (
-                                        <span className="text-sm sm:text-base text-red-500 line-through">
+                                        <span className="text-sm sm:text-base text-gray-400 line-through font-display font-medium">
                                             {formatPrice(vehicle.originalPrice)}
                                         </span>
                                     )}
@@ -188,7 +188,7 @@ export default function VehicleDetailPage() {
                                     </span>
                                 </div>
                                 {vehicle.discount > 0 && (
-                                    <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-lg text-lg font-semibold shadow-lg z-10">
+                                    <div className="absolute top-4 right-4 bg-black text-white px-3.5 py-1.5 rounded-full text-base font-bold z-10 uppercase">
                                         {vehicle.discount}% OFF
                                     </div>
                                 )}
@@ -221,7 +221,7 @@ export default function VehicleDetailPage() {
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImage(index)}
-                                            className={`relative h-16 rounded overflow-hidden border-2 transition-all ${selectedImage === index ? 'border-primary-600' : 'border-gray-200'
+                                            className={`relative h-16 rounded overflow-hidden border-2 transition-all ${selectedImage === index ? 'border-black' : 'border-gray-200'
                                                 }`}
                                         >
                                             <Image
@@ -238,39 +238,39 @@ export default function VehicleDetailPage() {
 
                         {/* Specifications Card */}
                         <div className="card p-4">
-                            <h2 className="text-lg font-semibold text-gray-900 mb-3 border-b pb-2">Specifications</h2>
+                            <h2 className="text-lg font-bold text-gray-900 mb-3 border-b border-[#E4E4E7] pb-2 font-display">Specifications</h2>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-y-3 gap-x-4">
                                 <div>
-                                    <p className="text-xs text-gray-500">Brand</p>
-                                    <p className="font-medium text-gray-900">{vehicle.brand}</p>
+                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Brand</p>
+                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.brand}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Model</p>
-                                    <p className="font-medium text-gray-900">{vehicle.model}</p>
+                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Model</p>
+                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.model}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Year</p>
-                                    <p className="font-medium text-gray-900">{vehicle.year}</p>
+                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Year</p>
+                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.year}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Fuel</p>
-                                    <p className="font-medium text-gray-900 capitalize">{vehicle.fuelType}</p>
+                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Fuel</p>
+                                    <p className="font-semibold text-gray-900 capitalize text-sm mt-0.5">{vehicle.fuelType}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Transmission</p>
-                                    <p className="font-medium text-gray-900">{vehicle.transmission}</p>
+                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Transmission</p>
+                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.transmission}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">KM Driven</p>
-                                    <p className="font-medium text-gray-900">{vehicle.mileage}</p>
+                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">KM Driven</p>
+                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.mileage}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Owners</p>
-                                    <p className="font-medium text-gray-900">{vehicle.ownerCount || 1}st Owner</p>
+                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Owners</p>
+                                    <p className="font-semibold text-gray-900 text-sm mt-0.5">{vehicle.ownerCount || 1} Owner(s)</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Type</p>
-                                    <p className="font-medium text-gray-900 capitalize">{vehicle.type}</p>
+                                    <p className="text-xs text-gray-500 uppercase font-bold tracking-wider">Type</p>
+                                    <p className="font-semibold text-gray-900 capitalize text-sm mt-0.5">{vehicle.type}</p>
                                 </div>
                             </div>
                         </div>
@@ -278,16 +278,16 @@ export default function VehicleDetailPage() {
                         {/* Description & Features Row */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="card p-4">
-                                <h2 className="text-lg font-semibold text-gray-900 mb-2">Description</h2>
-                                <p className="text-gray-700 text-sm leading-relaxed line-clamp-6">{vehicle.description}</p>
+                                <h2 className="text-lg font-bold text-gray-900 mb-2 font-display">Description</h2>
+                                <p className="text-neutral-500 text-sm leading-relaxed line-clamp-6">{vehicle.description}</p>
                             </div>
                             {vehicle.features && vehicle.features.length > 0 && (
                                 <div className="card p-4">
-                                    <h2 className="text-lg font-semibold text-gray-900 mb-2">Features</h2>
+                                    <h2 className="text-lg font-bold text-gray-900 mb-2 font-display">Features</h2>
                                     <div className="grid grid-cols-1 gap-1.5">
                                         {vehicle.features.slice(0, 6).map((feature, index) => (
-                                            <div key={index} className="flex items-center space-x-2 text-gray-700 text-sm">
-                                                <FaCheckCircle className="text-green-500 flex-shrink-0 text-xs" />
+                                            <div key={index} className="flex items-center space-x-2 text-[#71717A] text-sm">
+                                                <FaCheckCircle className="text-black flex-shrink-0 text-xs" />
                                                 <span className="truncate">{feature}</span>
                                             </div>
                                         ))}
@@ -302,27 +302,27 @@ export default function VehicleDetailPage() {
                         <div className="card p-5 sticky top-20 space-y-5">
                             {/* Desktop Title & Price - Only visible on desktop */}
                             <div className="hidden lg:block">
-                                <h1 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">{vehicle.title}</h1>
+                                <h1 className="text-2xl font-black text-gray-900 mb-2 leading-tight font-display">{vehicle.title}</h1>
                                 <div className="flex items-baseline space-x-2">
-                                    <span className="text-3xl font-bold text-green-600">
+                                    <span className="text-3xl font-black text-black font-display">
                                         {formatPrice(vehicle.price)}
                                     </span>
                                     {vehicle.originalPrice > vehicle.price && (
-                                        <span className="text-base text-red-500 line-through">
+                                        <span className="text-base text-gray-400 line-through font-display font-medium">
                                             {formatPrice(vehicle.originalPrice)}
                                         </span>
                                     )}
                                 </div>
                             </div>
 
-                            <div className="border-t pt-4">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-3">Contact Now</h3>
+                            <div className="border-t border-[#E4E4E7] pt-4">
+                                <h3 className="text-lg font-bold text-gray-900 mb-3 font-display">Contact Now</h3>
                                 <form onSubmit={handleSubmit} className="space-y-3">
                                     <div>
                                         <input
                                             type="text"
                                             placeholder="Your Name"
-                                            className="input py-2 text-sm"
+                                            className="input py-2.5 text-sm"
                                             value={formData.customerName}
                                             onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
                                             required
@@ -333,7 +333,7 @@ export default function VehicleDetailPage() {
                                             type="number"
                                             step="5000"
                                             placeholder="Your Offered Price (₹)"
-                                            className="input py-2 text-sm"
+                                            className="input py-2.5 text-sm"
                                             value={formData.offeredPrice}
                                             onChange={(e) => setFormData({ ...formData, offeredPrice: e.target.value })}
                                         />
@@ -342,7 +342,7 @@ export default function VehicleDetailPage() {
                                         <input
                                             type="tel"
                                             placeholder="Phone Number"
-                                            className="input py-2 text-sm"
+                                            className="input py-2.5 text-sm"
                                             value={formData.customerPhone}
                                             onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
                                             required
@@ -351,7 +351,7 @@ export default function VehicleDetailPage() {
                                     <div>
                                         <textarea
                                             placeholder="Message (Optional)"
-                                            className="input py-2 text-sm min-h-[80px]"
+                                            className="input py-3 text-sm min-h-[80px] rounded-2xl"
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                         />

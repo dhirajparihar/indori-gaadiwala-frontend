@@ -59,53 +59,53 @@ export default function WelcomePopup({ onSubmit }: WelcomePopupProps) {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl w-80 shadow-2xl border border-gray-200 overflow-hidden">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div className="bg-white rounded-3xl w-80 border border-[#E4E4E7] overflow-hidden relative shadow-2xl">
                 {/* Close Button */}
                 <button
                     onClick={handleClose}
-                    className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 z-10"
+                    className="absolute top-4 right-4 text-white/70 hover:text-white z-10"
                     aria-label="Close popup"
                 >
                     <FaTimes />
                 </button>
 
                 {/* Header */}
-                <div className="bg-blue-600 text-white p-3 text-center">
-                    <h2 className="text-lg font-bold">Welcome!</h2>
-                    <p className="text-blue-100 text-xs">Get personalized offers</p>
+                <div className="bg-black text-white p-6 text-center">
+                    <h2 className="text-xl font-bold tracking-tight font-display">Welcome</h2>
+                    <p className="text-neutral-400 text-xs mt-1">Get personalized offers</p>
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="p-4 space-y-3">
+                <form onSubmit={handleSubmit} className="p-6 space-y-4">
                     <div className="relative">
-                        <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
+                        <FaUser className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
                         <input
                             type="text"
                             placeholder="Your Name"
                             required
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                            className="w-full pl-10 pr-4 py-2.5 text-sm border border-[#E4E4E7] rounded-full focus:ring-1 focus:ring-black focus:border-black outline-none transition-all"
                         />
                     </div>
 
                     <div className="relative">
-                        <FaPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
+                        <FaPhone className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
                         <input
                             type="tel"
                             placeholder="Phone Number"
                             required
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                            className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                            className="w-full pl-10 pr-4 py-2.5 text-sm border border-[#E4E4E7] rounded-full focus:ring-1 focus:ring-black focus:border-black outline-none transition-all"
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={submitting}
-                        className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 text-sm rounded-lg transition-colors"
+                        className="w-full btn-primary py-2.5 text-sm"
                     >
                         {submitting ? 'Submitting...' : 'Get Started'}
                     </button>
@@ -113,7 +113,7 @@ export default function WelcomePopup({ onSubmit }: WelcomePopupProps) {
                     <button
                         type="button"
                         onClick={handleClose}
-                        className="w-full text-gray-500 hover:text-gray-700 text-xs py-1"
+                        className="w-full text-gray-500 hover:text-black text-xs py-1 transition-colors"
                     >
                         No thanks
                     </button>

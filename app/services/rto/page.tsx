@@ -36,31 +36,29 @@ export default function RTOPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-
+        <div className="min-h-screen bg-white">
             <div className="pt-8 pb-16">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
                     <div className="text-center mb-10">
-                        <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">
-                            RTO <span className="text-blue-600">Services</span>
+                        <h1 className="text-3xl md:text-5xl font-extrabold text-black mb-4 font-display tracking-tight">
+                            RTO <span className="text-black">Services</span>
                         </h1>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        <p className="text-lg text-neutral-500 max-w-2xl mx-auto font-medium">
                             Check vehicle registration details, owner info, and Challan status instantly.
                         </p>
                     </div>
 
                     {/* Search Box */}
-                    <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-xl border border-gray-100 mb-8 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-50 to-transparent rounded-full blur-3xl opacity-50"></div>
+                    <div className="bg-[#F8FAFC] border border-[#E4E4E7] rounded-3xl p-8 mb-8 relative overflow-hidden">
                         <div className="relative z-10">
                             <div className="flex items-center mb-6">
-                                <div className="bg-blue-600 p-3 rounded-xl text-white mr-4">
-                                    <FaSearch className="text-xl" />
+                                <div className="bg-black p-3.5 rounded-full text-white mr-4">
+                                    <FaSearch className="text-lg" />
                                 </div>
                                 <div>
-                                    <h2 className="text-2xl font-bold text-gray-900">Vehicle Details Search</h2>
-                                    <p className="text-sm text-gray-500">Enter vehicle number to get instant details</p>
+                                    <h2 className="text-2xl font-bold text-gray-900 font-display">Vehicle Details Search</h2>
+                                    <p className="text-sm text-neutral-500 font-medium">Enter vehicle number to get instant details</p>
                                 </div>
                             </div>
                             
@@ -68,7 +66,7 @@ export default function RTOPage() {
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        className="w-full p-4 pl-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 text-gray-800 placeholder-gray-400 text-lg font-medium transition-all duration-300"
+                                        className="w-full p-4 pl-12 border border-[#E4E4E7] rounded-full focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-800 placeholder-gray-450 text-base font-bold transition-all duration-300 bg-white"
                                         placeholder="ENTER VEHICLE NUMBER (E.G. MP09AB0000)"
                                         value={regNo}
                                         onChange={(e) => setRegNo(e.target.value.toUpperCase())}
@@ -79,7 +77,7 @@ export default function RTOPage() {
                                 <div className="flex flex-col sm:flex-row gap-3">
                                     <button
                                         type="submit"
-                                        className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-4 focus:ring-blue-500/20 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                        className="flex-1 btn-primary py-4 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 text-base shadow-none"
                                         disabled={loading}
                                     >
                                         {loading ? (
@@ -96,21 +94,21 @@ export default function RTOPage() {
                                     </button>
                                 </div>
                                 
-                                <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                                    <span className="flex items-center bg-red-50 text-red-600 px-3 py-1 rounded-full">
-                                        <FaCheckCircle className="mr-1" />
+                                <div className="flex flex-wrap gap-2 text-xs text-neutral-700">
+                                    <span className="flex items-center bg-white border border-[#E4E4E7] px-3.5 py-1.5 rounded-full font-bold uppercase tracking-wider">
+                                        <FaCheckCircle className="mr-1.5 text-black" />
                                         Owner Details
                                     </span>
-                                    <span className="flex items-center bg-blue-50 text-blue-600 px-3 py-1 rounded-full">
-                                        <FaCheckCircle className="mr-1" />
+                                    <span className="flex items-center bg-white border border-[#E4E4E7] px-3.5 py-1.5 rounded-full font-bold uppercase tracking-wider">
+                                        <FaCheckCircle className="mr-1.5 text-black" />
                                         Instant Check
                                     </span>
-                                    <span className="flex items-center bg-green-50 text-green-600 px-3 py-1 rounded-full">
-                                        <FaCheckCircle className="mr-1" />
+                                    <span className="flex items-center bg-white border border-[#E4E4E7] px-3.5 py-1.5 rounded-full font-bold uppercase tracking-wider">
+                                        <FaCheckCircle className="mr-1.5 text-black" />
                                         Complete Details
                                     </span>
-                                    <span className="flex items-center bg-purple-50 text-purple-600 px-3 py-1 rounded-full">
-                                        <FaCheckCircle className="mr-1" />
+                                    <span className="flex items-center bg-white border border-[#E4E4E7] px-3.5 py-1.5 rounded-full font-bold uppercase tracking-wider">
+                                        <FaCheckCircle className="mr-1.5 text-black" />
                                         RC Information
                                     </span>
                                 </div>
@@ -120,56 +118,56 @@ export default function RTOPage() {
 
                     {/* Error Message */}
                     {error && (
-                        <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-8 rounded-r-lg flex items-start">
-                            <FaExclamationTriangle className="text-red-500 mt-1 mr-3 flex-shrink-0" />
-                            <p className="text-red-700">{error}</p>
+                        <div className="bg-[#F8FAFC] border border-[#E4E4E7] border-l-4 border-black p-4 mb-8 rounded-r-2xl flex items-start">
+                            <FaExclamationTriangle className="text-black mt-1 mr-3 flex-shrink-0" />
+                            <p className="text-neutral-900 font-semibold text-sm">{error}</p>
                         </div>
                     )}
 
                     {/* Results */}
                     {vehicleDetails && (
                         <div className="animate-fade-in">
-                            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                                <div className="bg-gradient-to-r from-gray-50 to-white p-4 border-b">
-                                    <div className="font-bold text-xl text-gray-900 mb-2">
+                            <div className="bg-white rounded-3xl border border-[#E4E4E7] overflow-hidden">
+                                <div className="bg-[#F8FAFC] p-6 border-b border-[#E4E4E7]">
+                                    <div className="font-bold text-xl text-gray-900 mb-3 font-display">
                                         {vehicleDetails.make} {vehicleDetails.model} {vehicleDetails.variant && `- ${vehicleDetails.variant}`}
                                     </div>
                                     <div className="flex flex-wrap gap-2">
-                                        <span className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-full font-bold">{vehicleDetails.regNo}</span>
-                                        {vehicleDetails.year && <span className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">{vehicleDetails.year}</span>}
-                                        {vehicleDetails.fuelType && <span className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded-full">{vehicleDetails.fuelType}</span>}
-                                        {vehicleDetails.transmissionType && <span className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-full">{vehicleDetails.transmissionType}</span>}
-                                        {vehicleDetails.bodyType && <span className="px-3 py-1 text-sm bg-orange-100 text-orange-700 rounded-full">{vehicleDetails.bodyType}</span>}
-                                        {vehicleDetails.color && <span className="px-3 py-1 text-sm bg-pink-100 text-pink-700 rounded-full">{vehicleDetails.color}</span>}
+                                        <span className="px-3.5 py-1 text-xs bg-black text-white rounded-full font-bold uppercase tracking-wider">{vehicleDetails.regNo}</span>
+                                        {vehicleDetails.year && <span className="px-3.5 py-1 text-xs bg-white text-black border border-[#E4E4E7] rounded-full font-semibold">{vehicleDetails.year}</span>}
+                                        {vehicleDetails.fuelType && <span className="px-3.5 py-1 text-xs bg-white text-black border border-[#E4E4E7] rounded-full font-semibold">{vehicleDetails.fuelType}</span>}
+                                        {vehicleDetails.transmissionType && <span className="px-3.5 py-1 text-xs bg-white text-black border border-[#E4E4E7] rounded-full font-semibold">{vehicleDetails.transmissionType}</span>}
+                                        {vehicleDetails.bodyType && <span className="px-3.5 py-1 text-xs bg-white text-black border border-[#E4E4E7] rounded-full font-semibold">{vehicleDetails.bodyType}</span>}
+                                        {vehicleDetails.color && <span className="px-3.5 py-1 text-xs bg-white text-black border border-[#E4E4E7] rounded-full font-semibold">{vehicleDetails.color}</span>}
                                     </div>
                                 </div>
-                                <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-                                    <div className="bg-gray-50 p-3 rounded-lg">
-                                        <div className="text-xs text-gray-500 uppercase font-medium mb-2">Registration</div>
-                                        {vehicleDetails.registeredPlace && <div className="text-gray-900 font-medium">{vehicleDetails.registeredPlace}</div>}
-                                        {vehicleDetails.registeredAt && <div className="text-gray-600">Reg: {vehicleDetails.registeredAt}</div>}
-                                        {vehicleDetails.rcStatus && <div className={vehicleDetails.rcStatus === 'Active' ? 'text-green-600' : 'text-red-600'}>{vehicleDetails.rcStatus}</div>}
-                                        {vehicleDetails.rcOwnerCount && <div className="text-gray-600">{vehicleDetails.rcOwnerCount} Owner(s)</div>}
+                                <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
+                                    <div className="bg-[#F8FAFC] border border-[#E4E4E7] p-4 rounded-2xl">
+                                        <div className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider mb-2">Registration</div>
+                                        {vehicleDetails.registeredPlace && <div className="text-gray-900 font-bold">{vehicleDetails.registeredPlace}</div>}
+                                        {vehicleDetails.registeredAt && <div className="text-[#71717A] text-xs mt-1">Reg: {vehicleDetails.registeredAt}</div>}
+                                        {vehicleDetails.rcStatus && <div className="text-black font-semibold text-xs mt-1">{vehicleDetails.rcStatus}</div>}
+                                        {vehicleDetails.rcOwnerCount && <div className="text-[#71717A] text-xs mt-0.5">{vehicleDetails.rcOwnerCount} Owner(s)</div>}
                                     </div>
-                                    <div className="bg-gray-50 p-3 rounded-lg">
-                                        <div className="text-xs text-gray-500 uppercase font-medium mb-2">Insurance & Fitness</div>
-                                        {vehicleDetails.insuranceCompany && <div className="text-gray-700 text-sm truncate" title={vehicleDetails.insuranceCompany}>{vehicleDetails.insuranceCompany}</div>}
-                                        {vehicleDetails.insuranceUpTo && <div><span className="text-gray-500">Ins:</span> <span className={new Date(vehicleDetails.insuranceUpTo) > new Date() ? 'text-green-600' : 'text-red-600'}>{vehicleDetails.insuranceUpTo}</span></div>}
-                                        {vehicleDetails.fitnessUpTo && <div><span className="text-gray-500">Fitness:</span> <span className={new Date(vehicleDetails.fitnessUpTo) > new Date() ? 'text-green-600' : 'text-red-600'}>{vehicleDetails.fitnessUpTo}</span></div>}
-                                        {vehicleDetails.taxUpTo && <div><span className="text-gray-500">Tax:</span> {vehicleDetails.taxUpTo}</div>}
+                                    <div className="bg-[#F8FAFC] border border-[#E4E4E7] p-4 rounded-2xl">
+                                        <div className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider mb-2">Insurance & Fitness</div>
+                                        {vehicleDetails.insuranceCompany && <div className="text-gray-700 text-xs truncate font-semibold" title={vehicleDetails.insuranceCompany}>{vehicleDetails.insuranceCompany}</div>}
+                                        {vehicleDetails.insuranceUpTo && <div className="text-xs mt-1"><span className="text-gray-500 font-medium">Ins:</span> <span className="text-black font-semibold">{vehicleDetails.insuranceUpTo}</span></div>}
+                                        {vehicleDetails.fitnessUpTo && <div className="text-xs mt-0.5"><span className="text-gray-500 font-medium">Fitness:</span> <span className="text-black font-semibold">{vehicleDetails.fitnessUpTo}</span></div>}
+                                        {vehicleDetails.taxUpTo && <div className="text-xs mt-0.5"><span className="text-gray-500 font-medium">Tax:</span> <span className="text-black font-semibold">{vehicleDetails.taxUpTo}</span></div>}
                                     </div>
-                                    <div className="bg-gray-50 p-3 rounded-lg">
-                                        <div className="text-xs text-gray-500 uppercase font-medium mb-2">Manufacturing</div>
-                                        {vehicleDetails.manufacturingMonthYr && <div><span className="text-gray-500">Mfg:</span> {vehicleDetails.manufacturingMonthYr}</div>}
-                                        {vehicleDetails.regnYear && <div><span className="text-gray-500">Regn Year:</span> {vehicleDetails.regnYear}</div>}
-                                        {vehicleDetails.seatCap && <div><span className="text-gray-500">Seats:</span> {vehicleDetails.seatCap}</div>}
-                                        {vehicleDetails.vehicleCategory && <div><span className="text-gray-500">Category:</span> {vehicleDetails.vehicleCategory}</div>}
+                                    <div className="bg-[#F8FAFC] border border-[#E4E4E7] p-4 rounded-2xl">
+                                        <div className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider mb-2">Manufacturing</div>
+                                        {vehicleDetails.manufacturingMonthYr && <div className="text-xs"><span className="text-gray-500 font-medium">Mfg:</span> <span className="text-black font-semibold">{vehicleDetails.manufacturingMonthYr}</span></div>}
+                                        {vehicleDetails.regnYear && <div className="text-xs mt-0.5"><span className="text-gray-500 font-medium">Regn Year:</span> <span className="text-black font-semibold">{vehicleDetails.regnYear}</span></div>}
+                                        {vehicleDetails.seatCap && <div className="text-xs mt-0.5"><span className="text-gray-500 font-medium">Seats:</span> <span className="text-black font-semibold">{vehicleDetails.seatCap}</span></div>}
+                                        {vehicleDetails.vehicleCategory && <div className="text-xs mt-0.5 text-gray-700 truncate" title={vehicleDetails.vehicleCategory}><span className="text-gray-500 font-medium">Category:</span> {vehicleDetails.vehicleCategory}</div>}
                                     </div>
-                                    <div className="bg-gray-50 p-3 rounded-lg">
-                                        <div className="text-xs text-gray-500 uppercase font-medium mb-2">Other Info</div>
-                                        {vehicleDetails.rcOwnerNameMasked && <div><span className="text-gray-500">Owner:</span> {vehicleDetails.rcOwnerNameMasked}</div>}
-                                        {vehicleDetails.hypothecation && <div className="text-orange-600 mt-1">⚠️ Under Finance{vehicleDetails.financier && `: ${vehicleDetails.financier}`}</div>}
-                                        {vehicleDetails.variantDisplayName && <div className="text-gray-600 text-xs mt-1 truncate" title={vehicleDetails.variantDisplayName}>{vehicleDetails.variantDisplayName}</div>}
+                                    <div className="bg-[#F8FAFC] border border-[#E4E4E7] p-4 rounded-2xl">
+                                        <div className="text-[10px] text-neutral-400 uppercase font-bold tracking-wider mb-2">Other Info</div>
+                                        {vehicleDetails.rcOwnerNameMasked && <div className="text-xs"><span className="text-gray-500 font-medium">Owner:</span> <span className="text-black font-semibold">{vehicleDetails.rcOwnerNameMasked}</span></div>}
+                                        {vehicleDetails.hypothecation && <div className="text-black font-bold text-xs mt-1">⚠️ Under Finance{vehicleDetails.financier && `: ${vehicleDetails.financier}`}</div>}
+                                        {vehicleDetails.variantDisplayName && <div className="text-gray-500 text-[10px] mt-1.5 truncate" title={vehicleDetails.variantDisplayName}>{vehicleDetails.variantDisplayName}</div>}
                                     </div>
                                 </div>
                             </div>

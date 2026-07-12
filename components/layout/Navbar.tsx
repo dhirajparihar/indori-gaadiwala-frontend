@@ -34,8 +34,8 @@ export default function Navbar() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-1 shrink-0 nav-logo">
                         <Image src="/logo-4.png" alt="Logo" width={56} height={56} className="object-contain" priority />
-                        <span className="text-2xl font-black text-blue-600 tracking-tighter hidden sm:block">Indori Gaadiwala</span>
-                        <span className="text-xl font-black text-blue-600 tracking-tighter sm:hidden">IndoriGaadiwala</span>
+                        <span className="text-2xl font-black text-black tracking-tighter hidden sm:block">Indori Gaadiwala</span>
+                        <span className="text-xl font-black text-black tracking-tighter sm:hidden">IndoriGaadiwala</span>
                     </Link>
 
                     {/* Desktop Menu */}
@@ -46,13 +46,14 @@ export default function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className={`h-full flex items-center px-5 text-base font-bold transition-all relative group ${active ? 'text-blue-600' : 'text-[#475569] hover:text-blue-600'
+                                    className={`h-full flex items-center px-5 text-base font-bold transition-all relative group ${active ? 'text-black' : 'text-[#71717A] hover:text-black'
                                         }`}
+                                    style={{ fontFamily: 'var(--font-sans)' }}
                                 >
                                     {link.icon && <span className={`mr-1.5 transition-opacity ${active ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>{link.icon}</span>}
                                     {link.label}
                                     {active && (
-                                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full" />
+                                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black rounded-full" />
                                     )}
                                 </Link>
                             );
@@ -61,7 +62,7 @@ export default function Navbar() {
                         <div className="pl-4 ml-4 border-l border-gray-100 flex items-center">
                             <Link
                                 href="/sell-vehicle"
-                                className="bg-red-600 hover:bg-red-700 text-white text-base font-bold px-6 py-2.5 rounded-full transition-all shadow-sm"
+                                className="btn-primary px-6 py-2"
                             >
                                 Sell Vehicle
                             </Link>
@@ -85,7 +86,7 @@ export default function Navbar() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`px-4 py-3 text-base font-medium rounded-lg transition-colors ${pathname === link.href ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'
+                                className={`px-4 py-3 text-base font-semibold rounded-full transition-colors ${pathname === link.href ? 'bg-[#F8FAFC] text-black font-extrabold' : 'text-[#71717A] hover:bg-gray-50 hover:text-black'
                                     }`}
                                 onClick={() => setMobileMenuOpen(false)}
                             >
@@ -98,7 +99,7 @@ export default function Navbar() {
                         <div className="pt-4 px-4 border-t border-gray-100">
                             <Link
                                 href="/sell-vehicle"
-                                className="block w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl text-center shadow-sm transition-colors"
+                                className="block w-full btn-primary py-3 text-center"
                                 onClick={() => setMobileMenuOpen(false)}
                             >
                                 Sell Vehicle
