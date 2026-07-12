@@ -1,7 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { vehiclesApi, sellerInquiriesApi } from '@/lib/api';
 import { createVehicleWithImages } from '@/lib/vehicleHelpers';
 import { toast } from 'react-toastify';
+
+interface ImagePreviewProps {
+    file: File;
+    onRemove: () => void;
+}
+
+function ImagePreview({ file, onRemove }: ImagePreviewProps) {
+    const [previewUrl, setPreviewUrl] = useState<string>('');
+
+    useEffect(() => {
+        const url = URL.createObjectURL(file);
+        setPreviewUrl(url);
+        return () => {
+            URL.revokeObjectURL(url);
+        };
+    }, [file]);
+
+    if (!previewUrl) return null;
+
+    return (
+        <div className="relative rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+            <img 
+                src={previewUrl} 
+                alt={file.name}
+                className="w-full h-20 object-cover"
+            />
+            <button
+                type="button"
+                onClick={onRemove}
+                className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shadow-md transition-colors z-10"
+                title="Remove image"
+            >
+                ×
+            </button>
+        </div>
+    );
+}
 
 interface AddVehicleModalProps {
     isOpen: boolean;
@@ -112,7 +149,15 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
 
     const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setSelectedImages(Array.from(e.target.files));
+            const newFiles = Array.from(e.target.files);
+            setSelectedImages(prev => {
+                const combined = [...prev, ...newFiles];
+                if (combined.length > 10) {
+                    toast.warning('Maximum 10 images can be uploaded. Only the first 10 will be kept.');
+                    return combined.slice(0, 10);
+                }
+                return combined;
+            });
         }
     };
 
@@ -439,22 +484,13 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                                     </p>
                                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                                         {selectedImages.map((file, index) => (
-                                            <div key={index} className="relative group">
-                                                <img 
-                                                    src={URL.createObjectURL(file)} 
-                                                    alt={`Preview ${index + 1}`}
-                                                    className="w-full h-20 object-cover rounded-lg"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        setSelectedImages(prev => prev.filter((_, i) => i !== index));
-                                                    }}
-                                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
-                                                >
-                                                    ×
-                                                </button>
-                                            </div>
+                                            <ImagePreview
+                                                key={index}
+                                                file={file}
+                                                onRemove={() => {
+                                                    setSelectedImages(prev => prev.filter((_, i) => i !== index));
+                                                }}
+                                            />
                                         ))}
                                     </div>
                                 </div>
