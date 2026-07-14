@@ -21,9 +21,9 @@ export default function Footer() {
                             {[
                                 { href: '/', label: 'Home' },
                                 { href: '/vehicles', label: 'Browse Vehicles' },
-                                { href: '/vehicles?type=car', label: 'Cars in Indore' },
-                                { href: '/vehicles?type=bike', label: 'Bikes & Scooters' },
-                                { href: '/vehicles?type=commercial', label: 'Commercial Vehicles' },
+                                { href: '/services/inspection', label: 'Vehicle Inspection' },
+                                { href: '/services/finance', label: 'Finance Calculator' },
+                                { href: '/services/rto', label: 'RTO & Transfer Services' },
                             ].map((link, idx) => (
                                 <li key={idx}>
                                     <Link href={link.href} className="hover:text-[#D4A63F] transition-colors text-sm font-medium text-gray-400">

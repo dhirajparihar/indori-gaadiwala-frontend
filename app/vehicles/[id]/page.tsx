@@ -20,7 +20,10 @@ export default function VehicleDetailPage() {
         customerPhone: '',
         offeredPrice: '',
         message: '',
+        preferredDate: '',
+        preferredTimeSlot: ''
     });
+    const [activeTab, setActiveTab] = useState<'inquiry' | 'test_drive'>('inquiry');
     const [submitting, setSubmitting] = useState(false);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
@@ -83,15 +86,28 @@ export default function VehicleDetailPage() {
 
         setSubmitting(true);
         try {
-            await bookingsApi.create({
-                ...formData,
+            const isTestDrive = activeTab === 'test_drive';
+            const payload: any = {
+                customerName: formData.customerName,
+                customerPhone: formData.customerPhone,
+                message: formData.message,
+                bookingType: activeTab,
                 vehicle: vehicle._id,
-            });
-            toast.success('Booking request submitted successfully!');
-            setFormData({ customerName: '', customerPhone: '', offeredPrice: '', message: '' });
+            };
+
+            if (isTestDrive) {
+                payload.preferredDate = formData.preferredDate;
+                payload.preferredTimeSlot = formData.preferredTimeSlot;
+            } else if (formData.offeredPrice) {
+                payload.offeredPrice = Number(formData.offeredPrice);
+            }
+
+            await bookingsApi.create(payload);
+            toast.success(isTestDrive ? 'Test drive request submitted successfully!' : 'Inquiry request submitted successfully!');
+            setFormData({ customerName: '', customerPhone: '', offeredPrice: '', message: '', preferredDate: '', preferredTimeSlot: '' });
         } catch (error) {
             console.error('Error submitting booking:', error);
-            toast.error('Failed to submit booking. Please try again.');
+            toast.error('Failed to submit request. Please try again.');
         } finally {
             setSubmitting(false);
         }
@@ -317,7 +333,32 @@ export default function VehicleDetailPage() {
                             </div>
 
                             <div className="pt-2">
-                                <h3 className="text-lg font-bold text-gray-900 mb-4 font-display">Inquire Now</h3>
+                                {/* Tab selector */}
+                                <div className="flex border-b border-[#E5E7EB] mb-6">
+                                    <button
+                                        type="button"
+                                        onClick={() => setActiveTab('inquiry')}
+                                        className={`flex-1 pb-3 text-sm font-bold border-b-2 transition-all font-sans ${
+                                            activeTab === 'inquiry'
+                                                ? 'border-[#D4A63F] text-[#D4A63F]'
+                                                : 'border-transparent text-gray-400 hover:text-gray-900'
+                                        }`}
+                                    >
+                                        Make Offer
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setActiveTab('test_drive')}
+                                        className={`flex-1 pb-3 text-sm font-bold border-b-2 transition-all font-sans ${
+                                            activeTab === 'test_drive'
+                                                ? 'border-[#D4A63F] text-[#D4A63F]'
+                                                : 'border-transparent text-gray-400 hover:text-gray-900'
+                                        }`}
+                                    >
+                                        Book Test Drive
+                                    </button>
+                                </div>
+
                                 <form onSubmit={handleSubmit} className="space-y-4">
                                     <div>
                                         <input
@@ -331,16 +372,6 @@ export default function VehicleDetailPage() {
                                     </div>
                                     <div>
                                         <input
-                                            type="number"
-                                            step="5000"
-                                            placeholder="Your Offered Price (₹)"
-                                            className="input py-3 text-sm font-sans"
-                                            value={formData.offeredPrice}
-                                            onChange={(e) => setFormData({ ...formData, offeredPrice: e.target.value })}
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
                                             type="tel"
                                             placeholder="Phone Number"
                                             className="input py-3 text-sm font-sans"
@@ -349,9 +380,55 @@ export default function VehicleDetailPage() {
                                             required
                                         />
                                     </div>
+
+                                    {activeTab === 'inquiry' ? (
+                                        <div>
+                                            <input
+                                                type="number"
+                                                step="5000"
+                                                placeholder="Your Offered Price (₹) (Optional)"
+                                                className="input py-3 text-sm font-sans"
+                                                value={formData.offeredPrice}
+                                                onChange={(e) => setFormData({ ...formData, offeredPrice: e.target.value })}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-1 gap-4 bg-gray-50/50 p-3 rounded-2xl border border-gray-100">
+                                            <div>
+                                                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1 font-sans">
+                                                    Preferred Date
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    required
+                                                    min={new Date().toISOString().split('T')[0]}
+                                                    className="w-full px-4 py-2.5 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-xs font-sans"
+                                                    value={formData.preferredDate}
+                                                    onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1 font-sans">
+                                                    Preferred Time Slot
+                                                </label>
+                                                <select
+                                                    required
+                                                    className="w-full px-4 py-2.5 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-xs font-sans cursor-pointer"
+                                                    value={formData.preferredTimeSlot}
+                                                    onChange={(e) => setFormData({ ...formData, preferredTimeSlot: e.target.value })}
+                                                >
+                                                    <option value="">Select Time Slot</option>
+                                                    <option value="Morning (10:00 AM - 01:00 PM)">Morning (10:00 AM - 01:00 PM)</option>
+                                                    <option value="Afternoon (01:00 PM - 04:00 PM)">Afternoon (01:00 PM - 04:00 PM)</option>
+                                                    <option value="Evening (04:00 PM - 07:00 PM)">Evening (04:00 PM - 07:00 PM)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <div>
                                         <textarea
-                                            placeholder="Message (Optional)"
+                                            placeholder={activeTab === 'inquiry' ? "Message (Optional)" : "Special instructions or notes for test drive (Optional)"}
                                             className="input py-3 text-sm min-h-[90px] rounded-2xl font-sans"
                                             value={formData.message}
                                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -363,7 +440,13 @@ export default function VehicleDetailPage() {
                                         className="btn-primary w-full py-3.5 flex items-center justify-center space-x-2 text-sm"
                                     >
                                         <FaPaperPlane className="text-xs" />
-                                        <span>{submitting ? 'Sending Request...' : 'Send Inquiry'}</span>
+                                        <span>
+                                            {submitting 
+                                                ? 'Submitting...' 
+                                                : activeTab === 'inquiry' 
+                                                    ? 'Send Offer / Inquiry' 
+                                                    : 'Book Test Drive slot'}
+                                        </span>
                                     </button>
                                 </form>
                             </div>

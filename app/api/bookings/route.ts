@@ -9,20 +9,25 @@ export async function POST(req: NextRequest) {
         await dbConnect();
         const body = await req.json();
 
-        const { vehicle, customerName, customerPhone } = body;
+        const { vehicle, customerName, customerPhone, bookingType } = body;
+        const isThirdParty = bookingType === 'third_party_inspection';
 
-        if (!vehicle || !customerName || !customerPhone) {
+        if ((!isThirdParty && !vehicle) || !customerName || !customerPhone) {
             return NextResponse.json({
                 success: false,
-                message: 'Vehicle, name and phone number are required'
+                message: isThirdParty 
+                    ? 'Name and phone number are required'
+                    : 'Vehicle, name and phone number are required'
             }, { status: 400 });
         }
 
         const booking = new Booking(body);
         await booking.save();
 
-        // Populate vehicle details
-        await booking.populate('vehicle');
+        // Populate vehicle details if present
+        if (booking.vehicle) {
+            await booking.populate('vehicle');
+        }
 
         return NextResponse.json({
             success: true,

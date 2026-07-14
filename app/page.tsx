@@ -25,8 +25,40 @@ import {
   FaArrowRight,
   FaChevronDown,
   FaTruck,
-  FaHeadphones
+  FaHeadphones,
+  FaWrench
 } from 'react-icons/fa';
+
+function AnimatedCounter({ end, duration = 2000, suffix = '' }: { end: number; duration?: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let startTime: number | null = null;
+    let animationFrameId: number;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+      
+      const easeOutQuad = (t: number) => t * (2 - t);
+      const easedProgress = easeOutQuad(percentage);
+      
+      setCount(Math.floor(easedProgress * end));
+
+      if (progress < duration) {
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        setCount(end);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [end, duration]);
+
+  return <span>{count.toLocaleString('en-IN')}{suffix}</span>;
+}
 
 export default function HomePage() {
   const router = useRouter();
@@ -239,10 +271,10 @@ export default function HomePage() {
       <section className="relative z-10 -mt-10 mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white border border-[#E5E7EB] rounded-[24px] p-6 sm:p-8 shadow-soft grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
           {[
-            { icon: <FaCar />, value: '10,000+', label: 'Vehicles Sold' },
-            { icon: <FaUsers />, value: '5,000+', label: 'Happy Customers' },
-            { icon: <FaAward />, value: '15+', label: 'Years of Trust' },
-            { icon: <FaFileContract />, value: '100%', label: 'RTO Compliant' }
+            { icon: <FaCar />, end: 1000, suffix: '+', label: 'Vehicles Sold' },
+            { icon: <FaUsers />, end: 1000, suffix: '+', label: 'Happy Customers' },
+            { icon: <FaAward />, end: 7, suffix: '+', label: 'Years of Trust' },
+            { icon: <FaFileContract />, end: 100, suffix: '%', label: 'RTO Compliant' }
           ].map((stat, idx) => (
             <div key={idx} className={`flex items-center space-x-4 pl-4 ${idx >= 2 ? 'pt-6 lg:pt-0' : ''} ${idx === 1 ? 'pt-6 sm:pt-0' : ''} ${idx === 0 ? 'pt-0' : ''}`}>
               <div className="w-12 h-12 rounded-full bg-[#D4A63F]/10 text-[#D4A63F] flex items-center justify-center text-lg flex-shrink-0">
@@ -250,7 +282,7 @@ export default function HomePage() {
               </div>
               <div className="text-left">
                 <div className="text-xl sm:text-2xl font-black text-[#111111] font-display leading-tight">
-                  {stat.value}
+                  <AnimatedCounter end={stat.end} suffix={stat.suffix} />
                 </div>
                 <div className="text-xs text-gray-500 font-semibold font-sans">
                   {stat.label}
@@ -355,6 +387,55 @@ export default function HomePage() {
               <Link href="/services/insurance" className="flex items-center text-[#111111] font-bold group-hover:text-[#D4A63F] transition-colors font-sans text-xs uppercase tracking-wider gap-1.5">
                 <span>Learn More</span>
                 <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pre-Purchase Inspection Banner Section */}
+      <section className="py-16 bg-[#FAFAF8] border-y border-[#E5E7EB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-[#111111] rounded-[32px] p-8 md:p-12 text-white relative overflow-hidden group shadow-medium border border-neutral-800 flex flex-col lg:flex-row items-center justify-between gap-8">
+            {/* Golden radial background glow */}
+            <div className="absolute top-0 left-0 w-96 h-96 bg-[#D4A63F]/10 rounded-full blur-3xl group-hover:bg-[#D4A63F]/15 transition-all duration-700 pointer-events-none" />
+            
+            <div className="relative z-10 max-w-2xl text-left">
+              <span className="bg-[#D4A63F] text-black font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-md mb-4 inline-block font-sans">
+                New Service
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black mb-4 tracking-tight font-display leading-tight">
+                Buying a Used Car elsewhere in Indore? <br />
+                <span className="text-[#D4A63F]">Get it Inspected First!</span>
+              </h2>
+              <p className="text-gray-400 mb-6 text-sm sm:text-base leading-relaxed font-sans font-medium">
+                Don't buy a lemon. Our certified mechanics will conduct a comprehensive 140+ point check (including paint depth, OBD engine diagnostics, and RTO history checks) at the seller's doorstep.
+              </p>
+              
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-2 text-xs text-gray-300 font-semibold font-sans mb-2">
+                <div className="flex items-center space-x-2">
+                  <FaCheckCircle className="text-[#D4A63F] shrink-0" />
+                  <span>140+ Point Checklist</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <FaCheckCircle className="text-[#D4A63F] shrink-0" />
+                  <span>Doorstep Evaluation</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <FaCheckCircle className="text-[#D4A63F] shrink-0" />
+                  <span>Instant PDF Report</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="relative z-10 shrink-0 w-full lg:w-auto">
+              <Link 
+                href="/services/inspection" 
+                className="inline-flex items-center justify-center w-full lg:w-auto bg-[#D4A63F] text-black font-extrabold py-4.5 px-8 rounded-full hover:bg-[#C6942C] hover:scale-103 transition-all duration-300 shadow-md font-sans text-sm gap-2 uppercase tracking-wider"
+              >
+                <FaWrench className="text-xs" />
+                <span>Book Inspection Now</span>
+                <FaArrowRight size={10} className="ml-1" />
               </Link>
             </div>
           </div>

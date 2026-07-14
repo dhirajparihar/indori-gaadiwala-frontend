@@ -16,6 +16,7 @@ interface BookingsSectionProps {
 const statusOptions = [
     { value: 'pending', label: 'Pending' },
     { value: 'contacted', label: 'Contacted' },
+    { value: 'inspection_scheduled', label: 'Inspection Scheduled' },
     { value: 'completed', label: 'Completed' },
     { value: 'cancelled', label: 'Cancelled' },
 ];
@@ -29,8 +30,11 @@ const sortOptions = [
 const exportColumns = [
     { key: 'customerName', label: 'Customer' },
     { key: 'customerPhone', label: 'Phone' },
+    { key: 'bookingTypeDisplay', label: 'Type' },
     { key: 'offeredPrice', label: 'Offer' },
     { key: 'vehicleTitle', label: 'Vehicle' },
+    { key: 'preferredDate', label: 'Appt Date' },
+    { key: 'preferredTimeSlot', label: 'Appt Slot' },
     { key: 'status', label: 'Status' },
     { key: 'notes', label: 'Notes' },
     { key: 'createdAt', label: 'Date' },
@@ -43,11 +47,25 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
     const [editNotes, setEditNotes] = useState('');
     const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
-    // Prepare export data with vehicle title
-    const preparedBookings = bookings.map(b => ({
-        ...b,
-        vehicleTitle: typeof b.vehicle === 'object' ? b.vehicle?.title : 'N/A'
-    }));
+    // Prepare export data with vehicle title and booking type labels
+    const preparedBookings = bookings.map(b => {
+        let vehicleTitle = 'N/A';
+        if (b.bookingType === 'third_party_inspection' && b.externalVehicleDetails) {
+            vehicleTitle = `${b.externalVehicleDetails.make} ${b.externalVehicleDetails.model} (${b.externalVehicleDetails.regNo})`;
+        } else if (typeof b.vehicle === 'object') {
+            vehicleTitle = b.vehicle?.title || 'N/A';
+        }
+        
+        const bookingTypeDisplay = 
+            b.bookingType === 'test_drive' ? 'Test Drive' :
+            b.bookingType === 'third_party_inspection' ? 'Inspection' : 'Offer';
+
+        return {
+            ...b,
+            vehicleTitle,
+            bookingTypeDisplay
+        };
+    });
 
     // Filter and sort
     let filteredBookings = [...preparedBookings];
@@ -130,9 +148,11 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                             <tr>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Offer</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vehicle</th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Appt Slot</th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Submitted</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Notes</th>
                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
@@ -146,10 +166,27 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                                             {booking.customerName}
                                         </td>
                                         <td className="px-4 py-4 text-gray-600">{booking.customerPhone}</td>
+                                        <td className="px-4 py-4 text-xs font-extrabold uppercase">
+                                            <span className={`px-2.5 py-1 rounded-full ${
+                                                booking.bookingType === 'test_drive' ? 'bg-purple-100 text-purple-700' :
+                                                booking.bookingType === 'third_party_inspection' ? 'bg-blue-100 text-blue-700' :
+                                                'bg-green-100 text-green-700'
+                                            }`}>
+                                                {booking.bookingTypeDisplay}
+                                            </span>
+                                        </td>
                                         <td className="px-4 py-4 font-semibold text-primary-600">
                                             {booking.offeredPrice ? `₹${booking.offeredPrice.toLocaleString('en-IN')}` : '-'}
                                         </td>
-                                        <td className="px-4 py-4 text-gray-900">{booking.vehicleTitle}</td>
+                                        <td className="px-4 py-4 text-gray-900 font-semibold">{booking.vehicleTitle}</td>
+                                        <td className="px-4 py-4 text-xs font-sans">
+                                            {booking.preferredDate ? (
+                                                <div>
+                                                    <div className="font-bold text-gray-900">{new Date(booking.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</div>
+                                                    <div className="text-gray-500 font-semibold text-[10px] mt-0.5">{booking.preferredTimeSlot}</div>
+                                                </div>
+                                            ) : '-'}
+                                        </td>
                                         <td className="px-4 py-4 text-gray-600 text-sm">
                                             {new Date(booking.createdAt).toLocaleDateString()}
                                         </td>
@@ -157,11 +194,13 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                                             <select
                                                 value={booking.status}
                                                 onChange={(e) => handleStatusUpdate(booking._id, e.target.value)}
-                                                className={`text-xs px-2 py-1 rounded-lg border font-medium ${booking.status === 'pending' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
+                                                className={`text-xs px-2 py-1 rounded-lg border font-medium ${
+                                                    booking.status === 'pending' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
                                                     booking.status === 'contacted' ? 'border-blue-300 bg-blue-50 text-blue-700' :
-                                                        booking.status === 'completed' ? 'border-green-300 bg-green-50 text-green-700' :
-                                                            'border-red-300 bg-red-50 text-red-700'
-                                                    }`}
+                                                    booking.status === 'inspection_scheduled' ? 'border-amber-300 bg-amber-50 text-amber-700' :
+                                                    booking.status === 'completed' ? 'border-green-300 bg-green-50 text-green-700' :
+                                                    'border-red-300 bg-red-50 text-red-700'
+                                                }`}
                                             >
                                                 {statusOptions.map(opt => (
                                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -235,7 +274,6 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                         </tbody>
                     </table>
                 </div>
-
                 {/* Card Stack for mobile screens */}
                 <div className="block md:hidden space-y-4">
                     {filteredBookings.length > 0 ? (
@@ -243,8 +281,17 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                             <div key={booking._id} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm space-y-3">
                                 <div className="flex justify-between items-start">
                                     <div>
-                                        <h4 className="font-bold text-gray-900">{booking.customerName}</h4>
-                                        <a href={`tel:${booking.customerPhone}`} className="text-sm text-blue-600 hover:underline">{booking.customerPhone}</a>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <h4 className="font-bold text-gray-900">{booking.customerName}</h4>
+                                            <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider ${
+                                                booking.bookingType === 'test_drive' ? 'bg-purple-100 text-purple-700' :
+                                                booking.bookingType === 'third_party_inspection' ? 'bg-blue-100 text-blue-700' :
+                                                'bg-green-100 text-green-700'
+                                            }`}>
+                                                {booking.bookingTypeDisplay}
+                                            </span>
+                                        </div>
+                                        <a href={`tel:${booking.customerPhone}`} className="text-sm text-blue-600 hover:underline font-bold font-sans">{booking.customerPhone}</a>
                                     </div>
                                     <div className="text-right">
                                         <div className="font-bold text-base text-primary-600">
@@ -257,22 +304,32 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                                 </div>
                                 
                                 <div className="border-t border-gray-100 pt-2 space-y-2">
-                                    <div>
-                                        <span className="text-[10px] text-gray-500 block uppercase font-bold tracking-wider">Vehicle</span>
-                                        <span className="text-sm text-gray-900 font-medium">{booking.vehicleTitle}</span>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <span className="text-[10px] text-gray-500 block uppercase font-bold tracking-wider">Vehicle</span>
+                                            <span className="text-xs text-gray-900 font-bold">{booking.vehicleTitle}</span>
+                                        </div>
+                                        {booking.preferredDate && (
+                                            <div>
+                                                <span className="text-[10px] text-gray-500 block uppercase font-bold tracking-wider">Appt Slot</span>
+                                                <span className="text-xs text-amber-700 font-bold">{new Date(booking.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} | {booking.preferredTimeSlot}</span>
+                                            </div>
+                                        )}
                                     </div>
-
+ 
                                     <div className="flex justify-between items-center gap-2">
                                         <div className="flex-1">
                                             <span className="text-[10px] text-gray-500 block uppercase font-bold tracking-wider">Status</span>
                                             <select
                                                 value={booking.status}
                                                 onChange={(e) => handleStatusUpdate(booking._id, e.target.value)}
-                                                className={`text-xs px-2 py-1 rounded-lg border font-medium w-full mt-1 ${booking.status === 'pending' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
+                                                className={`text-xs px-2 py-1 rounded-lg border font-medium w-full mt-1 ${
+                                                    booking.status === 'pending' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
                                                     booking.status === 'contacted' ? 'border-blue-300 bg-blue-50 text-blue-700' :
-                                                        booking.status === 'completed' ? 'border-green-300 bg-green-50 text-green-700' :
-                                                            'border-red-300 bg-red-50 text-red-700'
-                                                    }`}
+                                                    booking.status === 'inspection_scheduled' ? 'border-amber-300 bg-amber-50 text-amber-700' :
+                                                    booking.status === 'completed' ? 'border-green-300 bg-green-50 text-green-700' :
+                                                    'border-red-300 bg-red-50 text-red-700'
+                                                }`}
                                             >
                                                 {statusOptions.map(opt => (
                                                     <option key={opt.value} value={opt.value}>{opt.label}</option>

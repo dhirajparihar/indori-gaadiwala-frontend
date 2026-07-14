@@ -17,6 +17,11 @@ export async function POST(req: NextRequest) {
         const demand = formData.get('demand') ? Number(formData.get('demand')) : undefined;
         const type = (formData.get('type') as string) || 'car';
 
+        // Optional inspection fields
+        const inspectionDate = formData.get('inspectionDate') as string;
+        const inspectionTimeSlot = formData.get('inspectionTimeSlot') as string;
+        const inspectionLocation = formData.get('inspectionLocation') as string;
+
         if (!name || !phone || !regNo || kmDriven === undefined || demand === undefined) {
             return NextResponse.json({
                 success: false,
@@ -48,7 +53,7 @@ export async function POST(req: NextRequest) {
         // Fetch vehicle details from Cars24 lookup API
         const vehicleDetails = await fetchVehicleDetails(formattedRegNo);
 
-        const inquiryData = {
+        const inquiryData: any = {
             name,
             phone,
             regNo: formattedRegNo,
@@ -59,6 +64,13 @@ export async function POST(req: NextRequest) {
             rcCard: rcCardUrl,
             ...(vehicleDetails || {})
         };
+
+        if (inspectionDate) {
+            inquiryData.inspectionDate = new Date(inspectionDate);
+            inquiryData.inspectionTimeSlot = inspectionTimeSlot || '';
+            inquiryData.inspectionLocation = inspectionLocation || '';
+            inquiryData.status = 'inspection_scheduled';
+        }
 
         const inquiry = await SellerInquiry.create(inquiryData);
 

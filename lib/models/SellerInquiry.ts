@@ -86,10 +86,24 @@ const sellerInquirySchema = new mongoose.Schema({
     // Status tracking
     status: {
         type: String,
-        enum: ['new', 'contacted', 'completed', 'rejected'],
+        enum: ['new', 'contacted', 'completed', 'rejected', 'inspection_scheduled', 'purchased'],
         default: 'new'
     },
     notes: {
+        type: String,
+        default: ''
+    },
+
+    // Inspection fields
+    inspectionDate: {
+        type: Date,
+        default: null
+    },
+    inspectionTimeSlot: {
+        type: String,
+        default: ''
+    },
+    inspectionLocation: {
         type: String,
         default: ''
     }

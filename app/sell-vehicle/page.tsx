@@ -20,7 +20,10 @@ export default function SellVehiclePage() {
         regNo: '',
         kmDriven: '',
         demand: '',
-        type: 'car'
+        type: 'car',
+        inspectionDate: '',
+        inspectionTimeSlot: '',
+        inspectionLocation: ''
     });
 
     const [photos, setPhotos] = useState<File[]>([]);
@@ -28,7 +31,7 @@ export default function SellVehiclePage() {
     const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
     const [rcCardPreview, setRcCardPreview] = useState<string>('');
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
 
         if (name === 'regNo') {
@@ -99,6 +102,12 @@ export default function SellVehiclePage() {
             formDataToSend.append('kmDriven', formData.kmDriven);
             formDataToSend.append('demand', formData.demand);
 
+            if (formData.inspectionDate) {
+                formDataToSend.append('inspectionDate', formData.inspectionDate);
+                formDataToSend.append('inspectionTimeSlot', formData.inspectionTimeSlot);
+                formDataToSend.append('inspectionLocation', formData.inspectionLocation);
+            }
+
             // Compress and append photos
             const compressedPhotos = await Promise.all(photos.map(photo => compressImage(photo)));
             compressedPhotos.forEach((photo) => {
@@ -136,9 +145,15 @@ export default function SellVehiclePage() {
                             <FaCheckCircle className="text-4xl" />
                         </div>
                         <h1 className="text-3xl font-black text-gray-900 mb-4 font-display">Inquiry Submitted Successfully!</h1>
-                        <p className="text-gray-500 mb-8 font-medium font-sans">
-                            Thank you for submitting your vehicle details. Our team will contact you shortly.
-                        </p>
+                        {vehicleDetails.inspectionDate ? (
+                            <p className="text-gray-500 mb-8 font-medium font-sans">
+                                Thank you! Your vehicle details have been submitted and your valuation inspection is scheduled for <span className="font-extrabold text-[#D4A63F]">{new Date(vehicleDetails.inspectionDate).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span> at <span className="font-extrabold text-[#D4A63F]">{vehicleDetails.inspectionTimeSlot}</span>.
+                            </p>
+                        ) : (
+                            <p className="text-gray-500 mb-8 font-medium font-sans">
+                                Thank you for submitting your vehicle details. Our team will contact you shortly.
+                            </p>
+                        )}
 
                         {vehicleDetails.make && (
                             <div className="bg-white border border-[#E5E7EB] rounded-2xl p-6 mb-8 text-left shadow-sm">
@@ -182,7 +197,7 @@ export default function SellVehiclePage() {
                             <button
                                 onClick={() => {
                                     setSuccess(false);
-                                    setFormData({ name: '', phone: '', regNo: '', kmDriven: '', demand: '', type: 'car' });
+                                    setFormData({ name: '', phone: '', regNo: '', kmDriven: '', demand: '', type: 'car', inspectionDate: '', inspectionTimeSlot: '', inspectionLocation: '' });
                                     setPhotos([]);
                                     setRcCard(null);
                                     setPhotoPreviews([]);
@@ -408,6 +423,63 @@ export default function SellVehiclePage() {
                                         </div>
                                     )}
                                 </label>
+                            </div>
+                        </div>
+
+                        {/* Inspection Scheduling (Optional) */}
+                        <div className="border-t border-[#E5E7EB] pt-6">
+                            <h3 className="text-sm font-bold text-[#111111] uppercase tracking-wider mb-4 font-sans">
+                                Book Free Valuation &amp; Inspection (Optional)
+                            </h3>
+                            <p className="text-xs text-gray-500 mb-4 font-sans">
+                                Choose a convenient date and time slot for our certified inspector to evaluate your vehicle in Indore.
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                        Preferred Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        name="inspectionDate"
+                                        value={formData.inspectionDate}
+                                        onChange={handleInputChange}
+                                        min={new Date().toISOString().split('T')[0]}
+                                        className="w-full px-5 py-3.5 border border-[#E5E7EB] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-sm font-sans"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                        Preferred Time Slot
+                                    </label>
+                                    <select
+                                        name="inspectionTimeSlot"
+                                        value={formData.inspectionTimeSlot}
+                                        onChange={handleInputChange}
+                                        className="w-full px-5 py-3.5 border border-[#E5E7EB] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-sm font-sans cursor-pointer appearance-none"
+                                        disabled={!formData.inspectionDate}
+                                    >
+                                        <option value="">Select Time Slot</option>
+                                        <option value="Morning (10:00 AM - 01:00 PM)">Morning (10:00 AM - 01:00 PM)</option>
+                                        <option value="Afternoon (01:00 PM - 04:00 PM)">Afternoon (01:00 PM - 04:00 PM)</option>
+                                        <option value="Evening (04:00 PM - 07:00 PM)">Evening (04:00 PM - 07:00 PM)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-[#111111] uppercase mb-2 tracking-widest font-sans">
+                                    Inspection Location
+                                </label>
+                                <input
+                                    type="text"
+                                    name="inspectionLocation"
+                                    value={formData.inspectionLocation}
+                                    onChange={handleInputChange}
+                                    placeholder="Enter address for doorstep evaluation in Indore"
+                                    className="w-full px-5 py-3.5 border border-[#E5E7EB] rounded-full focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-colors bg-white text-sm font-sans"
+                                    disabled={!formData.inspectionDate}
+                                    required={!!formData.inspectionDate}
+                                />
                             </div>
                         </div>
 

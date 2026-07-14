@@ -4,7 +4,7 @@ const bookingSchema = new mongoose.Schema({
     vehicle: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Vehicle',
-        required: true
+        required: false
     },
     customerName: {
         type: String,
@@ -32,7 +32,7 @@ const bookingSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'contacted', 'completed', 'cancelled'],
+        enum: ['pending', 'contacted', 'completed', 'cancelled', 'inspection_scheduled'],
         default: 'pending'
     },
     preferredContactTime: {
@@ -42,6 +42,24 @@ const bookingSchema = new mongoose.Schema({
     notes: {
         type: String,
         default: ''
+    },
+    bookingType: {
+        type: String,
+        enum: ['inquiry', 'test_drive', 'third_party_inspection'],
+        default: 'inquiry'
+    },
+    preferredDate: {
+        type: Date,
+        default: null
+    },
+    preferredTimeSlot: {
+        type: String,
+        default: ''
+    },
+    externalVehicleDetails: {
+        regNo: { type: String, default: '' },
+        make: { type: String, default: '' },
+        model: { type: String, default: '' }
     }
 }, {
     timestamps: true

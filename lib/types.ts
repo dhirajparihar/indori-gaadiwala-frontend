@@ -25,15 +25,23 @@ export interface Vehicle {
 
 export interface Booking {
     _id: string;
-    vehicle: Vehicle | string;
+    vehicle?: Vehicle | string;
     customerName: string;
-    customerEmail: string;
+    customerEmail?: string;
     customerPhone: string;
     message?: string;
     offeredPrice?: number;
-    status: 'pending' | 'contacted' | 'completed' | 'cancelled';
+    status: 'pending' | 'contacted' | 'completed' | 'cancelled' | 'inspection_scheduled';
     preferredContactTime?: string;
     notes?: string;
+    bookingType: 'inquiry' | 'test_drive' | 'third_party_inspection';
+    preferredDate?: string;
+    preferredTimeSlot?: string;
+    externalVehicleDetails?: {
+        regNo: string;
+        make: string;
+        model: string;
+    };
     createdAt: string;
     updatedAt: string;
 }
@@ -65,6 +73,9 @@ export interface SellerInquiry {
     type?: 'car' | 'bike' | 'commercial';
     status: 'new' | 'contacted' | 'completed' | 'rejected' | 'inspection_scheduled' | 'purchased';
     notes?: string;
+    inspectionDate?: string;
+    inspectionTimeSlot?: string;
+    inspectionLocation?: string;
     createdAt: string;
     updatedAt?: string;
 

@@ -56,11 +56,17 @@ export async function PUT(
 
         await dbConnect();
         const { id } = await context.params;
-        const { status, notes } = await req.json();
+        const { status, notes, inspectionDate, inspectionTimeSlot, inspectionLocation } = await req.json();
 
         const inquiry = await SellerInquiry.findByIdAndUpdate(
             id,
-            { status, notes },
+            { 
+                status, 
+                notes,
+                ...(inspectionDate !== undefined && { inspectionDate: inspectionDate ? new Date(inspectionDate) : null }),
+                ...(inspectionTimeSlot !== undefined && { inspectionTimeSlot }),
+                ...(inspectionLocation !== undefined && { inspectionLocation }),
+            },
             { new: true }
         );
 

@@ -17,6 +17,8 @@ interface SellerInquiriesSectionProps {
 const statusOptions = [
     { value: 'new', label: 'New' },
     { value: 'contacted', label: 'Contacted' },
+    { value: 'inspection_scheduled', label: 'Inspection Scheduled' },
+    { value: 'purchased', label: 'Purchased' },
     { value: 'completed', label: 'Completed' },
     { value: 'rejected', label: 'Rejected' },
 ];
@@ -168,11 +170,14 @@ export default function SellerInquiriesSection({ inquiries, onRefresh }: SellerI
                                         <select
                                             value={inquiry.status}
                                             onChange={(e) => handleStatusUpdate(inquiry._id, e.target.value)}
-                                            className={`text-sm px-3 py-1.5 rounded-lg border font-medium ${inquiry.status === 'new' ? 'border-green-300 bg-green-50 text-green-700' :
+                                            className={`text-sm px-3 py-1.5 rounded-lg border font-medium ${
+                                                inquiry.status === 'new' ? 'border-green-300 bg-green-50 text-green-700' :
                                                 inquiry.status === 'contacted' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
-                                                    inquiry.status === 'completed' ? 'border-blue-300 bg-blue-50 text-blue-700' :
-                                                        'border-red-300 bg-red-50 text-red-700'
-                                                }`}
+                                                inquiry.status === 'inspection_scheduled' ? 'border-amber-300 bg-amber-50 text-amber-700' :
+                                                inquiry.status === 'purchased' ? 'border-indigo-300 bg-indigo-50 text-indigo-700' :
+                                                inquiry.status === 'completed' ? 'border-blue-300 bg-blue-50 text-blue-700' :
+                                                'border-red-300 bg-red-50 text-red-700'
+                                            }`}
                                         >
                                             {statusOptions.map(opt => (
                                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -213,6 +218,25 @@ export default function SellerInquiriesSection({ inquiries, onRefresh }: SellerI
                                 {/* Expandable Details */}
                                 {expandedIds.has(inquiry._id) && (
                                     <div className="p-4 bg-gray-50/50">
+                                        {/* Inspection Details Section */}
+                                        {inquiry.inspectionDate && (
+                                            <div className="mb-4 p-3 bg-amber-50/50 border border-amber-200 rounded-lg flex items-center justify-between">
+                                                <div className="text-sm font-sans">
+                                                     <span className="font-extrabold text-amber-800 uppercase text-xs block mb-1">Scheduled Valuation Inspection</span>
+                                                     <div className="text-gray-700">
+                                                         📅 <span className="font-bold">{new Date(inquiry.inspectionDate).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span> 
+                                                         <span className="mx-2">|</span> 
+                                                         ⏰ <span className="font-bold">{inquiry.inspectionTimeSlot}</span>
+                                                         <span className="mx-2">|</span> 
+                                                         📍 Location: <span className="font-bold">{inquiry.inspectionLocation}</span>
+                                                     </div>
+                                                </div>
+                                                <span className="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-extrabold rounded-full uppercase tracking-wider">
+                                                     Scheduled
+                                                </span>
+                                            </div>
+                                        )}
+
                                         {/* Notes Row */}
                                         <div className="mb-4 p-3 bg-white rounded-lg border border-gray-100">
                                             <div className="flex items-center justify-between mb-2">

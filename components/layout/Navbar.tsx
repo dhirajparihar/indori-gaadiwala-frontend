@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { FaCar, FaMotorcycle, FaBars, FaTimes, FaTruck } from 'react-icons/fa';
+import { FaCar, FaMotorcycle, FaBars, FaTimes, FaTruck, FaWrench } from 'react-icons/fa';
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,6 +17,7 @@ export default function Navbar() {
         { href: '/vehicles?type=car', label: 'Cars', icon: <FaCar /> },
         { href: '/vehicles?type=bike', label: 'Bikes', icon: <FaMotorcycle /> },
         { href: '/vehicles?type=commercial', label: 'Commercial', icon: <FaTruck /> },
+        { href: '/services/inspection', label: 'Inspection', icon: <FaWrench /> },
     ];
 
     const isActive = (href: string) => {
