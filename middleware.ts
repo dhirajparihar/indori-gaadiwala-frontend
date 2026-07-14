@@ -20,7 +20,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301)
   }
   
-  return NextResponse.next()
+  // Inject the pathname as a request header so server components can read it
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', request.nextUrl.pathname)
+
+  const response = NextResponse.next({
+    request: { headers: requestHeaders },
+  })
+
+  return response
 }
 
 export const config = {

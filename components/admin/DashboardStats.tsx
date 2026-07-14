@@ -15,36 +15,36 @@ export default function DashboardStats({ stats }: DashboardStatsProps) {
             title: 'Total Vehicles',
             value: stats.totalVehicles,
             icon: <FaCar />,
-            bgColor: 'bg-blue-50',
-            iconColor: 'bg-blue-500'
+            bgColor: 'bg-[#D4A63F]/10 border-[#D4A63F]/20',
+            iconColor: 'bg-[#D4A63F] text-[#111111]'
         },
         {
             title: 'Total Bookings',
             value: stats.totalBookings,
             icon: <FaClipboardList />,
-            bgColor: 'bg-green-50',
-            iconColor: 'bg-green-500'
+            bgColor: 'bg-gray-50 border-gray-200',
+            iconColor: 'bg-gray-800 text-white'
         },
         {
-            title: 'Available',
+            title: 'Available Vehicles',
             value: stats.availableVehicles,
             icon: <FaCheckCircle />,
-            bgColor: 'bg-purple-50',
-            iconColor: 'bg-purple-500'
+            bgColor: 'bg-emerald-50/50 border-emerald-100',
+            iconColor: 'bg-emerald-600 text-white'
         },
         {
-            title: 'Pending',
+            title: 'Pending Bookings',
             value: stats.pendingBookings,
             icon: <FaClock />,
-            bgColor: 'bg-yellow-50',
-            iconColor: 'bg-yellow-500'
+            bgColor: 'bg-rose-50/50 border-rose-100',
+            iconColor: 'bg-rose-600 text-white'
         }
     ];
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {statCards.map((stat, index) => (
-                <div key={index} className={`${stat.bgColor} rounded-lg p-4 border border-gray-200`}>
+                <div key={index} className={`${stat.bgColor} rounded-xl p-5 border shadow-sm`}>
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-xs font-medium text-gray-600">{stat.title}</p>

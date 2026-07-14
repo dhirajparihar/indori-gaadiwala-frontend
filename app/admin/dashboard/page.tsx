@@ -19,6 +19,7 @@ import SellerInquiriesSection from '@/components/admin/SellerInquiriesSection';
 import VehiclesSection from '@/components/admin/VehiclesSection';
 import EditVehicleModal from '@/components/admin/EditVehicleModal';
 import HappyCustomersSection from '@/components/admin/HappyCustomersSection';
+import OverviewCharts from '@/components/admin/OverviewCharts';
 
 export default function AdminDashboardPage() {
     const router = useRouter();
@@ -29,13 +30,18 @@ export default function AdminDashboardPage() {
         totalVehicles: 0,
         totalBookings: 0,
         availableVehicles: 0,
-        pendingBookings: 0
+        pendingBookings: 0,
+        totalLeads: 0,
+        totalInquiries: 0,
+        totalTestimonials: 0,
     });
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [leads, setLeads] = useState<Lead[]>([]);
     const [sellerInquiries, setSellerInquiries] = useState<SellerInquiry[]>([]);
     const [happyCustomers, setHappyCustomers] = useState<HappyCustomer[]>([]);
+
+    const [activeTab, setActiveTab] = useState('overview');
 
     // Modals
     const [showAddVehicleModal, setShowAddVehicleModal] = useState(false);
@@ -85,7 +91,10 @@ export default function AdminDashboardPage() {
                 totalVehicles: vehiclesData.length,
                 totalBookings: bookingsData.length,
                 availableVehicles: vehiclesData.filter((v: Vehicle) => v.status === 'available').length,
-                pendingBookings: bookingsData.filter((b: Booking) => b.status === 'pending').length
+                pendingBookings: bookingsData.filter((b: Booking) => b.status === 'pending').length,
+                totalLeads: leadsData.length,
+                totalInquiries: inquiriesData.length,
+                totalTestimonials: happyCustomersData.length,
             });
         } catch (error) {
             console.error('Error loading dashboard:', error);
@@ -123,49 +132,69 @@ export default function AdminDashboardPage() {
     }
 
     return (
-        <DashboardLayout onLogout={handleLogout} stats={stats} onAddVehicle={() => setShowAddVehicleModal(true)}>
-            {/* Stats */}
-            <div id="stats">
-                <DashboardStats stats={stats} />
-            </div>
+        <DashboardLayout
+            onLogout={handleLogout}
+            stats={stats}
+            onAddVehicle={() => setShowAddVehicleModal(true)}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+        >
+            {/* Overview Section */}
+            {activeTab === 'overview' && (
+                <div className="space-y-6">
+                    <DashboardStats stats={stats} />
+                    <VehicleLookup />
+                    <OverviewCharts
+                        vehicles={vehicles}
+                        bookings={bookings}
+                        leads={leads}
+                        sellerInquiries={sellerInquiries}
+                    />
+                </div>
+            )}
 
+            {/* Bookings Section */}
+            {activeTab === 'bookings' && (
+                <BookingsSection
+                    bookings={bookings}
+                    onRefresh={loadDashboardData}
+                />
+            )}
 
+            {/* Leads Section */}
+            {activeTab === 'leads' && (
+                <LeadsSection
+                    leads={leads}
+                    onRefresh={loadDashboardData}
+                />
+            )}
 
-            {/* Vehicle Lookup */}
-            <VehicleLookup />
+            {/* Seller Inquiries Section */}
+            {activeTab === 'seller-inquiries' && (
+                <SellerInquiriesSection
+                    inquiries={sellerInquiries}
+                    onRefresh={loadDashboardData}
+                />
+            )}
 
-            {/* Bookings */}
-            <BookingsSection
-                bookings={bookings}
-                onRefresh={loadDashboardData}
-            />
+            {/* Happy Customers Testimonials */}
+            {activeTab === 'happy-customers' && (
+                <HappyCustomersSection
+                    happyCustomers={happyCustomers}
+                    onRefresh={loadDashboardData}
+                />
+            )}
 
-            {/* Leads */}
-            <LeadsSection
-                leads={leads}
-                onRefresh={loadDashboardData}
-            />
+            {/* Vehicles Inventory Section */}
+            {activeTab === 'vehicles' && (
+                <VehiclesSection
+                    vehicles={vehicles}
+                    onEdit={setEditingVehicle}
+                    onDelete={handleDeleteVehicle}
+                />
+            )}
 
-            {/* Seller Inquiries */}
-            <SellerInquiriesSection
-                inquiries={sellerInquiries}
-                onRefresh={loadDashboardData}
-            />
-
-            {/* Happy Customers */}
-            <HappyCustomersSection
-                happyCustomers={happyCustomers}
-                onRefresh={loadDashboardData}
-            />
-
-            {/* Vehicles */}
-            <VehiclesSection
-                vehicles={vehicles}
-                onEdit={setEditingVehicle}
-                onDelete={handleDeleteVehicle}
-            />
-
-            {/* Modals */}
+            {/* Modals (placed globally so they can trigger from any tab) */}
             <AddVehicleModal
                 isOpen={showAddVehicleModal}
                 onClose={() => setShowAddVehicleModal(false)}

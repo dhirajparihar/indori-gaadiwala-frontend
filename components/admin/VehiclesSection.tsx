@@ -91,7 +91,7 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete }: Vehicles
                 <div className="flex flex-wrap justify-between items-center gap-4">
                     <div className="flex items-center gap-4">
                         <h2 className="text-xl font-bold text-gray-900">
-                            <FaCar className="inline mr-2 text-purple-600" />
+                            <FaCar className="inline mr-2 text-[#D4A63F]" />
                             All Vehicles
                         </h2>
                         <span className="text-gray-500">({filteredVehicles.length})</span>

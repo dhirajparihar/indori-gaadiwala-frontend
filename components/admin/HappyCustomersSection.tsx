@@ -111,7 +111,7 @@ export default function HappyCustomersSection({ happyCustomers, onRefresh }: Hap
                     </p>
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium shadow-sm"
+                        className="inline-flex items-center space-x-2 px-4 py-2 bg-[#D4A63F] hover:bg-[#C6942C] text-black rounded-lg transition-colors text-sm font-extrabold shadow-sm cursor-pointer"
                     >
                         <FaPlus size={12} />
                         <span>Add Customer Show</span>
@@ -282,7 +282,7 @@ export default function HappyCustomersSection({ happyCustomers, onRefresh }: Hap
                                     required
                                     accept="image/*"
                                     onChange={handleImageChange}
-                                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 file:cursor-pointer hover:file:bg-blue-100"
+                                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#D4A63F]/10 file:text-[#D4A63F] file:cursor-pointer hover:file:bg-[#D4A63F]/20"
                                 />
                                 {imagePreview && (
                                     <div className="mt-3 relative rounded-lg overflow-hidden border border-gray-200 max-h-40">
@@ -309,11 +309,11 @@ export default function HappyCustomersSection({ happyCustomers, onRefresh }: Hap
                                 <button
                                     type="submit"
                                     disabled={uploading}
-                                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-1.5"
+                                    className="px-4 py-2 text-sm font-medium text-black bg-[#D4A63F] rounded-lg hover:bg-[#C6942C] transition-colors disabled:opacity-50 flex items-center gap-1.5 font-extrabold cursor-pointer"
                                 >
                                     {uploading ? (
                                         <>
-                                            <span className="w-4 h-4 border-2 border-white border-b-transparent rounded-full animate-spin"></span>
+                                            <span className="w-4 h-4 border-2 border-black border-b-transparent rounded-full animate-spin"></span>
                                             <span>Uploading...</span>
                                         </>
                                     ) : (

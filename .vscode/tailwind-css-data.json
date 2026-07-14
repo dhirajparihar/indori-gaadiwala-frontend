@@ -1,0 +1,31 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@theme",
+      "description": "Tailwind CSS v4 theme configuration block. Defines design tokens as CSS variables.",
+      "references": [
+        {
+          "name": "Tailwind CSS v4 Docs",
+          "url": "https://tailwindcss.com/docs/theme"
+        }
+      ]
+    },
+    {
+      "name": "@import",
+      "description": "Standard CSS @import or Tailwind v4 @import \"tailwindcss\"."
+    },
+    {
+      "name": "@utility",
+      "description": "Tailwind CSS v4 custom utility definition."
+    },
+    {
+      "name": "@variant",
+      "description": "Tailwind CSS v4 custom variant definition."
+    },
+    {
+      "name": "@source",
+      "description": "Tailwind CSS v4 source file inclusion directive."
+    }
+  ]
+}

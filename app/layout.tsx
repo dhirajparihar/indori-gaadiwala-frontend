@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { ToastContainer } from "react-toastify";
 import { Suspense } from "react";
+import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-display" });
@@ -21,11 +22,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") ||
+    headersList.get("x-invoke-path") ||
+    headersList.get("x-forwarded-uri") || "";
+  const isAdminRoute = pathname.startsWith("/admin");
+
   return (
     <html lang="en">
       <head>
@@ -50,25 +57,29 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${outfit.variable} font-sans antialiased`}>
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        <Suspense fallback={<div className="h-20 bg-white shadow-sm" />}>
-          <Navbar />
-        </Suspense>
+        {!isAdminRoute && (
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+        )}
+        {!isAdminRoute && (
+          <Suspense fallback={<div className="h-20 bg-white shadow-sm" />}>
+            <Navbar />
+          </Suspense>
+        )}
         <main className="min-h-screen">
           {children}
         </main>
-        <Footer />
+        {!isAdminRoute && <Footer />}
       </body>
     </html>
   );

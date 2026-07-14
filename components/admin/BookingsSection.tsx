@@ -168,8 +168,8 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                                         <td className="px-4 py-4 text-gray-600">{booking.customerPhone}</td>
                                         <td className="px-4 py-4 text-xs font-extrabold uppercase">
                                             <span className={`px-2.5 py-1 rounded-full ${
-                                                booking.bookingType === 'test_drive' ? 'bg-purple-100 text-purple-700' :
-                                                booking.bookingType === 'third_party_inspection' ? 'bg-blue-100 text-blue-700' :
+                                                booking.bookingType === 'test_drive' ? 'bg-[#D4A63F]/10 text-[#D4A63F]' :
+                                                booking.bookingType === 'third_party_inspection' ? 'bg-amber-100 text-amber-700' :
                                                 'bg-green-100 text-green-700'
                                             }`}>
                                                 {booking.bookingTypeDisplay}
@@ -196,7 +196,7 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                                                 onChange={(e) => handleStatusUpdate(booking._id, e.target.value)}
                                                 className={`text-xs px-2 py-1 rounded-lg border font-medium ${
                                                     booking.status === 'pending' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
-                                                    booking.status === 'contacted' ? 'border-blue-300 bg-blue-50 text-blue-700' :
+                                                    booking.status === 'contacted' ? 'border-[#D4A63F]/30 bg-[#D4A63F]/10 text-[#D4A63F]' :
                                                     booking.status === 'inspection_scheduled' ? 'border-amber-300 bg-amber-50 text-amber-700' :
                                                     booking.status === 'completed' ? 'border-green-300 bg-green-50 text-green-700' :
                                                     'border-red-300 bg-red-50 text-red-700'
@@ -282,16 +282,15 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <div className="flex items-center gap-2 mb-1">
-                                            <h4 className="font-bold text-gray-900">{booking.customerName}</h4>
-                                            <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider ${
-                                                booking.bookingType === 'test_drive' ? 'bg-purple-100 text-purple-700' :
-                                                booking.bookingType === 'third_party_inspection' ? 'bg-blue-100 text-blue-700' :
+                                            <h4 className="font-bold text-gray-900">{booking.customerName}</h4>                                             <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider ${
+                                                booking.bookingType === 'test_drive' ? 'bg-[#D4A63F]/10 text-[#D4A63F]' :
+                                                booking.bookingType === 'third_party_inspection' ? 'bg-amber-100 text-amber-700' :
                                                 'bg-green-100 text-green-700'
                                             }`}>
                                                 {booking.bookingTypeDisplay}
                                             </span>
                                         </div>
-                                        <a href={`tel:${booking.customerPhone}`} className="text-sm text-blue-600 hover:underline font-bold font-sans">{booking.customerPhone}</a>
+                                        <a href={`tel:${booking.customerPhone}`} className="text-sm text-[#D4A63F] hover:underline font-bold font-sans">{booking.customerPhone}</a>
                                     </div>
                                     <div className="text-right">
                                         <div className="font-bold text-base text-primary-600">
@@ -325,7 +324,7 @@ export default function BookingsSection({ bookings, onRefresh }: BookingsSection
                                                 onChange={(e) => handleStatusUpdate(booking._id, e.target.value)}
                                                 className={`text-xs px-2 py-1 rounded-lg border font-medium w-full mt-1 ${
                                                     booking.status === 'pending' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
-                                                    booking.status === 'contacted' ? 'border-blue-300 bg-blue-50 text-blue-700' :
+                                                    booking.status === 'contacted' ? 'border-[#D4A63F]/30 bg-[#D4A63F]/10 text-[#D4A63F]' :
                                                     booking.status === 'inspection_scheduled' ? 'border-amber-300 bg-amber-50 text-amber-700' :
                                                     booking.status === 'completed' ? 'border-green-300 bg-green-50 text-green-700' :
                                                     'border-red-300 bg-red-50 text-red-700'

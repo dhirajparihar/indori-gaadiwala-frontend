@@ -67,10 +67,10 @@ export default function VehicleLookup() {
     };
 
     return (
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-sm p-4 border border-blue-200 mb-6">
+        <div className="bg-gradient-to-r from-[#D4A63F]/5 to-[#D4A63F]/10 rounded-xl shadow-sm p-4 border border-[#D4A63F]/20 mb-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h2 className="text-base font-bold text-gray-900 flex items-center gap-2 whitespace-nowrap">
-                    <FaSearch className="text-blue-600" />
+                    <FaSearch className="text-[#D4A63F]" />
                     Vehicle Lookup
                 </h2>
 
@@ -82,13 +82,13 @@ export default function VehicleLookup() {
                             value={regNo}
                             onChange={(e) => setRegNo(e.target.value.toUpperCase().replace(/\s+/g, ''))}
                             onKeyDown={(e) => e.key === 'Enter' && regNo && handleSearch()}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 uppercase text-sm font-mono"
+                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#D4A63F] focus:border-[#D4A63F] uppercase text-sm font-mono"
                         />
                     </div>
                     <button
                         onClick={handleSearch}
                         disabled={loading || !regNo}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm whitespace-nowrap"
+                        className="px-4 py-2 bg-[#D4A63F] hover:bg-[#C6942C] text-black font-extrabold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm whitespace-nowrap"
                     >
                         {loading ? <span className="animate-spin">⟳</span> : <FaSearch />}
                         <span className="hidden sm:inline">Search</span>
@@ -114,10 +114,10 @@ export default function VehicleLookup() {
                             {result.make} {result.model} {result.variant && `- ${result.variant}`}
                         </div>
                         <div className="flex flex-wrap gap-2 mt-2">
-                            <span className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded-full font-bold">{result.regNo}</span>
+                            <span className="px-2 py-0.5 text-xs bg-[#D4A63F]/10 text-[#D4A63F] rounded-full font-bold">{result.regNo}</span>
                             {result.year && <span className="px-2 py-0.5 text-xs bg-gray-100 text-gray-700 rounded-full">{result.year}</span>}
                             {result.fuelType && <span className="px-2 py-0.5 text-xs bg-green-100 text-green-700 rounded-full">{result.fuelType}</span>}
-                            {result.transmissionType && <span className="px-2 py-0.5 text-xs bg-purple-100 text-purple-700 rounded-full">{result.transmissionType}</span>}
+                            {result.transmissionType && <span className="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full">{result.transmissionType}</span>}
                             {result.bodyType && <span className="px-2 py-0.5 text-xs bg-orange-100 text-orange-700 rounded-full">{result.bodyType}</span>}
                             {result.color && <span className="px-2 py-0.5 text-xs bg-pink-100 text-pink-700 rounded-full">{result.color}</span>}
                         </div>

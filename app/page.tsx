@@ -576,7 +576,10 @@ export default function HomePage() {
           {/* Carousel */}
           {activeCustomer && (
             <div className="relative max-w-4xl mx-auto">
-              <div className="bg-white border border-[#E5E7EB] rounded-[32px] shadow-medium overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[420px] transition-all duration-500">
+              <div 
+                key={currentCustomerIndex} 
+                className="bg-white border border-[#E5E7EB] rounded-[32px] shadow-medium overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[420px] animate-fade-in"
+              >
                 
                 {/* Photo Column */}
                 <div className="md:col-span-7 h-64 md:h-auto relative overflow-hidden group bg-gray-100">
@@ -620,38 +623,42 @@ export default function HomePage() {
                     </div>
 
                     {/* Navigation */}
-                    <div className="flex gap-2">
-                      <button 
-                        onClick={handlePrevCustomer}
-                        className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 hover:border-gray-300 transition-all cursor-pointer"
-                        aria-label="Previous customer"
-                      >
-                        <FaChevronLeft size={12} />
-                      </button>
-                      <button 
-                        onClick={handleNextCustomer}
-                        className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 hover:border-gray-300 transition-all cursor-pointer"
-                        aria-label="Next customer"
-                      >
-                        <FaArrowRight size={12} />
-                      </button>
-                    </div>
+                    {displayCustomers.length > 1 && (
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={handlePrevCustomer}
+                          className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 hover:border-gray-300 transition-all cursor-pointer"
+                          aria-label="Previous customer"
+                        >
+                          <FaChevronLeft size={12} />
+                        </button>
+                        <button 
+                          onClick={handleNextCustomer}
+                          className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 hover:border-gray-300 transition-all cursor-pointer"
+                          aria-label="Next customer"
+                        >
+                          <FaArrowRight size={12} />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
               </div>
 
               {/* Indicator Dots */}
-              <div className="flex justify-center gap-2 mt-8">
-                {displayCustomers.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentCustomerIndex(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${currentCustomerIndex === idx ? 'w-8 bg-[#D4A63F]' : 'w-2 bg-gray-200 hover:bg-gray-300'}`}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
+              {displayCustomers.length > 1 && (
+                <div className="flex justify-center gap-2 mt-8">
+                  {displayCustomers.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentCustomerIndex(idx)}
+                      className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${currentCustomerIndex === idx ? 'w-8 bg-[#D4A63F]' : 'w-2 bg-gray-200 hover:bg-gray-300'}`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

@@ -104,7 +104,7 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                 title="Leads"
                 count={filteredLeads.length}
                 icon={<FaUsers />}
-                iconColor="text-blue-600"
+                iconColor="text-[#D4A63F]"
             >
                 {/* Toolbar */}
                 <div className="flex flex-wrap items-center gap-4 mb-4 pb-4 border-b border-gray-100">
@@ -147,7 +147,7 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                         <td className="px-4 py-4 font-medium text-gray-900">{lead.name}</td>
                                         <td className="px-4 py-4 text-gray-600">{lead.phone}</td>
                                         <td className="px-4 py-4">
-                                            <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                                            <span className="px-2 py-1 text-xs font-semibold bg-[#D4A63F]/10 text-[#D4A63F] rounded-full">
                                                 {lead.source || 'popup'}
                                             </span>
                                         </td>
@@ -160,8 +160,8 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                                 onChange={(e) => handleStatusUpdate(lead._id, e.target.value)}
                                                 className={`text-xs px-2 py-1 rounded-lg border font-medium ${lead.status === 'new' ? 'border-green-300 bg-green-50 text-green-700' :
                                                         lead.status === 'contacted' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
-                                                            lead.status === 'interested' ? 'border-blue-300 bg-blue-50 text-blue-700' :
-                                                                lead.status === 'converted' ? 'border-purple-300 bg-purple-50 text-purple-700' :
+                                                            lead.status === 'interested' ? 'border-[#D4A63F]/30 bg-[#D4A63F]/10 text-[#D4A63F]' :
+                                                                lead.status === 'converted' ? 'border-emerald-300 bg-emerald-50 text-emerald-700' :
                                                                     'border-gray-300 bg-gray-50 text-gray-700'
                                                     }`}
                                             >
@@ -246,10 +246,10 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                 <div className="flex justify-between items-start">
                                     <div>
                                         <h4 className="font-bold text-gray-900">{lead.name}</h4>
-                                        <a href={`tel:${lead.phone}`} className="text-sm text-blue-600 hover:underline">{lead.phone}</a>
+                                        <a href={`tel:${lead.phone}`} className="text-sm text-[#D4A63F] hover:underline font-semibold">{lead.phone}</a>
                                     </div>
                                     <div className="text-right">
-                                        <span className="px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                                        <span className="px-2 py-0.5 text-xs font-semibold bg-[#D4A63F]/10 text-[#D4A63F] rounded-full">
                                             {lead.source || 'popup'}
                                         </span>
                                         <div className="text-xs text-gray-400 mt-1">
@@ -267,8 +267,8 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                                 onChange={(e) => handleStatusUpdate(lead._id, e.target.value)}
                                                 className={`text-xs px-2 py-1 rounded-lg border font-medium w-full mt-1 ${lead.status === 'new' ? 'border-green-300 bg-green-50 text-green-700' :
                                                         lead.status === 'contacted' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
-                                                            lead.status === 'interested' ? 'border-blue-300 bg-blue-50 text-blue-700' :
-                                                                lead.status === 'converted' ? 'border-purple-300 bg-purple-50 text-purple-700' :
+                                                            lead.status === 'interested' ? 'border-[#D4A63F]/30 bg-[#D4A63F]/10 text-[#D4A63F]' :
+                                                                lead.status === 'converted' ? 'border-emerald-300 bg-emerald-50 text-emerald-700' :
                                                                     'border-gray-300 bg-gray-50 text-gray-700'
                                                     }`}
                                             >

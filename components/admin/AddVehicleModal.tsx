@@ -206,7 +206,7 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                                     type="button"
                                     onClick={() => fetchVehicleDetails(vehicleNumber)}
                                     disabled={fetchingVehicle || !vehicleNumber}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="px-4 py-2 bg-[#D4A63F] hover:bg-[#C6942C] text-black font-extrabold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                                 >
                                     {fetchingVehicle ? 'Fetching...' : 'Fetch Details'}
                                 </button>
@@ -305,7 +305,7 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                                 min="0"
                                 value={formData.price}
                                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#D4A63F] focus:border-[#D4A63F]"
                                 placeholder="750000"
                             />
                         </div>
@@ -321,7 +321,7 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                                 min="0"
                                 value={formData.originalPrice}
                                 onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#D4A63F] focus:border-[#D4A63F]"
                                 placeholder="850000"
                             />
                         </div>
@@ -415,7 +415,7 @@ export default function AddVehicleModal({ isOpen, onClose, onSuccess }: AddVehic
                                     type="checkbox"
                                     checked={formData.featured}
                                     onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                                    className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                    className="w-5 h-5 text-[#D4A63F] border-gray-300 rounded focus:ring-[#D4A63F]"
                                 />
                                 <span className="text-sm font-medium text-gray-700">
                                     ⭐ Mark as Featured (Show on homepage)

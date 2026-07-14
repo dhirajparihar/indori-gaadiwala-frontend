@@ -151,14 +151,14 @@ export default function SellerInquiriesSection({ inquiries, onRefresh }: SellerI
                                                 {inquiry.make} {inquiry.model} {inquiry.variant && `- ${inquiry.variant}`}
                                             </div>
                                             <div className="flex flex-wrap gap-2 mt-1">
-                                                <span className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded font-medium flex items-center gap-1">
+                                                <span className="px-2 py-0.5 text-xs bg-[#D4A63F]/10 text-[#D4A63F] rounded font-medium flex items-center gap-1">
                                                     {inquiry.type === 'car' ? <FaCar /> : inquiry.type === 'bike' ? <FaMotorcycle /> : <FaTruck />}
                                                     {inquiry.type}
                                                 </span>
-                                                <span className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded font-medium">{inquiry.regNo}</span>
+                                                <span className="px-2 py-0.5 text-xs bg-[#D4A63F]/10 text-[#D4A63F] rounded font-medium">{inquiry.regNo}</span>
                                                 {inquiry.year && <span className="px-2 py-0.5 text-xs bg-gray-100 text-gray-700 rounded">{inquiry.year}</span>}
                                                 {inquiry.fuelType && <span className="px-2 py-0.5 text-xs bg-green-100 text-green-700 rounded">{inquiry.fuelType}</span>}
-                                                {inquiry.transmissionType && <span className="px-2 py-0.5 text-xs bg-purple-100 text-purple-700 rounded">{inquiry.transmissionType}</span>}
+                                                {inquiry.transmissionType && <span className="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded">{inquiry.transmissionType}</span>}
                                             </div>
                                         </div>
                                     </div>
@@ -174,8 +174,8 @@ export default function SellerInquiriesSection({ inquiries, onRefresh }: SellerI
                                                 inquiry.status === 'new' ? 'border-green-300 bg-green-50 text-green-700' :
                                                 inquiry.status === 'contacted' ? 'border-yellow-300 bg-yellow-50 text-yellow-700' :
                                                 inquiry.status === 'inspection_scheduled' ? 'border-amber-300 bg-amber-50 text-amber-700' :
-                                                inquiry.status === 'purchased' ? 'border-indigo-300 bg-indigo-50 text-indigo-700' :
-                                                inquiry.status === 'completed' ? 'border-blue-300 bg-blue-50 text-blue-700' :
+                                                inquiry.status === 'purchased' ? 'border-emerald-300 bg-emerald-50 text-emerald-700' :
+                                                inquiry.status === 'completed' ? 'border-[#D4A63F]/30 bg-[#D4A63F]/10 text-[#D4A63F]' :
                                                 'border-red-300 bg-red-50 text-red-700'
                                             }`}
                                         >
@@ -301,7 +301,7 @@ export default function SellerInquiriesSection({ inquiries, onRefresh }: SellerI
                                                 {inquiry.hypothecation && <div className="text-xs text-orange-600">Under Finance: {inquiry.financier || 'Yes'}</div>}
                                                 <div className="flex gap-2 mt-2">
                                                     {inquiry.photo && (
-                                                        <a href={inquiry.photo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs hover:bg-blue-100">
+                                                        <a href={inquiry.photo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-2 py-1 bg-[#D4A63F]/10 text-[#D4A63F] rounded text-xs hover:bg-[#D4A63F]/20 cursor-pointer">
                                                             <FaImage className="mr-1" /> Photo
                                                         </a>
                                                     )}
