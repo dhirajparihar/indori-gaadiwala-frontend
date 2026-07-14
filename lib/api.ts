@@ -72,6 +72,15 @@ export const sellerInquiriesApi = {
     publicLookupByRegNo: (regNo: string) => api.get(`/seller-inquiries/public-lookup/${regNo}`),
 };
 
+// Happy Customers API
+export const happyCustomersApi = {
+    getAll: () => api.get('/happy-customers'),
+    create: (data: FormData) => api.post('/happy-customers', data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }),
+    delete: (id: string) => api.delete(`/happy-customers/${id}`),
+};
+
 // Helper to get image URL
 export const getImageUrl = (path: string) => {
     if (!path) return '/placeholder-car.jpg';

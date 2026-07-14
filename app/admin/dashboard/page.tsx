@@ -3,8 +3,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { vehiclesApi, bookingsApi, leadsApi, sellerInquiriesApi } from '@/lib/api';
-import { Vehicle, Booking, Lead, SellerInquiry } from '@/lib/types';
+import { vehiclesApi, bookingsApi, leadsApi, sellerInquiriesApi, happyCustomersApi } from '@/lib/api';
+import { Vehicle, Booking, Lead, SellerInquiry, HappyCustomer } from '@/lib/types';
 import { FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
@@ -18,6 +18,7 @@ import LeadsSection from '@/components/admin/LeadsSection';
 import SellerInquiriesSection from '@/components/admin/SellerInquiriesSection';
 import VehiclesSection from '@/components/admin/VehiclesSection';
 import EditVehicleModal from '@/components/admin/EditVehicleModal';
+import HappyCustomersSection from '@/components/admin/HappyCustomersSection';
 
 export default function AdminDashboardPage() {
     const router = useRouter();
@@ -34,6 +35,7 @@ export default function AdminDashboardPage() {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [leads, setLeads] = useState<Lead[]>([]);
     const [sellerInquiries, setSellerInquiries] = useState<SellerInquiry[]>([]);
+    const [happyCustomers, setHappyCustomers] = useState<HappyCustomer[]>([]);
 
     // Modals
     const [showAddVehicleModal, setShowAddVehicleModal] = useState(false);
@@ -57,23 +59,27 @@ export default function AdminDashboardPage() {
                 vehiclesApi.getAll(),
                 bookingsApi.getAll(),
                 leadsApi.getAll(),
-                sellerInquiriesApi.getAll()
+                sellerInquiriesApi.getAll(),
+                happyCustomersApi.getAll()
             ]);
 
             const vehiclesRes = responses[0];
             const bookingsRes = responses[1];
             const leadsRes = responses[2];
             const inquiriesRes = responses[3];
+            const happyCustomersRes = responses[4];
 
             const vehiclesData = vehiclesRes.data.data || [];
             const bookingsData = bookingsRes.data.data || [];
             const leadsData = leadsRes.data.data || [];
             const inquiriesData = inquiriesRes.data.data || [];
+            const happyCustomersData = happyCustomersRes.data.data || [];
 
             setVehicles(vehiclesData);
             setBookings(bookingsData);
             setLeads(leadsData);
             setSellerInquiries(inquiriesData);
+            setHappyCustomers(happyCustomersData);
 
             setStats({
                 totalVehicles: vehiclesData.length,
@@ -143,6 +149,12 @@ export default function AdminDashboardPage() {
             {/* Seller Inquiries */}
             <SellerInquiriesSection
                 inquiries={sellerInquiries}
+                onRefresh={loadDashboardData}
+            />
+
+            {/* Happy Customers */}
+            <HappyCustomersSection
+                happyCustomers={happyCustomers}
                 onRefresh={loadDashboardData}
             />
 

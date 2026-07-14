@@ -96,6 +96,13 @@ export default function DashboardLayout({ children, onLogout, onAddVehicle, stat
                                 <FaTag className="text-sm" />
                                 <span className="hidden lg:inline">Inquiries</span>
                             </button>
+                            <button
+                                onClick={() => scrollToSection('happy-customers')}
+                                className="inline-flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+                            >
+                                <FaUsers className="text-sm text-yellow-600" />
+                                <span className="hidden lg:inline">Testimonials</span>
+                            </button>
                         </div>
 
                         {/* User Menu */}
@@ -182,6 +189,13 @@ export default function DashboardLayout({ children, onLogout, onAddVehicle, stat
                 >
                     <FaTag />
                     <span>Inquiries</span>
+                </button>
+                <button
+                    onClick={() => scrollToSection('happy-customers')}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 active:bg-gray-300 text-xs font-semibold whitespace-nowrap"
+                >
+                    <FaUsers />
+                    <span>Testimonials</span>
                 </button>
             </div>
 

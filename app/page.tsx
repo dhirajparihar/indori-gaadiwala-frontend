@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { vehiclesApi } from '@/lib/api';
-import { Vehicle } from '@/lib/types';
+import { vehiclesApi, happyCustomersApi } from '@/lib/api';
+import { Vehicle, HappyCustomer } from '@/lib/types';
 import VehicleCard from '@/components/ui/VehicleCard';
 import WelcomePopup from '@/components/WelcomePopup';
 import { 
@@ -26,8 +26,50 @@ import {
   FaChevronDown,
   FaTruck,
   FaHeadphones,
-  FaWrench
+  FaWrench,
+  FaStar,
+  FaChevronLeft
 } from 'react-icons/fa';
+
+const DEFAULT_HAPPY_CUSTOMERS = [
+  {
+    _id: 'default-1',
+    name: 'Rahul & Priya Dwivedi',
+    vehicleName: 'Mahindra Thar (2024)',
+    imageUrl: '/customer-1.png',
+    review: 'Had an absolutely seamless buying experience. The team at Indori Gaadiwala helped us find the perfect Thar for our weekend trips, managed the RTO transfer within 2 days, and even arranged a door-step delivery!',
+    rating: 5,
+    deliveryDate: 'June 2026'
+  },
+  {
+    _id: 'default-2',
+    name: 'Sandeep Vyas & Family',
+    vehicleName: 'Maruti Suzuki Baleno (2023)',
+    imageUrl: '/customer-2.png',
+    review: 'Buying a pre-owned car can be scary, but their 140+ point inspection report gave us total confidence. The car looks and drives like brand new. Highly recommended for families seeking honest prices!',
+    rating: 5,
+    deliveryDate: 'May 2026'
+  },
+  {
+    _id: 'default-3',
+    name: 'Amanpreet Singh',
+    vehicleName: 'Royal Enfield Himalayan (2024)',
+    imageUrl: '/customer-3.png',
+    review: 'Amazing deal on a premium adventure bike. The staff is highly knowledgeable and passionate about motorcycles. The documentation was quick, and the price was unbeatable in Indore!',
+    rating: 5,
+    deliveryDate: 'April 2026'
+  },
+  {
+    _id: 'default-4',
+    name: 'Vikramaditya Solanki',
+    vehicleName: 'Honda City Zx (2023)',
+    imageUrl: '/customer-4.png',
+    review: 'Superb customer service! The luxury handover ceremony was a pleasant surprise. The team is extremely professional and their RTO support is outstanding. Will definitely buy again.',
+    rating: 5,
+    deliveryDate: 'March 2026'
+  }
+];
+
 
 function AnimatedCounter({ end, duration = 2000, suffix = '' }: { end: number; duration?: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -64,6 +106,9 @@ export default function HomePage() {
   const router = useRouter();
   const [featuredVehicles, setFeaturedVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
+  const [happyCustomers, setHappyCustomers] = useState<HappyCustomer[]>([]);
+  const [currentCustomerIndex, setCurrentCustomerIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   // Search Panel States
   const [searchType, setSearchType] = useState('');
@@ -73,6 +118,7 @@ export default function HomePage() {
 
   useEffect(() => {
     loadFeaturedVehicles();
+    loadHappyCustomers();
   }, []);
 
   const loadFeaturedVehicles = async () => {
@@ -90,6 +136,36 @@ export default function HomePage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const loadHappyCustomers = async () => {
+    try {
+      const response = await happyCustomersApi.getAll();
+      setHappyCustomers(response.data.data || []);
+    } catch (error) {
+      console.error('Error loading happy customers:', error);
+    }
+  };
+
+  const displayCustomers = happyCustomers.length > 0 ? happyCustomers : DEFAULT_HAPPY_CUSTOMERS;
+
+  // Auto-swipe effect for happy customers carousel
+  useEffect(() => {
+    if (displayCustomers.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentCustomerIndex((prev) => (prev + 1) % displayCustomers.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [displayCustomers.length]);
+
+  const activeCustomer = displayCustomers[currentCustomerIndex];
+
+  const handlePrevCustomer = () => {
+    setCurrentCustomerIndex((prev) => (prev - 1 + displayCustomers.length) % displayCustomers.length);
+  };
+
+  const handleNextCustomer = () => {
+    setCurrentCustomerIndex((prev) => (prev + 1) % displayCustomers.length);
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -267,34 +343,8 @@ export default function HomePage() {
         </form>
       </div>
 
-      {/* Statistics Section */}
-      <section className="relative z-10 -mt-10 mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white border border-[#E5E7EB] rounded-[24px] p-6 sm:p-8 shadow-soft grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
-          {[
-            { icon: <FaCar />, end: 1000, suffix: '+', label: 'Vehicles Sold' },
-            { icon: <FaUsers />, end: 1000, suffix: '+', label: 'Happy Customers' },
-            { icon: <FaAward />, end: 7, suffix: '+', label: 'Years of Trust' },
-            { icon: <FaFileContract />, end: 100, suffix: '%', label: 'RTO Compliant' }
-          ].map((stat, idx) => (
-            <div key={idx} className={`flex items-center space-x-4 pl-4 ${idx >= 2 ? 'pt-6 lg:pt-0' : ''} ${idx === 1 ? 'pt-6 sm:pt-0' : ''} ${idx === 0 ? 'pt-0' : ''}`}>
-              <div className="w-12 h-12 rounded-full bg-[#D4A63F]/10 text-[#D4A63F] flex items-center justify-center text-lg flex-shrink-0">
-                {stat.icon}
-              </div>
-              <div className="text-left">
-                <div className="text-xl sm:text-2xl font-black text-[#111111] font-display leading-tight">
-                  <AnimatedCounter end={stat.end} suffix={stat.suffix} />
-                </div>
-                <div className="text-xs text-gray-500 font-semibold font-sans">
-                  {stat.label}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Featured Vehicles */}
-      <section className="py-24 bg-[#FAFAF8]">
+      <section className="pt-28 pb-24 bg-[#FAFAF8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16">
             <div>
@@ -475,6 +525,202 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Happy Customers Photo Show & Relocated Stats Section */}
+      <section className="py-24 bg-[#FAFAF8] border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Relocated Statistics Bar */}
+          <div className="mb-20 -mt-10 sm:-mt-16 relative z-10">
+            <div className="bg-white border border-[#E5E7EB] rounded-[24px] p-6 sm:p-8 shadow-soft grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
+              {[
+                { icon: <FaCar />, end: 1000, suffix: '+', label: 'Vehicles Sold' },
+                { icon: <FaUsers />, end: 1000, suffix: '+', label: 'Happy Customers' },
+                { icon: <FaAward />, end: 7, suffix: '+', label: 'Years of Trust' },
+                { icon: <FaFileContract />, end: 100, suffix: '%', label: 'RTO Compliant' }
+              ].map((stat, idx) => (
+                <div key={idx} className={`flex items-center space-x-4 pl-4 ${idx >= 2 ? 'pt-6 lg:pt-0' : ''} ${idx === 1 ? 'pt-6 sm:pt-0' : ''} ${idx === 0 ? 'pt-0' : ''}`}>
+                  <div className="w-12 h-12 rounded-full bg-[#D4A63F]/10 text-[#D4A63F] flex items-center justify-center text-lg flex-shrink-0">
+                    {stat.icon}
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xl sm:text-2xl font-black text-[#111111] font-display leading-tight">
+                      <AnimatedCounter end={stat.end} suffix={stat.suffix} />
+                    </div>
+                    <div className="text-xs text-gray-500 font-semibold font-sans">
+                      {stat.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Header */}
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 text-left">
+            <div>
+              <span className="text-[#D4A63F] text-xs font-extrabold uppercase tracking-widest block mb-3 font-sans">Delivering Smiles</span>
+              <h2 className="text-3xl md:text-5xl font-black text-[#111111] mb-2 tracking-tight font-display text-left">
+                Happy Customers Photo Show
+              </h2>
+              <p className="text-gray-500 font-medium text-base font-sans">Real delivery moments from Indori Gaadiwala</p>
+            </div>
+            <button 
+              onClick={() => setIsLightboxOpen(true)}
+              className="flex items-center text-[#111111] hover:text-[#D4A63F] transition-colors font-bold font-sans text-sm gap-2 mt-6 md:mt-0 px-6 py-3 bg-white border border-gray-200 rounded-full shadow-sm cursor-pointer hover:shadow"
+            >
+              Show All Photos ({displayCustomers.length}) <FaArrowRight className="text-xs" />
+            </button>
+          </div>
+
+          {/* Carousel */}
+          {activeCustomer && (
+            <div className="relative max-w-4xl mx-auto">
+              <div className="bg-white border border-[#E5E7EB] rounded-[32px] shadow-medium overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[420px] transition-all duration-500">
+                
+                {/* Photo Column */}
+                <div className="md:col-span-7 h-64 md:h-auto relative overflow-hidden group bg-gray-100">
+                  <img 
+                    src={activeCustomer.imageUrl} 
+                    alt={activeCustomer.name} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+                  <div className="absolute bottom-4 left-4 bg-[#D4A63F] text-black font-extrabold text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md font-sans shadow-md">
+                    🎉 Delivered
+                  </div>
+                </div>
+
+                {/* Testimonial details Column */}
+                <div className="md:col-span-5 p-8 sm:p-10 flex flex-col justify-between text-left relative bg-white">
+                  <div>
+                    <div className="flex text-amber-500 gap-1 mb-4">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <FaStar key={i} className={i < activeCustomer.rating ? 'fill-amber-500' : 'text-gray-200'} />
+                      ))}
+                    </div>
+
+                    <h3 className="text-2xl font-black text-[#111111] font-display mb-1.5 leading-tight tracking-tight text-left">
+                      {activeCustomer.name}
+                    </h3>
+                    <div className="inline-flex items-center gap-1.5 text-[10px] text-[#D4A63F] font-bold uppercase tracking-wider mb-6 bg-[#D4A63F]/10 px-2.5 py-1 rounded-md font-sans">
+                      <FaCar size={10} />
+                      <span>{activeCustomer.vehicleName}</span>
+                    </div>
+
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed font-sans font-medium italic">
+                      "{activeCustomer.review}"
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between border-t border-gray-100 pt-6 mt-6">
+                    <div>
+                      <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider font-sans block">Delivery Date</span>
+                      <span className="text-xs text-gray-800 font-bold font-sans">{activeCustomer.deliveryDate || 'N/A'}</span>
+                    </div>
+
+                    {/* Navigation */}
+                    <div className="flex gap-2">
+                      <button 
+                        onClick={handlePrevCustomer}
+                        className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 hover:border-gray-300 transition-all cursor-pointer"
+                        aria-label="Previous customer"
+                      >
+                        <FaChevronLeft size={12} />
+                      </button>
+                      <button 
+                        onClick={handleNextCustomer}
+                        className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-100 hover:border-gray-300 transition-all cursor-pointer"
+                        aria-label="Next customer"
+                      >
+                        <FaArrowRight size={12} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Indicator Dots */}
+              <div className="flex justify-center gap-2 mt-8">
+                {displayCustomers.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentCustomerIndex(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${currentCustomerIndex === idx ? 'w-8 bg-[#D4A63F]' : 'w-2 bg-gray-200 hover:bg-gray-300'}`}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+      </section>
+
+      {/* Lightbox / View All Modal */}
+      {isLightboxOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 transition-all duration-300">
+          <div className="bg-white rounded-[32px] w-full max-w-6xl max-h-[85vh] overflow-y-auto shadow-2xl relative border border-gray-100">
+            
+            {/* Header */}
+            <div className="p-6 sm:p-8 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-20">
+              <div className="text-left">
+                <span className="text-[#D4A63F] text-[10px] font-extrabold uppercase tracking-widest block mb-1 font-sans">Delivering Smiles</span>
+                <h3 className="text-xl sm:text-3xl font-black text-[#111111] font-display tracking-tight">All Delivery Moments</h3>
+              </div>
+              <button 
+                onClick={() => setIsLightboxOpen(false)}
+                className="w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 text-2xl transition-all cursor-pointer font-bold"
+                aria-label="Close Lightbox"
+              >
+                &times;
+              </button>
+            </div>
+
+            {/* Grid */}
+            <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {displayCustomers.map((cust) => (
+                <div key={cust._id} className="bg-[#FAFAF8] rounded-[24px] overflow-hidden border border-gray-150 shadow-soft flex flex-col justify-between group">
+                  <div className="h-56 relative overflow-hidden bg-gray-200">
+                    <img 
+                      src={cust.imageUrl} 
+                      alt={cust.name} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                    />
+                    <div className="absolute top-3 left-3 bg-[#D4A63F] text-black font-extrabold text-[9px] uppercase tracking-widest px-2.5 py-0.5 rounded font-sans shadow-sm">
+                      🎉 Delivered
+                    </div>
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col justify-between text-left">
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-extrabold text-lg text-[#111111] font-display">{cust.name}</h4>
+                        <div className="flex text-amber-500 text-xs">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <FaStar key={i} className={i < cust.rating ? 'fill-amber-500' : 'text-gray-200'} />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="inline-flex items-center gap-1 text-[10px] text-[#D4A63F] font-bold uppercase tracking-wider mb-4 bg-[#D4A63F]/10 px-2 py-0.5 rounded font-sans">
+                        <FaCar size={8} />
+                        <span>{cust.vehicleName}</span>
+                      </div>
+                      <p className="text-gray-500 text-xs sm:text-sm leading-relaxed font-sans mb-4 italic">
+                        "{cust.review}"
+                      </p>
+                    </div>
+                    <div className="border-t border-gray-200/60 pt-4 flex justify-between items-center mt-auto">
+                      <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider font-sans block">Delivery Date</span>
+                      <span className="text-xs text-gray-700 font-bold font-sans">{cust.deliveryDate || 'N/A'}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* CTA Section */}
       <section className="py-16 bg-white">

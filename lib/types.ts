@@ -112,3 +112,16 @@ export interface SellerInquiry {
 
     vehicleDetails?: any;
 }
+
+export interface HappyCustomer {
+    _id: string;
+    name: string;
+    imageUrl: string;
+    vehicleName: string;
+    review: string;
+    rating: number;
+    deliveryDate?: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
