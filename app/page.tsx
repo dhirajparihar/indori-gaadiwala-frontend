@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -73,8 +73,35 @@ const DEFAULT_HAPPY_CUSTOMERS = [
 
 function AnimatedCounter({ end, duration = 2000, suffix = '' }: { end: number; duration?: number; suffix?: string }) {
   const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const counterRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setIsVisible(true);
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (counterRef.current) {
+      observer.observe(counterRef.current);
+    }
+
+    return () => {
+      if (counterRef.current) {
+        observer.unobserve(counterRef.current);
+      }
+    };
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     let startTime: number | null = null;
     let animationFrameId: number;
 
@@ -97,9 +124,9 @@ function AnimatedCounter({ end, duration = 2000, suffix = '' }: { end: number; d
 
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [end, duration]);
+  }, [end, duration, isVisible]);
 
-  return <span>{count.toLocaleString('en-IN')}{suffix}</span>;
+  return <span ref={counterRef}>{count.toLocaleString('en-IN')}{suffix}</span>;
 }
 
 export default function HomePage() {
