@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { vehiclesApi, bookingsApi, formatPrice, getImageUrl } from '@/lib/api';
 import { Vehicle } from '@/lib/types';
 import EMICalculator from '@/components/ui/EMICalculator';
-import { FaArrowLeft, FaCalendar, FaGasPump, FaCog, FaTachometerAlt, FaCheckCircle, FaPaperPlane, FaTimes, FaChevronLeft, FaChevronRight, FaCar, FaMotorcycle, FaTruck } from 'react-icons/fa';
+import { FaArrowLeft, FaCalendar, FaGasPump, FaCog, FaTachometerAlt, FaCheckCircle, FaPaperPlane, FaTimes, FaChevronLeft, FaChevronRight, FaCar, FaMotorcycle, FaTruck, FaShareAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
 export default function VehicleDetailPage() {
@@ -103,6 +103,26 @@ export default function VehicleDetailPage() {
             console.error('Error loading vehicle:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleShare = async () => {
+        if (!vehicle) return;
+        const shareData = {
+            title: vehicle.title,
+            text: `Check out this ${vehicle.title} on Gaadiwala!`,
+            url: window.location.href,
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                await navigator.clipboard.writeText(window.location.href);
+                toast.success('Link copied to clipboard!');
+            }
+        } catch (error) {
+            console.error('Error sharing:', error);
         }
     };
 
@@ -211,6 +231,13 @@ export default function VehicleDetailPage() {
                         <span>Back</span>
                     </button>
                     <div className="flex items-center space-x-3">
+                        <button
+                            onClick={handleShare}
+                            className="flex items-center space-x-2 text-gray-600 hover:text-[#D4A63F] transition-colors p-2 rounded-full bg-[#FAFAF8] border border-[#E5E7EB] shadow-sm"
+                            title="Share Vehicle"
+                        >
+                            <FaShareAlt />
+                        </button>
                         <div className="flex items-center space-x-2 text-gray-600 font-bold bg-[#FAFAF8] px-4 py-2 rounded-full border border-[#E5E7EB] shadow-sm font-sans text-xs uppercase tracking-wide">
                             {vehicle.type === 'car' ? <FaCar className="text-[#D4A63F]" /> : vehicle.type === 'bike' ? <FaMotorcycle className="text-[#D4A63F]" /> : <FaTruck className="text-[#D4A63F]" />}
                             <span>{vehicle.type}</span>

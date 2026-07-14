@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Vehicle } from '@/lib/types';
 import { formatPrice, getImageUrl } from '@/lib/api';
-import { FaCalendar, FaGasPump, FaCog, FaTachometerAlt, FaCar, FaMotorcycle, FaTruck } from 'react-icons/fa';
+import { FaCalendar, FaGasPump, FaCog, FaTachometerAlt, FaCar, FaMotorcycle, FaTruck, FaShareAlt } from 'react-icons/fa';
 
 interface VehicleCardProps {
     vehicle: Vehicle;
@@ -12,6 +12,28 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
     const imageUrl = vehicle.images && vehicle.images.length > 0
         ? getImageUrl(vehicle.images[0])
         : '/placeholder-car.jpg';
+
+    const handleShare = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = `${window.location.origin}/vehicles/${vehicle._id}`;
+        const shareData = {
+            title: vehicle.title,
+            text: `Check out this ${vehicle.title} on Gaadiwala!`,
+            url: url,
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                await navigator.clipboard.writeText(url);
+                alert('Link copied to clipboard!');
+            }
+        } catch (error) {
+            console.error('Error sharing:', error);
+        }
+    };
 
     return (
         <Link href={`/vehicles/${vehicle._id}`}>
@@ -36,6 +58,14 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                             {vehicle.discount}% OFF
                         </div>
                     )}
+                    <button
+                        onClick={handleShare}
+                        className={`absolute top-2 sm:top-3 ${vehicle.discount > 0 ? 'right-[4.5rem] sm:right-20' : 'right-2 sm:right-3'} bg-white/95 backdrop-blur-sm p-2 sm:p-2.5 rounded-full border border-[#E5E7EB] z-10 text-gray-600 hover:text-[#D4A63F] shadow-sm transition-colors`}
+                        aria-label="Share"
+                        title="Share Vehicle"
+                    >
+                        <FaShareAlt className="text-xs sm:text-sm" />
+                    </button>
                 </div>
 
                 {/* Content */}
