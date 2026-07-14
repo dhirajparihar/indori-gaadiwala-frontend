@@ -259,7 +259,7 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                 </div>
                                 
                                 <div className="border-t border-gray-100 pt-2 space-y-2">
-                                    <div className="flex justify-between items-center gap-2">
+                                    <div className="flex flex-col sm:flex-row gap-3 w-full">
                                         <div className="flex-1">
                                             <span className="text-[10px] text-gray-500 block uppercase font-bold tracking-wider">Status</span>
                                             <select

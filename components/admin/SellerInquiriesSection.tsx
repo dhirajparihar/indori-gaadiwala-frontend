@@ -162,7 +162,7 @@ export default function SellerInquiriesSection({ inquiries, onRefresh }: SellerI
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-3">
+                                    <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto sm:justify-end mt-2 sm:mt-0">
                                         <div className="text-right">
                                             <div className="text-sm text-gray-500">{inquiry.kmDriven?.toLocaleString()} KM</div>
                                             <div className="font-bold text-xl text-green-600">₹{inquiry.demand?.toLocaleString()}</div>
