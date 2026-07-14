@@ -110,7 +110,7 @@ export default function VehicleDetailPage() {
         if (!vehicle) return;
         const shareData = {
             title: vehicle.title,
-            text: `Check out this ${vehicle.title} on Gaadiwala!`,
+            text: `Check out this ${vehicle.title} on Indori Gaadiwala!`,
             url: window.location.href,
         };
 
