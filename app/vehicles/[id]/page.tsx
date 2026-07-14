@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, TouchEvent } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { vehiclesApi, bookingsApi, formatPrice, getImageUrl } from '@/lib/api';
@@ -26,6 +26,9 @@ export default function VehicleDetailPage() {
     const [activeTab, setActiveTab] = useState<'inquiry' | 'test_drive'>('inquiry');
     const [submitting, setSubmitting] = useState(false);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+    const [touchStart, setTouchStart] = useState(0);
+    const [touchEnd, setTouchEnd] = useState(0);
+    const lightboxRef = useRef<HTMLDivElement>(null);
 
     const openLightbox = (index: number) => {
         setSelectedImage(index);
@@ -47,6 +50,29 @@ export default function VehicleDetailPage() {
         e?.stopPropagation();
         if (vehicle && vehicle.images && vehicle.images.length > 0) {
             setSelectedImage((prev) => (prev - 1 + vehicle.images.length) % vehicle.images.length);
+        }
+    };
+
+    // Touch gesture handlers for mobile swipe
+    const handleTouchStart = (e: TouchEvent) => {
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = () => {
+        if (!touchStart || !touchEnd) return;
+        
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > 50;
+        const isRightSwipe = distance < -50;
+
+        if (isLeftSwipe) {
+            nextImage();
+        } else if (isRightSwipe) {
+            prevImage();
         }
     };
 
@@ -220,8 +246,11 @@ export default function VehicleDetailPage() {
                         {/* Main Image */}
                         <div className="card overflow-hidden">
                             <div
-                                className="relative h-80 sm:h-[450px] bg-[#FAFAF8] cursor-pointer group"
+                                className="relative h-64 sm:h-80 md:h-[450px] bg-[#FAFAF8] cursor-pointer group"
                                 onClick={() => openLightbox(selectedImage)}
+                                onTouchStart={handleTouchStart}
+                                onTouchMove={handleTouchMove}
+                                onTouchEnd={handleTouchEnd}
                             >
                                 <Image
                                     src={images[selectedImage]}
@@ -235,12 +264,12 @@ export default function VehicleDetailPage() {
                                     }}
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                                    <span className="text-white opacity-0 group-hover:opacity-100 bg-black/50 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-opacity shadow-lg">
+                                    <span className="text-white opacity-0 group-hover:opacity-100 bg-black/50 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-opacity shadow-lg">
                                         Click to Expand
                                     </span>
                                 </div>
                                 {vehicle.discount > 0 && (
-                                    <div className="absolute top-4 right-4 bg-[#D4A63F] text-black px-4 py-1.5 rounded-full text-sm font-extrabold z-10 uppercase shadow-md">
+                                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-[#D4A63F] text-black px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm font-extrabold z-10 uppercase shadow-md">
                                         {vehicle.discount}% OFF
                                     </div>
                                 )}
@@ -250,17 +279,19 @@ export default function VehicleDetailPage() {
                                     <>
                                         <button
                                             onClick={prevImage}
-                                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-3 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20 shadow-md"
+                                            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 sm:p-3 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20 shadow-md"
                                             aria-label="Previous image"
                                         >
-                                            <FaChevronLeft size={16} />
+                                            <FaChevronLeft size={14} className="sm:hidden" />
+                                            <FaChevronLeft size={16} className="hidden sm:block" />
                                         </button>
                                         <button
                                             onClick={nextImage}
-                                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-3 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20 shadow-md"
+                                            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 sm:p-3 rounded-full transition-all opacity-0 group-hover:opacity-100 z-20 shadow-md"
                                             aria-label="Next image"
                                         >
-                                            <FaChevronRight size={16} />
+                                            <FaChevronRight size={14} className="sm:hidden" />
+                                            <FaChevronRight size={16} className="hidden sm:block" />
                                         </button>
                                     </>
                                 )}
@@ -268,12 +299,12 @@ export default function VehicleDetailPage() {
 
                             {/* Thumbnails */}
                             {images.length > 1 && (
-                                <div className="grid grid-cols-6 gap-2.5 p-3 bg-white border-t border-[#E5E7EB]">
+                                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 p-2 sm:gap-2.5 sm:p-3 bg-white border-t border-[#E5E7EB]">
                                     {images.map((img, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImage(index)}
-                                            className={`relative h-16 rounded-xl overflow-hidden border-2 transition-all ${
+                                            className={`relative h-12 sm:h-16 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all ${
                                                 selectedImage === index ? 'border-[#D4A63F]' : 'border-[#E5E7EB]'
                                             }`}
                                         >
@@ -500,25 +531,34 @@ export default function VehicleDetailPage() {
 
                 {/* Lightbox Modal */}
                 {isLightboxOpen && (
-                    <div className="fixed inset-0 z-55 bg-black/95 flex items-center justify-center backdrop-blur-sm" onClick={closeLightbox}>
+                    <div 
+                        ref={lightboxRef}
+                        className="fixed inset-0 z-55 bg-black/95 flex items-center justify-center backdrop-blur-sm"
+                        onClick={closeLightbox}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                    >
                         {/* Close Button */}
                         <button
                             onClick={closeLightbox}
-                            className="absolute top-6 right-6 text-white/70 hover:text-white z-50 p-2 rounded-full hover:bg-white/10 transition-colors"
+                            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/70 hover:text-white z-50 p-2 sm:p-2 rounded-full hover:bg-white/10 transition-colors"
                         >
-                            <FaTimes size={30} />
+                            <FaTimes size={24} className="sm:hidden" />
+                            <FaTimes size={30} className="hidden sm:block" />
                         </button>
 
                         {/* Prev Button */}
                         <button
                             onClick={prevImage}
-                            className="absolute left-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-3 rounded-full hover:bg-white/10 transition-colors"
+                            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-2 sm:p-3 rounded-full hover:bg-white/10 transition-colors bg-black/20 sm:bg-transparent"
                         >
-                            <FaChevronLeft size={40} />
+                            <FaChevronLeft size={28} className="sm:hidden" />
+                            <FaChevronLeft size={40} className="hidden sm:block" />
                         </button>
 
                         {/* Image Container */}
-                        <div className="relative w-full h-full max-w-7xl max-h-[90vh] mx-4 flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+                        <div className="relative w-full h-full max-w-7xl max-h-[90vh] mx-2 sm:mx-4 flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
                             <Image
                                 src={images[selectedImage]}
                                 alt={vehicle.title}
@@ -529,17 +569,23 @@ export default function VehicleDetailPage() {
                             />
 
                             {/* Counter */}
-                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/90 bg-black/50 px-4 py-1.5 rounded-full text-sm font-medium">
+                            <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 text-white/90 bg-black/50 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium">
                                 {selectedImage + 1} / {images.length}
+                            </div>
+                            
+                            {/* Swipe hint for mobile */}
+                            <div className="absolute bottom-16 sm:hidden text-white/50 text-xs font-medium animate-pulse">
+                                Swipe to navigate
                             </div>
                         </div>
 
                         {/* Next Button */}
                         <button
                             onClick={nextImage}
-                            className="absolute right-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-3 rounded-full hover:bg-white/10 transition-colors"
+                            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-50 p-2 sm:p-3 rounded-full hover:bg-white/10 transition-colors bg-black/20 sm:bg-transparent"
                         >
-                            <FaChevronRight size={40} />
+                            <FaChevronRight size={28} className="sm:hidden" />
+                            <FaChevronRight size={40} className="hidden sm:block" />
                         </button>
                     </div>
                 )}
