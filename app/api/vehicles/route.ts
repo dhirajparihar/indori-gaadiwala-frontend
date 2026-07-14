@@ -3,6 +3,7 @@ import dbConnect from '@/lib/dbConnect';
 import Vehicle from '@/lib/models/Vehicle';
 import { verifyAuth } from '@/lib/auth';
 import { uploadBufferToCloudinary } from '@/lib/cloudinary';
+import { validators, handleValidationError } from '@/lib/validation';
 
 export async function GET(req: NextRequest) {
     try {
@@ -80,13 +81,44 @@ export async function POST(req: NextRequest) {
         const featured = formData.get('featured') === 'true';
         const status = (formData.get('status') as string) || 'available';
 
-        // Validate basic fields
-        if (!title || !type || !brand || !model || !year || !price || !originalPrice || !mileage || !fuelType || !transmission || !description) {
-            return NextResponse.json({
-                success: false,
-                message: 'Please fill in all required fields'
-            }, { status: 400 });
+        // Validate required fields
+        validators.required(title, 'Title');
+        validators.required(type, 'Type');
+        validators.required(brand, 'Brand');
+        validators.required(model, 'Model');
+        validators.required(year, 'Year');
+        validators.required(price, 'Price');
+        validators.required(originalPrice, 'Original price');
+        validators.required(mileage, 'Mileage');
+        validators.required(fuelType, 'Fuel type');
+        validators.required(transmission, 'Transmission');
+        validators.required(description, 'Description');
+
+        // Validate title length
+        validators.minLength(title, 5, 'Title');
+
+        // Validate year
+        if (year !== undefined) {
+            validators.year(year);
         }
+
+        // Validate price
+        if (price !== undefined) {
+            validators.price(price, 10000, 100000000);
+        }
+
+        // Validate original price (should be greater than or equal to price)
+        if (originalPrice !== undefined && price !== undefined) {
+            if (originalPrice < price) {
+                throw new Error('Original price cannot be less than selling price');
+            }
+        }
+
+        // Validate mileage
+        validators.mileage(mileage);
+
+        // Validate owner count
+        validators.ownerCount(ownerCount);
 
         // Upload images
         const images: string[] = [];
@@ -140,11 +172,19 @@ export async function POST(req: NextRequest) {
             message: 'Vehicle created successfully',
             data: vehicle
         }, { status: 201 });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Create vehicle error:', error);
+        
+        // Handle validation errors
+        const validationError = handleValidationError(error);
+        if (validationError.statusCode === 400) {
+            return NextResponse.json(validationError, { status: validationError.statusCode });
+        }
+        
+        // Handle other errors
         return NextResponse.json({
             success: false,
-            message: error.message || 'Server error'
+            message: error instanceof Error ? error.message : 'Server error'
         }, { status: 500 });
     }
 }

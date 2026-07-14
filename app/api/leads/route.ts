@@ -2,18 +2,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Lead from '@/lib/models/Lead';
 import { verifyAuth } from '@/lib/auth';
+import { validators, handleValidationError } from '@/lib/validation';
 
 export async function POST(req: NextRequest) {
     try {
         await dbConnect();
         const { name, phone, source } = await req.json();
 
-        if (!name || !phone) {
-            return NextResponse.json({
-                success: false,
-                message: 'Name and phone number are required'
-            }, { status: 400 });
-        }
+        // Validate required fields
+        validators.required(name, 'Name');
+        validators.required(phone, 'Phone number');
+
+        // Validate name length
+        validators.name(name);
+
+        // Validate phone number
+        validators.phone(phone);
 
         // Check if lead with same phone already exists
         const existingLead = await Lead.findOne({ phone });
@@ -40,11 +44,19 @@ export async function POST(req: NextRequest) {
             message: 'Lead created successfully',
             data: lead
         }, { status: 201 });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error creating lead:', error);
+        
+        // Handle validation errors
+        const validationError = handleValidationError(error);
+        if (validationError.statusCode === 400) {
+            return NextResponse.json(validationError, { status: validationError.statusCode });
+        }
+        
+        // Handle other errors
         return NextResponse.json({
             success: false,
-            message: error.message || 'Server error'
+            message: error instanceof Error ? error.message : 'Server error'
         }, { status: 500 });
     }
 }

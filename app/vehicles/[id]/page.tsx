@@ -84,9 +84,45 @@ export default function VehicleDetailPage() {
         e.preventDefault();
         if (!vehicle) return;
 
+        // Validation
+        if (!formData.customerName.trim()) {
+            toast.error('Please enter your name');
+            return;
+        }
+
+        if (formData.customerName.trim().length < 2) {
+            toast.error('Name must be at least 2 characters');
+            return;
+        }
+
+        if (!formData.customerPhone.trim()) {
+            toast.error('Please enter your phone number');
+            return;
+        }
+
+        // Validate phone number (10 digits)
+        const phonePattern = /^[6-9]\d{9}$/;
+        if (!phonePattern.test(formData.customerPhone)) {
+            toast.error('Please enter a valid 10-digit phone number starting with 6, 7, 8, or 9');
+            return;
+        }
+
+        const isTestDrive = activeTab === 'test_drive';
+
+        // Additional validation for test drive
+        if (isTestDrive) {
+            if (!formData.preferredDate) {
+                toast.error('Please select a preferred date');
+                return;
+            }
+            if (!formData.preferredTimeSlot) {
+                toast.error('Please select a preferred time slot');
+                return;
+            }
+        }
+
         setSubmitting(true);
         try {
-            const isTestDrive = activeTab === 'test_drive';
             const payload: any = {
                 customerName: formData.customerName,
                 customerPhone: formData.customerPhone,
@@ -376,7 +412,10 @@ export default function VehicleDetailPage() {
                                             placeholder="Phone Number"
                                             className="input py-3 text-sm font-sans"
                                             value={formData.customerPhone}
-                                            onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
+                                            onChange={(e) => {
+                                                const numbers = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                                setFormData({ ...formData, customerPhone: numbers });
+                                            }}
                                             required
                                         />
                                     </div>

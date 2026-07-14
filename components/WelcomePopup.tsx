@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { FaTimes, FaUser, FaPhone } from 'react-icons/fa';
 import { leadsApi } from '@/lib/api';
+import { toast } from 'react-toastify';
 
 interface WelcomePopupProps {
     onSubmit?: (data: { name: string; phone: string }) => void;
@@ -33,6 +34,25 @@ export default function WelcomePopup({ onSubmit }: WelcomePopupProps) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Validation
+        if (!formData.name.trim()) {
+            toast.error('Please enter your name');
+            return;
+        }
+
+        if (!formData.phone.trim()) {
+            toast.error('Please enter your phone number');
+            return;
+        }
+
+        // Validate phone number (10 digits)
+        const phonePattern = /^[6-9]\d{9}$/;
+        if (!phonePattern.test(formData.phone)) {
+            toast.error('Please enter a valid 10-digit phone number starting with 6, 7, 8, or 9');
+            return;
+        }
+
         setSubmitting(true);
 
         try {
@@ -46,8 +66,13 @@ export default function WelcomePopup({ onSubmit }: WelcomePopupProps) {
             localStorage.setItem('gaadiwala_popup_seen', 'true');
             localStorage.setItem('gaadiwala_user', JSON.stringify(formData));
             setIsOpen(false);
-        } catch (error) {
+            toast.success('Welcome! We\'ll be in touch soon.');
+        } catch (error: unknown) {
             console.error('Error submitting form:', error);
+            const errorMessage = error instanceof Error 
+                ? error.message 
+                : 'Failed to submit. Please try again.';
+            toast.error(errorMessage);
             // Still close popup even if API fails
             localStorage.setItem('gaadiwala_popup_seen', 'true');
             setIsOpen(false);
@@ -97,7 +122,10 @@ export default function WelcomePopup({ onSubmit }: WelcomePopupProps) {
                             placeholder="Phone Number"
                             required
                             value={formData.phone}
-                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            onChange={(e) => {
+                                const numbers = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                setFormData({ ...formData, phone: numbers });
+                            }}
                             className="w-full pl-10 pr-4 py-2.5 text-sm border border-[#E4E4E7] rounded-full focus:ring-1 focus:ring-black focus:border-black outline-none transition-all"
                         />
                     </div>

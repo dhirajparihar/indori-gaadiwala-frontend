@@ -3,6 +3,7 @@ import dbConnect from '@/lib/dbConnect';
 import HappyCustomer from '@/lib/models/HappyCustomer';
 import { verifyAuth } from '@/lib/auth';
 import { uploadBufferToCloudinary } from '@/lib/cloudinary';
+import { validators, handleValidationError } from '@/lib/validation';
 
 export async function GET(req: NextRequest) {
     try {
@@ -43,12 +44,22 @@ export async function POST(req: NextRequest) {
         const rating = ratingVal ? Number(ratingVal) : 5;
         const deliveryDate = formData.get('deliveryDate') as string;
 
-        if (!name || !vehicleName || !review) {
-            return NextResponse.json({
-                success: false,
-                message: 'Name, vehicle name, and review are required fields'
-            }, { status: 400 });
-        }
+        // Validate required fields
+        validators.required(name, 'Name');
+        validators.required(vehicleName, 'Vehicle name');
+        validators.required(review, 'Review');
+
+        // Validate name length
+        validators.name(name);
+
+        // Validate vehicle name length
+        validators.minLength(vehicleName, 3, 'Vehicle name');
+
+        // Validate review length
+        validators.minLength(review, 10, 'Review');
+
+        // Validate rating range
+        validators.rating(rating);
 
         const file = formData.get('image') as File;
         if (!file || file.size === 0) {
@@ -83,11 +94,19 @@ export async function POST(req: NextRequest) {
             data: newCustomer
         }, { status: 201 });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Create happy customer error:', error);
+        
+        // Handle validation errors
+        const validationError = handleValidationError(error);
+        if (validationError.statusCode === 400) {
+            return NextResponse.json(validationError, { status: validationError.statusCode });
+        }
+        
+        // Handle other errors
         return NextResponse.json({
             success: false,
-            message: error.message || 'Server error'
+            message: error instanceof Error ? error.message : 'Server error'
         }, { status: 500 });
     }
 }

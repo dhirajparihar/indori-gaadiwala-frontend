@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/lib/models/User';
 import { verifyAuth } from '@/lib/auth';
+import { validators, handleValidationError } from '@/lib/validation';
 
 export async function POST(req: NextRequest) {
     try {
@@ -24,19 +25,19 @@ export async function POST(req: NextRequest) {
         await dbConnect();
         const { email, password, name, role } = await req.json();
 
-        if (!email || !password || !name) {
-            return NextResponse.json({
-                success: false,
-                message: 'Name, email and password are required'
-            }, { status: 400 });
-        }
+        // Validate required fields
+        validators.required(email, 'Email');
+        validators.required(password, 'Password');
+        validators.required(name, 'Name');
 
-        if (password.length < 6) {
-            return NextResponse.json({
-                success: false,
-                message: 'Password must be at least 6 characters'
-            }, { status: 400 });
-        }
+        // Validate email format
+        validators.email(email);
+
+        // Validate name length
+        validators.name(name);
+
+        // Validate password length
+        validators.password(password);
 
         // Check if user already exists
         let user = await User.findOne({ email });
@@ -67,11 +68,19 @@ export async function POST(req: NextRequest) {
                 role: user.role
             }
         }, { status: 201 });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Register error:', error);
+        
+        // Handle validation errors
+        const validationError = handleValidationError(error);
+        if (validationError.statusCode === 400) {
+            return NextResponse.json(validationError, { status: validationError.statusCode });
+        }
+        
+        // Handle other errors
         return NextResponse.json({
             success: false,
-            message: error.message || 'Server error'
+            message: error instanceof Error ? error.message : 'Server error'
         }, { status: 500 });
     }
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/lib/models/User';
+import { validators, handleValidationError } from '@/lib/validation';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'gaadiwala-secret-key-2026-change-this-in-production';
 const JWT_EXPIRE = process.env.JWT_EXPIRE || '7d';
@@ -11,12 +12,15 @@ export async function POST(req: NextRequest) {
         await dbConnect();
         const { email, password } = await req.json();
 
-        if (!email || !password) {
-            return NextResponse.json({
-                success: false,
-                message: 'Please provide email and password'
-            }, { status: 400 });
-        }
+        // Validate required fields
+        validators.required(email, 'Email');
+        validators.required(password, 'Password');
+
+        // Validate email format
+        validators.email(email);
+
+        // Validate password length
+        validators.password(password);
 
         const user = await User.findOne({ email });
         if (!user) {
@@ -63,11 +67,19 @@ export async function POST(req: NextRequest) {
         });
 
         return response;
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Login error:', error);
+        
+        // Handle validation errors
+        const validationError = handleValidationError(error);
+        if (validationError.statusCode === 400) {
+            return NextResponse.json(validationError, { status: validationError.statusCode });
+        }
+        
+        // Handle other errors
         return NextResponse.json({
             success: false,
-            message: error.message || 'Server error'
+            message: error instanceof Error ? error.message : 'Server error'
         }, { status: 500 });
     }
 }

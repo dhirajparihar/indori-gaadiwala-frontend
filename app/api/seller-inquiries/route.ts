@@ -4,6 +4,7 @@ import SellerInquiry from '@/lib/models/SellerInquiry';
 import { verifyAuth } from '@/lib/auth';
 import { uploadBufferToCloudinary } from '@/lib/cloudinary';
 import { fetchVehicleDetails } from '@/lib/vehicleLookup';
+import { validators, handleValidationError } from '@/lib/validation';
 
 export async function POST(req: NextRequest) {
     try {
@@ -22,14 +23,33 @@ export async function POST(req: NextRequest) {
         const inspectionTimeSlot = formData.get('inspectionTimeSlot') as string;
         const inspectionLocation = formData.get('inspectionLocation') as string;
 
-        if (!name || !phone || !regNo || kmDriven === undefined || demand === undefined) {
-            return NextResponse.json({
-                success: false,
-                message: 'Name, phone, registration number, KM driven, and demand are required'
-            }, { status: 400 });
-        }
+        // Validate required fields
+        validators.required(name, 'Name');
+        validators.required(phone, 'Phone number');
+        validators.required(regNo, 'Registration number');
+        validators.required(kmDriven, 'KM driven');
+        validators.required(demand, 'Expected price');
 
         const formattedRegNo = regNo.toUpperCase().replace(/\s+/g, '');
+
+        // Validate name length
+        validators.name(name);
+
+        // Validate phone number
+        validators.phone(phone);
+
+        // Validate registration number
+        validators.regNo(formattedRegNo);
+
+        // Validate kmDriven
+        if (kmDriven !== undefined) {
+            validators.kmDriven(kmDriven);
+        }
+
+        // Validate demand (price range)
+        if (demand !== undefined) {
+            validators.price(demand, 1000, 10000000);
+        }
 
         // Upload photos
         const photoUrls: string[] = [];
@@ -80,11 +100,19 @@ export async function POST(req: NextRequest) {
             data: inquiry,
             vehicleDetailsFound: !!vehicleDetails
         }, { status: 201 });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Error creating seller inquiry:', error);
+        
+        // Handle validation errors
+        const validationError = handleValidationError(error);
+        if (validationError.statusCode === 400) {
+            return NextResponse.json(validationError, { status: validationError.statusCode });
+        }
+        
+        // Handle other errors
         return NextResponse.json({
             success: false,
-            message: error.message || 'Server error'
+            message: error instanceof Error ? error.message : 'Server error'
         }, { status: 500 });
     }
 }
