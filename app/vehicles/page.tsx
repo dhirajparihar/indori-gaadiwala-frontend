@@ -13,6 +13,7 @@ function VehiclesContent() {
     const searchParams = useSearchParams();
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
+    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
     // Initial state from URL
     const [filters, setFilters] = useState({
@@ -86,14 +87,28 @@ function VehiclesContent() {
                 </div>
 
                 {/* Filters */}
-                <div className="bg-[#FAFAF8] rounded-[24px] border border-[#E5E7EB] p-6 sm:p-8 mb-10 shadow-sm">
-                    <div className="flex flex-col lg:flex-row gap-5 items-end">
-                        <div className="flex-1 w-full grid grid-cols-2 md:grid-cols-4 gap-5">
+                <div className="bg-[#FAFAF8] rounded-[24px] border border-[#E5E7EB] p-4 sm:p-6 lg:p-8 mb-10 shadow-sm">
+                    {/* Mobile Filter Toggle */}
+                    <div className="md:hidden mb-4">
+                        <button
+                            onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+                            className="w-full flex items-center justify-between px-4 py-3 bg-white border border-[#E5E7EB] rounded-full font-semibold text-sm"
+                        >
+                            <span className="flex items-center gap-2">
+                                <FaFilter className="text-[#D4A63F]" />
+                                Filters
+                            </span>
+                            <FaChevronDown className={`transition-transform ${mobileFiltersOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                    </div>
+
+                    <div className={`flex flex-col lg:flex-row gap-4 lg:gap-5 items-end ${mobileFiltersOpen ? 'block' : 'hidden md:block'}`}>
+                        <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
                             <div>
                                 <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest font-sans">Type</label>
                                 <div className="relative">
                                     <select
-                                        className="w-full px-4 py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
+                                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
                                         value={filters.type}
                                         onChange={(e) => handleFilterChange('type', e.target.value)}
                                     >
@@ -102,7 +117,7 @@ function VehiclesContent() {
                                         <option value="bike">Bikes</option>
                                         <option value="commercial">Commercial</option>
                                     </select>
-                                    <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                                    <FaChevronDown className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
                                 </div>
                             </div>
 
@@ -110,7 +125,7 @@ function VehiclesContent() {
                                 <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest font-sans">Fuel</label>
                                 <div className="relative">
                                     <select
-                                        className="w-full px-4 py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
+                                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
                                         value={filters.fuelType}
                                         onChange={(e) => handleFilterChange('fuelType', e.target.value)}
                                     >
@@ -121,7 +136,7 @@ function VehiclesContent() {
                                         <option value="Hybrid">Hybrid</option>
                                         <option value="CNG">CNG</option>
                                     </select>
-                                    <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                                    <FaChevronDown className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
                                 </div>
                             </div>
 
@@ -129,7 +144,7 @@ function VehiclesContent() {
                                 <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest font-sans">Transmission</label>
                                 <div className="relative">
                                     <select
-                                        className="w-full px-4 py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
+                                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
                                         value={filters.transmission}
                                         onChange={(e) => handleFilterChange('transmission', e.target.value)}
                                     >
@@ -138,7 +153,7 @@ function VehiclesContent() {
                                         <option value="Automatic">Automatic</option>
                                         <option value="Semi-Automatic">Semi-Automatic</option>
                                     </select>
-                                    <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                                    <FaChevronDown className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
                                 </div>
                             </div>
 
@@ -146,7 +161,7 @@ function VehiclesContent() {
                                 <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest font-sans">Budget</label>
                                 <div className="relative">
                                     <select
-                                        className="w-full px-4 py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
+                                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 bg-white border border-[#E5E7EB] rounded-full text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#D4A63F] focus:border-[#D4A63F] transition-all font-sans appearance-none text-neutral-900"
                                         value={filters.maxPrice}
                                         onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
                                     >
@@ -156,17 +171,29 @@ function VehiclesContent() {
                                         <option value="1000000">Under ₹10 Lakh</option>
                                         <option value="2000000">Under ₹20 Lakh</option>
                                     </select>
-                                    <FaChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
+                                    <FaChevronDown className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs" />
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex gap-3 w-full lg:w-auto">
-                            <button onClick={applyFilters} className="flex-1 lg:flex-none btn-primary py-3 px-7 text-sm">
+                            <button 
+                                onClick={() => {
+                                    applyFilters();
+                                    setMobileFiltersOpen(false);
+                                }} 
+                                className="flex-1 lg:flex-none btn-primary py-2.5 sm:py-3 px-4 sm:px-7 text-xs sm:text-sm"
+                            >
                                 <FaFilter className="text-xs text-[#D4A63F]" />
                                 <span>Apply</span>
                             </button>
-                            <button onClick={clearFilters} className="flex-1 lg:flex-none btn-secondary py-3 px-7 text-sm">
+                            <button 
+                                onClick={() => {
+                                    clearFilters();
+                                    setMobileFiltersOpen(false);
+                                }} 
+                                className="flex-1 lg:flex-none btn-secondary py-2.5 sm:py-3 px-4 sm:px-7 text-xs sm:text-sm"
+                            >
                                 <FaTimes className="text-xs" />
                                 <span>Clear</span>
                             </button>
