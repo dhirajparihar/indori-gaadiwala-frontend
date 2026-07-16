@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FaUsers, FaPlus, FaTrash, FaStar, FaCalendar, FaCar } from 'react-icons/fa';
 import { HappyCustomer } from '@/lib/types';
-import { happyCustomersApi } from '@/lib/api';
+import { happyCustomersApi, getOptimizedImageUrl } from '@/lib/api';
 import { toast } from 'react-toastify';
 import CollapsibleSection from './CollapsibleSection';
 
@@ -130,7 +130,7 @@ export default function HappyCustomersSection({ happyCustomers, onRefresh }: Hap
                             <div key={cust._id} className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow relative flex flex-col">
                                 <div className="h-48 relative overflow-hidden bg-gray-100">
                                     <img
-                                        src={cust.imageUrl}
+                                        src={getOptimizedImageUrl(cust.imageUrl, 400, 300)}
                                         alt={cust.name}
                                         className="w-full h-full object-cover"
                                     />

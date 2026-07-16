@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, TouchEvent } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { vehiclesApi, bookingsApi, formatPrice, getImageUrl } from '@/lib/api';
+import { vehiclesApi, bookingsApi, formatPrice, getImageUrl, getOptimizedImageUrl } from '@/lib/api';
 import { Vehicle } from '@/lib/types';
 import EMICalculator from '@/components/ui/EMICalculator';
 import { FaArrowLeft, FaCalendar, FaGasPump, FaCog, FaTachometerAlt, FaCheckCircle, FaPaperPlane, FaTimes, FaChevronLeft, FaChevronRight, FaCar, FaMotorcycle, FaTruck, FaShareAlt } from 'react-icons/fa';
@@ -280,7 +280,7 @@ export default function VehicleDetailPage() {
                                 onTouchEnd={handleTouchEnd}
                             >
                                 <Image
-                                    src={images[selectedImage]}
+                                    src={getOptimizedImageUrl(vehicle.images?.[selectedImage], 1200, 800)}
                                     alt={vehicle.title}
                                     fill
                                     className="object-cover transition-transform duration-500 group-hover:scale-102"
@@ -327,7 +327,7 @@ export default function VehicleDetailPage() {
                             {/* Thumbnails */}
                             {images.length > 1 && (
                                 <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 p-2 sm:gap-2.5 sm:p-3 bg-white border-t border-[#E5E7EB]">
-                                    {images.map((img, index) => (
+                                    {vehicle.images?.map((img, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImage(index)}
@@ -336,7 +336,7 @@ export default function VehicleDetailPage() {
                                             }`}
                                         >
                                             <Image
-                                                src={img}
+                                                src={getOptimizedImageUrl(img, 150, 100)}
                                                 alt={`View ${index + 1}`}
                                                 fill
                                                 className="object-cover"

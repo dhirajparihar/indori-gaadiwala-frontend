@@ -18,6 +18,8 @@ export async function GET(req: NextRequest) {
         const featured = searchParams.get('featured');
         const minPrice = searchParams.get('minPrice');
         const maxPrice = searchParams.get('maxPrice');
+        const limit = searchParams.get('limit');
+        const fields = searchParams.get('fields');
 
         // Build filter object
         let filter: any = {};
@@ -35,7 +37,17 @@ export async function GET(req: NextRequest) {
             if (maxPrice && !isNaN(Number(maxPrice))) filter.price.$lte = Number(maxPrice);
         }
 
-        const vehicles = await Vehicle.find(filter).sort({ createdAt: -1 });
+        let query = Vehicle.find(filter).sort({ createdAt: -1 });
+
+        if (fields) {
+            query = query.select(fields.split(',').join(' '));
+        }
+
+        if (limit && !isNaN(Number(limit))) {
+            query = query.limit(Number(limit));
+        }
+
+        const vehicles = await query;
 
         return NextResponse.json({
             success: true,

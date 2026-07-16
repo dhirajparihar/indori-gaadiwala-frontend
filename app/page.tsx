@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { vehiclesApi, happyCustomersApi } from '@/lib/api';
+import { vehiclesApi, happyCustomersApi, getOptimizedImageUrl } from '@/lib/api';
 import { Vehicle, HappyCustomer } from '@/lib/types';
 import VehicleCard from '@/components/ui/VehicleCard';
 import WelcomePopup from '@/components/WelcomePopup';
@@ -150,12 +150,17 @@ export default function HomePage() {
 
   const loadFeaturedVehicles = async () => {
     try {
-      const response = await vehiclesApi.getAll();
-      const allVehicles = response.data.data || [];
-      const featured = allVehicles.filter((v: Vehicle) => v.featured);
-      const displayVehicles = featured.length > 0
-        ? featured.slice(0, 6)
-        : allVehicles.slice(0, 6);
+      const fields = 'title,price,originalPrice,discount,images,year,fuelType,transmission,mileage,type,status';
+      // First try to fetch only featured vehicles, up to 6
+      const response = await vehiclesApi.getAll({ featured: 'true', limit: 6, fields });
+      let displayVehicles = response.data.data || [];
+      
+      // Fallback: if no featured vehicles exist, fetch first 6 available vehicles
+      if (displayVehicles.length === 0) {
+        const fallbackResponse = await vehiclesApi.getAll({ limit: 6, fields });
+        displayVehicles = fallbackResponse.data.data || [];
+      }
+      
       setFeaturedVehicles(displayVehicles);
     } catch (error) {
       console.error('Error loading vehicles:', error);
@@ -213,7 +218,24 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="hero relative border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hero-content">
+        {/* Background Image using Next.js Image */}
+        <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          <Image
+            src="/hero-thar.png"
+            alt="Hero Background"
+            fill
+            priority
+            quality={85}
+            className="object-cover object-[25%_center] sm:object-left-center"
+            sizes="100vw"
+          />
+          {/* Desktop Gradient Overlay (Left to Right) */}
+          <div className="absolute inset-0 md:block hidden" style={{ background: 'linear-gradient(to right, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.85) 55%, #FFFFFF 75%)' }} />
+          {/* Mobile Gradient Overlay (Top to Bottom) */}
+          <div className="absolute inset-0 md:hidden block" style={{ background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.95) 65%, #FFFFFF 100%)' }} />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hero-content relative z-10">
           <div className="w-full lg:max-w-2xl ml-auto text-left flex flex-col items-start">
             
             {/* Small Badge */}
@@ -610,13 +632,15 @@ export default function HomePage() {
                 
                 {/* Photo Column */}
                 <div className="md:col-span-7 h-64 md:h-auto relative overflow-hidden group bg-gray-100">
-                  <img 
-                    src={activeCustomer.imageUrl} 
+                  <Image 
+                    src={getOptimizedImageUrl(activeCustomer.imageUrl, 800, 500)} 
                     alt={activeCustomer.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
-                  <div className="absolute bottom-4 left-4 bg-[#D4A63F] text-black font-extrabold text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md font-sans shadow-md">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none z-10" />
+                  <div className="absolute bottom-4 left-4 bg-[#D4A63F] text-black font-extrabold text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-md font-sans shadow-md z-10">
                     🎉 Delivered
                   </div>
                 </div>
@@ -717,12 +741,14 @@ export default function HomePage() {
               {displayCustomers.map((cust) => (
                 <div key={cust._id} className="bg-[#FAFAF8] rounded-[24px] overflow-hidden border border-gray-150 shadow-soft flex flex-col justify-between group">
                   <div className="h-56 relative overflow-hidden bg-gray-200">
-                    <img 
-                      src={cust.imageUrl} 
+                    <Image 
+                      src={getOptimizedImageUrl(cust.imageUrl, 400, 300)} 
                       alt={cust.name} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-103"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    <div className="absolute top-3 left-3 bg-[#D4A63F] text-black font-extrabold text-[9px] uppercase tracking-widest px-2.5 py-0.5 rounded font-sans shadow-sm">
+                    <div className="absolute top-3 left-3 bg-[#D4A63F] text-black font-extrabold text-[9px] uppercase tracking-widest px-2.5 py-0.5 rounded font-sans shadow-sm z-10">
                       🎉 Delivered
                     </div>
                   </div>

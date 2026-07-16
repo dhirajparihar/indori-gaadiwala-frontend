@@ -228,10 +228,6 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   min-height: 85vh;
   overflow: visible;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.85) 55%, #FFFFFF 75%), url('/hero-thar.png');
-  background-size: cover;
-  background-position: left center;
-  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: flex-end; /* Align content to the right */
@@ -276,8 +272,6 @@ input[type="range"]::-moz-range-thumb {
 @media (max-width: 1024px) {
   .hero {
     min-height: 65vh;
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.95) 65%, #FFFFFF 100%), url('/hero-thar.png');
-    background-position: left center;
     justify-content: center;
     padding: 3rem 1.5rem 6rem 1.5rem;
   }

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Vehicle } from '@/lib/types';
-import { formatPrice, getImageUrl } from '@/lib/api';
+import { formatPrice, getOptimizedImageUrl } from '@/lib/api';
 import { FaCalendar, FaGasPump, FaCog, FaTachometerAlt, FaCar, FaMotorcycle, FaTruck, FaShareAlt } from 'react-icons/fa';
 
 interface VehicleCardProps {
@@ -10,7 +10,7 @@ interface VehicleCardProps {
 
 export default function VehicleCard({ vehicle }: VehicleCardProps) {
     const imageUrl = vehicle.images && vehicle.images.length > 0
-        ? getImageUrl(vehicle.images[0])
+        ? getOptimizedImageUrl(vehicle.images[0], 600, 400)
         : '/placeholder-car.jpg';
 
     const handleShare = async (e: React.MouseEvent) => {
@@ -45,6 +45,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                         alt={vehicle.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = '/placeholder-car.jpg';

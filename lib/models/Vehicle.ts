@@ -64,7 +64,8 @@ const vehicleSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['available', 'sold', 'reserved'],
-    default: 'available'
+    default: 'available',
+    index: true
   },
   ownerCount: {
     type: Number,
@@ -76,7 +77,8 @@ const vehicleSchema = new mongoose.Schema({
   },
   featured: {
     type: Boolean,
-    default: false
+    default: false,
+    index: true
   }
 }, {
   timestamps: true

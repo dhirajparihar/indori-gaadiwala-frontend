@@ -89,6 +89,25 @@ export const getImageUrl = (path: string) => {
     return `${baseHost}${path.startsWith('/') ? '' : '/'}${path}`;
 };
 
+// Helper to get optimized image URL
+export const getOptimizedImageUrl = (path: string | undefined, width?: number, height?: number) => {
+    if (!path) return '/placeholder-car.jpg';
+    
+    // Only optimize Cloudinary URLs
+    if (path.includes('res.cloudinary.com') && path.includes('/upload/')) {
+        const parts = path.split('/upload/');
+        const transforms = [];
+        if (width) transforms.push(`w_${width}`);
+        if (height) transforms.push(`h_${height}`);
+        if (width || height) transforms.push('c_fill');
+        transforms.push('f_auto', 'q_auto');
+        
+        return `${parts[0]}/upload/${transforms.join(',')}/${parts[1]}`;
+    }
+    
+    return getImageUrl(path);
+};
+
 // Format price
 export const formatPrice = (price: number) => {
     return '₹' + price.toLocaleString('en-IN');

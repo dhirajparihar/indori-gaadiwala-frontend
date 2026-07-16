@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FaCar, FaMotorcycle, FaEdit, FaTrash, FaSearch, FaChevronDown, FaTruck } from 'react-icons/fa';
 import { Vehicle } from '@/lib/types';
 import { StatusFilter, SortSelect, ExportButton } from './FilterComponents';
+import { getOptimizedImageUrl } from '@/lib/api';
 
 interface VehiclesSectionProps {
     vehicles: Vehicle[];
@@ -160,7 +161,7 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete }: Vehicles
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center">
                                                     <img
-                                                        src={vehicle.images?.[0] || '/placeholder-car.jpg'}
+                                                        src={getOptimizedImageUrl(vehicle.images?.[0], 100, 100)}
                                                         alt={vehicle.title}
                                                         className="w-16 h-16 rounded-lg object-cover mr-4"
                                                     />
@@ -247,7 +248,7 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete }: Vehicles
                                 <div key={vehicle._id} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm space-y-3">
                                     <div className="flex items-center gap-3">
                                         <img
-                                            src={vehicle.images?.[0] || '/placeholder-car.jpg'}
+                                            src={getOptimizedImageUrl(vehicle.images?.[0], 100, 100)}
                                             alt={vehicle.title}
                                             className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
                                         />

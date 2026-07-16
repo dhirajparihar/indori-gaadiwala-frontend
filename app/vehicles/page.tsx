@@ -38,7 +38,9 @@ function VehiclesContent() {
     const loadVehicles = async (currentFilters: { type: string; fuelType: string; transmission: string; maxPrice: string }) => {
         setLoading(true);
         try {
-            const params: Record<string, string> = {};
+            const params: Record<string, string> = {
+                fields: 'title,price,originalPrice,discount,images,year,fuelType,transmission,mileage,type,status'
+            };
             if (currentFilters.type) params.type = currentFilters.type;
             if (currentFilters.fuelType) params.fuelType = currentFilters.fuelType;
             if (currentFilters.transmission) params.transmission = currentFilters.transmission;
