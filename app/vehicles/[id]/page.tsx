@@ -3,9 +3,11 @@
 import { useEffect, useState, useRef, TouchEvent } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { vehiclesApi, bookingsApi, formatPrice, getImageUrl, getOptimizedImageUrl } from '@/lib/api';
 import { Vehicle } from '@/lib/types';
 import EMICalculator from '@/components/ui/EMICalculator';
+import VehicleCard from '@/components/ui/VehicleCard';
 import { FaArrowLeft, FaCalendar, FaGasPump, FaCog, FaTachometerAlt, FaCheckCircle, FaPaperPlane, FaTimes, FaChevronLeft, FaChevronRight, FaCar, FaMotorcycle, FaTruck, FaShareAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
@@ -13,6 +15,7 @@ export default function VehicleDetailPage() {
     const params = useParams();
     const router = useRouter();
     const [vehicle, setVehicle] = useState<Vehicle | null>(null);
+    const [otherVehicles, setOtherVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedImage, setSelectedImage] = useState(0);
     const [formData, setFormData] = useState({
@@ -98,11 +101,45 @@ export default function VehicleDetailPage() {
     const loadVehicle = async (id: string) => {
         try {
             const response = await vehiclesApi.getById(id);
-            setVehicle(response.data.data);
+            const fetchedVehicle = response.data.data;
+            setVehicle(fetchedVehicle);
+            if (fetchedVehicle) {
+                loadOtherVehicles(fetchedVehicle);
+            }
         } catch (error) {
             console.error('Error loading vehicle:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const loadOtherVehicles = async (currentVehicle: Vehicle) => {
+        try {
+            // First fetch vehicles of same type
+            const response = await vehiclesApi.getAll({ status: 'available', type: currentVehicle.type, limit: 8 });
+            let fetchedList: Vehicle[] = response.data?.data || response.data || [];
+            
+            // Filter out current vehicle
+            let filtered = fetchedList.filter((v: Vehicle) => v._id !== currentVehicle._id);
+
+            // Fallback: if fewer than 4 vehicles, fetch general available inventory
+            if (filtered.length < 4) {
+                const fallbackResponse = await vehiclesApi.getAll({ status: 'available', limit: 8 });
+                const fallbackList: Vehicle[] = fallbackResponse.data?.data || fallbackResponse.data || [];
+                const existingIds = new Set(filtered.map(v => v._id));
+                existingIds.add(currentVehicle._id);
+
+                for (const item of fallbackList) {
+                    if (!existingIds.has(item._id)) {
+                        filtered.push(item);
+                        existingIds.add(item._id);
+                    }
+                }
+            }
+
+            setOtherVehicles(filtered.slice(0, 4));
+        } catch (error) {
+            console.error('Error loading other vehicles:', error);
         }
     };
 
@@ -387,7 +424,7 @@ export default function VehicleDetailPage() {
                         </div>
 
                         {/* Description & Features Row */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className={vehicle.features && vehicle.features.length > 0 ? "grid grid-cols-1 md:grid-cols-2 gap-6" : "grid grid-cols-1 gap-6"}>
                             <div className="card p-6">
                                 <h2 className="text-xl font-bold text-[#111111] mb-3 font-display">Description</h2>
                                 <p className="text-gray-500 text-sm leading-relaxed font-sans">{vehicle.description}</p>
@@ -406,6 +443,35 @@ export default function VehicleDetailPage() {
                                 </div>
                             )}
                         </div>
+
+                        {/* Other Vehicles Section - Perfectly fills left column space */}
+                        {otherVehicles.length > 0 && (
+                            <div className="card p-6 space-y-6">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E7EB] pb-4">
+                                    <div>
+                                        <span className="text-[#D4A63F] text-xs font-bold uppercase tracking-widest font-sans block mb-1">
+                                            Explore More Options
+                                        </span>
+                                        <h2 className="text-xl font-bold text-gray-900 font-display">
+                                            Other Vehicles You Might Like
+                                        </h2>
+                                    </div>
+                                    <Link
+                                        href="/vehicles"
+                                        className="inline-flex items-center justify-center space-x-2 bg-black text-white hover:bg-[#D4A63F] hover:text-black px-5 py-2.5 rounded-full font-bold text-xs transition-all duration-300 shadow-sm font-sans w-fit"
+                                    >
+                                        <span>View Other Vehicles</span>
+                                        <FaChevronRight className="text-[10px]" />
+                                    </Link>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                    {otherVehicles.slice(0, 4).map((item) => (
+                                        <VehicleCard key={item._id} vehicle={item} />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Column - Title, Price & Form */}
