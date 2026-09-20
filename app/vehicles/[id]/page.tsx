@@ -444,10 +444,10 @@ export default function VehicleDetailPage() {
                             )}
                         </div>
 
-                        {/* Other Vehicles Section - Perfectly fills left column space */}
+                        {/* Other Vehicles Section - DESKTOP ONLY (Fills left column space on Desktop) */}
                         {otherVehicles.length > 0 && (
-                            <div className="card p-6 space-y-6">
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E7EB] pb-4">
+                            <div className="hidden lg:block card p-6 space-y-6">
+                                <div className="flex items-center justify-between gap-4 border-b border-[#E5E7EB] pb-4">
                                     <div>
                                         <span className="text-[#D4A63F] text-xs font-bold uppercase tracking-widest font-sans block mb-1">
                                             Explore More Options
@@ -465,7 +465,7 @@ export default function VehicleDetailPage() {
                                     </Link>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                <div className="grid grid-cols-2 gap-6">
                                     {otherVehicles.slice(0, 4).map((item) => (
                                         <VehicleCard key={item._id} vehicle={item} />
                                     ))}
@@ -621,6 +621,36 @@ export default function VehicleDetailPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Other Vehicles Section - MOBILE ONLY (Comes AT THE VERY END after Make Offer & EMI Calculator) */}
+                {otherVehicles.length > 0 && (
+                    <div className="lg:hidden mt-12 pt-8 border-t border-[#E5E7EB]">
+                        <div className="mb-6">
+                            <span className="text-[#D4A63F] text-xs font-bold uppercase tracking-widest font-sans block mb-1">
+                                Explore More Options
+                            </span>
+                            <h2 className="text-2xl font-black text-gray-900 font-display">
+                                Other Vehicles You Might Like
+                            </h2>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            {otherVehicles.slice(0, 4).map((item) => (
+                                <VehicleCard key={item._id} vehicle={item} />
+                            ))}
+                        </div>
+
+                        <div className="mt-8 text-center">
+                            <Link
+                                href="/vehicles"
+                                className="inline-flex items-center justify-center space-x-2 bg-black text-white hover:bg-[#D4A63F] hover:text-black px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 shadow-md font-sans w-full"
+                            >
+                                <span>View Other Vehicles</span>
+                                <FaChevronRight className="text-xs" />
+                            </Link>
+                        </div>
+                    </div>
+                )}
 
                 {/* Lightbox Modal */}
                 {isLightboxOpen && (
