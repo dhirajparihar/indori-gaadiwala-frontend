@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function Footer() {
@@ -8,7 +9,10 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     {/* Brand */}
                     <div className="col-span-1 md:col-span-1">
-                        <h3 className="text-2xl font-black text-white mb-6 tracking-tight font-display">Indori Gaadiwala</h3>
+                        <div className="flex items-center space-x-3 mb-6">
+                            <Image src="/gaadiwala-logo.jpeg" alt="Indori Gaadiwala" width={40} height={40} className="object-cover rounded-full" />
+                            <h3 className="text-2xl font-black text-white tracking-tight font-display">Indori Gaadiwala</h3>
+                        </div>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6 font-sans">
                             Indore's most trusted platform for premium used vehicles. Quality, transparency, and seamless RC transfer — all in one place.
                         </p>

@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
             <div className="max-w-md w-full">
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center mb-4">
-                        <Image src="/logo-icon.png" alt="Indori Gaadiwala" width={80} height={80} className="object-contain" />
+                        <Image src="/gaadiwala-logo.jpeg" alt="Indori Gaadiwala" width={80} height={80} className="object-cover rounded-full shadow-md" />
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Indori Gaadiwala Admin</h1>
                     <p className="text-gray-600">Sign in to manage your platform</p>

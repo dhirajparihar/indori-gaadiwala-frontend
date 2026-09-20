@@ -14,6 +14,11 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-display" });
 export const metadata: Metadata = {
   title: "Indori Gaadiwala - Premium Used Vehicles at Unbeatable Prices",
   description: "Find the best deals on used cars and bikes in Indore at discounted prices. Quality second-hand vehicles with great savings.",
+  icons: {
+    icon: "/gaadiwala-logo.jpeg",
+    shortcut: "/gaadiwala-logo.jpeg",
+    apple: "/gaadiwala-logo.jpeg",
+  },
   verification: {
     google: "google7fd536219bc0349c.html",
   },
@@ -37,10 +42,8 @@ export default async function RootLayout({
     <html lang="en">
       <head>
         {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon-16x16.png" sizes="16x16" />
-        <link rel="icon" href="/favicon-32x32.png" sizes="32x32" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/gaadiwala-logo.jpeg" type="image/jpeg" sizes="any" />
+        <link rel="apple-touch-icon" href="/gaadiwala-logo.jpeg" />
         <link rel="manifest" href="/site.webmanifest" />
         
         {/* Google tag (gtag.js) */}

@@ -33,8 +33,8 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-20">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-2 shrink-0 nav-logo">
-                        <Image src="/logo-4.png" alt="Logo" width={56} height={56} className="object-contain" priority />
+                    <Link href="/" className="flex items-center space-x-3 shrink-0 nav-logo">
+                        <Image src="/gaadiwala-logo.jpeg" alt="Indori Gaadiwala" width={48} height={48} className="object-cover rounded-full shadow-sm" priority />
                         <span className="text-2xl font-black text-black tracking-tighter hidden sm:block font-display">Indori Gaadiwala</span>
                         <span className="text-xl font-black text-black tracking-tighter sm:hidden font-display">IndoriGaadiwala</span>
                     </Link>
