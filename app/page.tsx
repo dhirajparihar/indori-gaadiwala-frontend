@@ -23,7 +23,8 @@ import {
   FaTruck,
   FaHeadphones,
   FaWrench,
-  FaChevronLeft
+  FaChevronLeft,
+  FaChevronRight
 } from 'react-icons/fa';
 
 const DEFAULT_HAPPY_CUSTOMERS = [
@@ -206,6 +207,25 @@ export default function HomePage() {
     }
   }, [isTransitioning]);
 
+  // Fullscreen Lightbox Gallery State
+  const [galleryModalIndex, setGalleryModalIndex] = useState<number | null>(null);
+
+  // Keyboard Navigation for Lightbox Gallery Modal
+  useEffect(() => {
+    if (galleryModalIndex === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setGalleryModalIndex(null);
+      } else if (e.key === 'ArrowRight') {
+        setGalleryModalIndex((prev) => (prev !== null ? (prev + 1) % displayCustomers.length : 0));
+      } else if (e.key === 'ArrowLeft') {
+        setGalleryModalIndex((prev) => (prev !== null ? (prev - 1 + displayCustomers.length) % displayCustomers.length : 0));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [galleryModalIndex, displayCustomers.length]);
+
 
 
   return (
@@ -312,6 +332,7 @@ export default function HomePage() {
               {[...displayCustomers, ...displayCustomers, ...displayCustomers, ...displayCustomers].map((cust, idx) => (
                 <div 
                   key={`marquee-${cust._id || 'cust'}-${idx}`}
+                  onClick={() => setGalleryModalIndex(idx % displayCustomers.length)}
                   className="w-40 sm:w-48 h-20 sm:h-24 flex-shrink-0 relative rounded-xl overflow-hidden border-2 border-white hover:border-[#D4A63F] transition-all duration-300 group cursor-pointer shadow-soft"
                 >
                   <Image 
@@ -382,8 +403,9 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Finance */}
-            <div 
-              className="group card p-8 bg-white border-[#E7E2D8] hover:border-[#D4A63F] transition-all duration-300"
+            <Link 
+              href="/services/finance"
+              className="group card p-8 bg-white border-[#E7E2D8] hover:border-[#D4A63F] transition-all duration-300 block cursor-pointer"
               style={{ boxShadow: '0 12px 40px rgba(17,17,17,0.045)' }}
             >
               <div className="inline-flex items-center justify-center w-14 h-14 bg-[#D4A63F]/10 text-[#D4A63F] rounded-full mb-6 group-hover:bg-[#D4A63F] group-hover:text-black transition-all duration-300">
@@ -393,15 +415,16 @@ export default function HomePage() {
               <p className="text-[#536579] mb-6 leading-relaxed font-sans text-sm font-medium">
                 Get quick loan approvals and flexible EMI options. Drive home your favorite vehicle with payment plans tailored for you.
               </p>
-              <Link href="/services/finance" className="flex items-center text-[#111111] font-bold group-hover:text-[#D4A63F] transition-colors font-sans text-xs uppercase tracking-wider gap-1.5">
+              <div className="flex items-center text-[#111111] font-bold group-hover:text-[#D4A63F] transition-colors font-sans text-xs uppercase tracking-wider gap-1.5">
                 <span>Learn More</span>
                 <span className="transition-transform group-hover:translate-x-1">→</span>
-              </Link>
-            </div>
+              </div>
+            </Link>
 
             {/* RTO */}
-            <div 
-              className="group card p-8 bg-white border-[#E7E2D8] hover:border-[#D4A63F] transition-all duration-300"
+            <Link 
+              href="/services/rto"
+              className="group card p-8 bg-white border-[#E7E2D8] hover:border-[#D4A63F] transition-all duration-300 block cursor-pointer"
               style={{ boxShadow: '0 12px 40px rgba(17,17,17,0.045)' }}
             >
               <div className="inline-flex items-center justify-center w-14 h-14 bg-[#D4A63F]/10 text-[#D4A63F] rounded-full mb-6 group-hover:bg-[#D4A63F] group-hover:text-black transition-all duration-300">
@@ -411,15 +434,16 @@ export default function HomePage() {
               <p className="text-[#536579] mb-6 leading-relaxed font-sans text-sm font-medium">
                 Completely hassle-free registration and ownership transfer. We manage all RC transfer documents, NOC, and state clearances.
               </p>
-              <Link href="/services/rto" className="flex items-center text-[#111111] font-bold group-hover:text-[#D4A63F] transition-colors font-sans text-xs uppercase tracking-wider gap-1.5">
+              <div className="flex items-center text-[#111111] font-bold group-hover:text-[#D4A63F] transition-colors font-sans text-xs uppercase tracking-wider gap-1.5">
                 <span>Learn More</span>
                 <span className="transition-transform group-hover:translate-x-1">→</span>
-              </Link>
-            </div>
+              </div>
+            </Link>
 
             {/* Insurance */}
-            <div 
-              className="group card p-8 bg-white border-[#E7E2D8] hover:border-[#D4A63F] transition-all duration-300"
+            <Link 
+              href="/services/insurance"
+              className="group card p-8 bg-white border-[#E7E2D8] hover:border-[#D4A63F] transition-all duration-300 block cursor-pointer"
               style={{ boxShadow: '0 12px 40px rgba(17,17,17,0.045)' }}
             >
               <div className="inline-flex items-center justify-center w-14 h-14 bg-[#D4A63F]/10 text-[#D4A63F] rounded-full mb-6 group-hover:bg-[#D4A63F] group-hover:text-black transition-all duration-300">
@@ -429,11 +453,11 @@ export default function HomePage() {
               <p className="text-[#536579] mb-6 leading-relaxed font-sans text-sm font-medium">
                 Get comprehensive vehicle protection at the most competitive rates. Secure your investments through our trusted insurance partners.
               </p>
-              <Link href="/services/insurance" className="flex items-center text-[#111111] font-bold group-hover:text-[#D4A63F] transition-colors font-sans text-xs uppercase tracking-wider gap-1.5">
+              <div className="flex items-center text-[#111111] font-bold group-hover:text-[#D4A63F] transition-colors font-sans text-xs uppercase tracking-wider gap-1.5">
                 <span>Learn More</span>
                 <span className="transition-transform group-hover:translate-x-1">→</span>
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -572,7 +596,8 @@ export default function HomePage() {
               {extendedCustomers.map((cust, idx) => (
                 <div 
                   key={`${cust._id || 'cust'}-${idx}`}
-                  className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.3333%-1rem)] flex-shrink-0 bg-white border border-[#E7E2D8] rounded-[24px] overflow-hidden shadow-medium flex flex-col group"
+                  onClick={() => setGalleryModalIndex(idx % displayCustomers.length)}
+                  className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.3333%-1rem)] flex-shrink-0 bg-white border border-[#E7E2D8] rounded-[24px] overflow-hidden shadow-medium flex flex-col group cursor-pointer"
                 >
                   {/* Photo Container */}
                   <div className="h-72 sm:h-80 relative overflow-hidden bg-gray-100">
@@ -646,6 +671,86 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Fullscreen Lightbox Gallery Modal */}
+      {galleryModalIndex !== null && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/92 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in select-none"
+          onClick={() => setGalleryModalIndex(null)}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setGalleryModalIndex(null)}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/80 hover:text-white bg-black/60 hover:bg-black/90 rounded-full w-12 h-12 flex items-center justify-center text-3xl font-bold z-50 transition-all cursor-pointer border border-white/20"
+            aria-label="Close Gallery"
+          >
+            &times;
+          </button>
+
+          {/* Left Arrow */}
+          {displayCustomers.length > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setGalleryModalIndex((prev) => (prev !== null ? (prev - 1 + displayCustomers.length) % displayCustomers.length : 0));
+              }}
+              className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#D4A63F] text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center z-50 transition-all cursor-pointer border border-white/20 shadow-lg"
+              aria-label="Previous Photo"
+            >
+              <FaChevronLeft className="text-lg" />
+            </button>
+          )}
+
+          {/* Main Photo Container */}
+          <div 
+            className="relative max-w-5xl max-h-[82vh] w-full h-[75vh] flex flex-col items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black/40">
+              <Image
+                src={getOptimizedImageUrl(displayCustomers[galleryModalIndex].imageUrl, 1200, 900)}
+                alt={displayCustomers[galleryModalIndex].name}
+                fill
+                priority
+                className="object-contain"
+                sizes="(max-width: 1280px) 100vw, 1200px"
+              />
+            </div>
+
+            {/* Bottom Caption & Vehicle Info Bar */}
+            <div className="mt-4 flex flex-col sm:flex-row items-center justify-between w-full bg-black/80 backdrop-blur-md px-6 py-3.5 rounded-xl border border-white/10 gap-2">
+              <div className="text-left">
+                <div className="inline-flex items-center gap-1.5 text-xs text-[#D4A63F] font-bold uppercase tracking-wider font-sans mb-0.5">
+                  <FaCar size={12} />
+                  <span>{displayCustomers[galleryModalIndex].vehicleName}</span>
+                </div>
+                <h3 className="text-white font-black text-xl font-display">
+                  {displayCustomers[galleryModalIndex].name}
+                </h3>
+              </div>
+
+              {/* Counter Indicator */}
+              <span className="text-xs text-gray-300 font-semibold font-sans bg-white/10 px-3 py-1 rounded-full border border-white/10">
+                Photo {galleryModalIndex + 1} of {displayCustomers.length}
+              </span>
+            </div>
+          </div>
+
+          {/* Right Arrow */}
+          {displayCustomers.length > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setGalleryModalIndex((prev) => (prev !== null ? (prev + 1) % displayCustomers.length : 0));
+              }}
+              className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-[#D4A63F] text-white hover:text-black w-12 h-12 rounded-full flex items-center justify-center z-50 transition-all cursor-pointer border border-white/20 shadow-lg"
+              aria-label="Next Photo"
+            >
+              <FaChevronRight className="text-lg" />
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

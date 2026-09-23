@@ -5,7 +5,7 @@ import { FaUsers, FaTrash, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { leadsApi } from '@/lib/api';
 import CollapsibleSection from './CollapsibleSection';
-import { StatusFilter, SortSelect, ExportButton } from './FilterComponents';
+import { StatusFilter, SortSelect, ExportButton, ActiveFilters } from './FilterComponents';
 
 interface Lead {
     _id: string;
@@ -45,18 +45,99 @@ const exportColumns = [
     { key: 'createdAt', label: 'Date' },
 ];
 
+const getSourceBadge = (source?: string) => {
+    const src = (source || 'welcome_popup').toLowerCase();
+    if (src === 'finance_page' || src === 'finance') {
+        return (
+            <span className="px-2.5 py-1 text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 rounded-full inline-flex items-center gap-1 whitespace-nowrap">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                Finance Page
+            </span>
+        );
+    }
+    if (src === 'welcome_popup' || src === 'popup') {
+        return (
+            <span className="px-2.5 py-1 text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 rounded-full inline-flex items-center gap-1 whitespace-nowrap">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                Popup
+            </span>
+        );
+    }
+    return (
+        <span className="px-2.5 py-1 text-xs font-bold bg-[#D4A63F]/10 text-[#D4A63F] border border-[#D4A63F]/20 rounded-full capitalize inline-flex items-center gap-1 whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D4A63F]"></span>
+            {src.replace('_', ' ')}
+        </span>
+    );
+};
+
+const renderNotesContent = (notesStr: string) => {
+    if (!notesStr) return <span className="text-gray-400 italic text-xs">No notes provided</span>;
+
+    if (notesStr.includes('|')) {
+        const parts = notesStr.split('|').map(p => p.trim());
+        return (
+            <div className="space-y-1.5 font-sans">
+                {parts.map((part, idx) => {
+                    const colonIdx = part.indexOf(':');
+                    if (colonIdx !== -1) {
+                        const key = part.slice(0, colonIdx).trim();
+                        const val = part.slice(colonIdx + 1).trim();
+                        return (
+                            <div key={idx} className="flex items-start gap-1.5 text-xs">
+                                <span className="font-bold text-[#D4A63F] min-w-[70px] whitespace-nowrap">{key}:</span>
+                                <span className="text-neutral-100 font-medium">{val}</span>
+                            </div>
+                        );
+                    }
+                    return (
+                        <div key={idx} className="text-xs text-neutral-200 font-medium">
+                            • {part}
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }
+
+    return <p className="text-xs text-neutral-100 whitespace-pre-wrap leading-relaxed font-sans">{notesStr}</p>;
+};
+
 export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
     const [statusFilter, setStatusFilter] = useState('');
+    const [sourceFilter, setSourceFilter] = useState('');
     const [sortBy, setSortBy] = useState('newest');
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editNotes, setEditNotes] = useState('');
     const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+
+    // Compute dynamic source options from leads
+    const defaultSourceOptions = [
+        { value: 'welcome_popup', label: 'Popup' },
+        { value: 'finance_page', label: 'Finance Page' },
+    ];
+
+    const sourceOptions = Array.from(
+        new Set([
+            ...defaultSourceOptions.map(o => o.value),
+            ...leads.map(l => l.source || 'welcome_popup')
+        ])
+    ).map(src => {
+        const defaultOpt = defaultSourceOptions.find(o => o.value === src);
+        if (defaultOpt) return defaultOpt;
+        const label = src.replace('_', ' ').replace(/\b\w/g, char => char.toUpperCase());
+        return { value: src, label };
+    });
 
     // Filter and sort leads
     let filteredLeads = [...leads];
 
     if (statusFilter) {
         filteredLeads = filteredLeads.filter(l => l.status === statusFilter);
+    }
+
+    if (sourceFilter) {
+        filteredLeads = filteredLeads.filter(l => (l.source || 'welcome_popup') === sourceFilter);
     }
 
     filteredLeads.sort((a, b) => {
@@ -112,6 +193,13 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                         value={statusFilter}
                         onChange={setStatusFilter}
                         options={statusOptions}
+                        label="Status"
+                    />
+                    <StatusFilter
+                        value={sourceFilter}
+                        onChange={setSourceFilter}
+                        options={sourceOptions}
+                        label="Source"
                     />
                     <SortSelect
                         value={sortBy}
@@ -125,6 +213,26 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                         columns={exportColumns}
                     />
                 </div>
+
+                {/* Active Filters Bar */}
+                {(statusFilter || sourceFilter) && (
+                    <div className="mb-4">
+                        <ActiveFilters
+                            filters={[
+                                { key: 'status', label: 'Status', value: statusOptions.find(o => o.value === statusFilter)?.label || '' },
+                                { key: 'source', label: 'Source', value: sourceOptions.find(o => o.value === sourceFilter)?.label || '' },
+                            ]}
+                            onRemove={(key) => {
+                                if (key === 'status') setStatusFilter('');
+                                if (key === 'source') setSourceFilter('');
+                            }}
+                            onClearAll={() => {
+                                setStatusFilter('');
+                                setSourceFilter('');
+                            }}
+                        />
+                    </div>
+                )}
 
                 {/* Table for larger screens */}
                 <div className="hidden md:block overflow-x-auto">
@@ -147,9 +255,7 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                         <td className="px-4 py-4 font-medium text-gray-900">{lead.name}</td>
                                         <td className="px-4 py-4 text-gray-600">{lead.phone}</td>
                                         <td className="px-4 py-4">
-                                            <span className="px-2 py-1 text-xs font-semibold bg-[#D4A63F]/10 text-[#D4A63F] rounded-full">
-                                                {lead.source || 'popup'}
-                                            </span>
+                                            {getSourceBadge(lead.source)}
                                         </td>
                                         <td className="px-4 py-4 text-gray-600 text-sm">
                                             {new Date(lead.createdAt).toLocaleDateString()}
@@ -170,33 +276,48 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                                 ))}
                                             </select>
                                         </td>
-                                        <td className="px-4 py-4 max-w-xs">
+                                        <td className="px-4 py-4 max-w-[260px]">
                                             {editingId === lead._id ? (
                                                 <div className="flex items-center gap-2">
                                                     <input
                                                         type="text"
                                                         value={editNotes}
                                                         onChange={(e) => setEditNotes(e.target.value)}
-                                                        className="text-sm border border-gray-300 rounded px-2 py-1 flex-1"
+                                                        className="text-sm border border-gray-300 rounded px-2 py-1 flex-1 outline-none focus:border-[#D4A63F]"
                                                         placeholder="Add notes..."
                                                         autoFocus
                                                     />
-                                                    <button onClick={() => handleSaveNotes(lead._id)} className="text-green-600 hover:text-green-700">
+                                                    <button onClick={() => handleSaveNotes(lead._id)} className="text-green-600 hover:text-green-700 p-1">
                                                         <FaSave />
                                                     </button>
-                                                    <button onClick={() => setEditingId(null)} className="text-gray-400 hover:text-gray-600">
+                                                    <button onClick={() => setEditingId(null)} className="text-gray-400 hover:text-gray-600 p-1">
                                                         <FaTimes />
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-sm text-gray-600 truncate">{lead.notes || '-'}</span>
+                                                <div className="relative group inline-flex items-center justify-between gap-2 bg-gray-50/80 hover:bg-amber-50/60 px-2.5 py-1.5 rounded-lg border border-gray-200/80 hover:border-amber-200 transition-all cursor-pointer w-full">
+                                                    <span className="text-xs text-gray-700 font-medium truncate max-w-[180px]" title={lead.notes}>
+                                                        {lead.notes || <span className="text-gray-400 italic">No notes</span>}
+                                                    </span>
                                                     <button
-                                                        onClick={() => { setEditingId(lead._id); setEditNotes(lead.notes || ''); }}
-                                                        className="text-gray-400 hover:text-gray-600"
+                                                        onClick={(e) => { e.stopPropagation(); setEditingId(lead._id); setEditNotes(lead.notes || ''); }}
+                                                        className="text-gray-400 hover:text-[#D4A63F] transition-colors p-0.5 flex-shrink-0"
+                                                        title="Edit notes"
                                                     >
-                                                        <FaEdit className="text-xs" />
+                                                        <FaEdit className="text-[11px]" />
                                                     </button>
+
+                                                    {/* Floating Hover Popover */}
+                                                    {lead.notes && (
+                                                        <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block z-50 w-72 bg-[#111111] text-white p-3.5 rounded-xl shadow-2xl border border-neutral-800 pointer-events-none transition-all duration-200">
+                                                            <div className="text-[10px] font-bold uppercase tracking-wider text-[#D4A63F] mb-1.5 pb-1 border-b border-neutral-800 flex items-center justify-between">
+                                                                <span>Lead Details &amp; Notes</span>
+                                                            </div>
+                                                            {renderNotesContent(lead.notes)}
+                                                            {/* Tooltip arrow */}
+                                                            <div className="absolute top-full left-6 -mt-1 border-4 border-transparent border-t-[#111111]" />
+                                                        </div>
+                                                    )}
                                                 </div>
                                             )}
                                         </td>
@@ -230,7 +351,7 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                             ) : (
                                 <tr>
                                     <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
-                                        {statusFilter ? 'No leads match your filter' : 'No leads yet'}
+                                        {statusFilter || sourceFilter ? 'No leads match your filter' : 'No leads yet'}
                                     </td>
                                 </tr>
                             )}
@@ -248,10 +369,8 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                         <h4 className="font-bold text-gray-900">{lead.name}</h4>
                                         <a href={`tel:${lead.phone}`} className="text-sm text-[#D4A63F] hover:underline font-semibold">{lead.phone}</a>
                                     </div>
-                                    <div className="text-right">
-                                        <span className="px-2 py-0.5 text-xs font-semibold bg-[#D4A63F]/10 text-[#D4A63F] rounded-full">
-                                            {lead.source || 'popup'}
-                                        </span>
+                                    <div className="text-right flex flex-col items-end">
+                                        {getSourceBadge(lead.source)}
                                         <div className="text-xs text-gray-400 mt-1">
                                             {new Date(lead.createdAt).toLocaleDateString()}
                                         </div>
@@ -297,14 +416,27 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                                                     </button>
                                                 </div>
                                             ) : (
-                                                <div className="flex items-center justify-between gap-1 mt-1 bg-gray-50 px-2 py-1 rounded border border-gray-200">
-                                                    <span className="text-xs text-gray-600 truncate max-w-[100px]">{lead.notes || '-'}</span>
-                                                    <button
-                                                        onClick={() => { setEditingId(lead._id); setEditNotes(lead.notes || ''); }}
-                                                        className="text-gray-400 hover:text-gray-650"
-                                                    >
-                                                        <FaEdit className="text-[10px]" />
-                                                    </button>
+                                                <div className="relative group mt-1">
+                                                    <div className="flex items-center justify-between gap-1 bg-gray-50/80 hover:bg-amber-50/60 px-2.5 py-1.5 rounded-lg border border-gray-200/80 cursor-pointer">
+                                                        <span className="text-xs text-gray-700 font-medium truncate max-w-[120px]" title={lead.notes}>
+                                                            {lead.notes || <span className="text-gray-400 italic">-</span>}
+                                                        </span>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); setEditingId(lead._id); setEditNotes(lead.notes || ''); }}
+                                                            className="text-gray-400 hover:text-[#D4A63F] p-0.5 flex-shrink-0"
+                                                        >
+                                                            <FaEdit className="text-[11px]" />
+                                                        </button>
+                                                    </div>
+                                                    {lead.notes && (
+                                                        <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block z-50 w-64 bg-[#111111] text-white p-3 rounded-xl shadow-2xl border border-neutral-800 pointer-events-none">
+                                                            <div className="text-[10px] font-bold uppercase tracking-wider text-[#D4A63F] mb-1 pb-1 border-b border-neutral-800">
+                                                                Lead Details &amp; Notes
+                                                            </div>
+                                                            {renderNotesContent(lead.notes)}
+                                                            <div className="absolute top-full right-4 -mt-1 border-4 border-transparent border-t-[#111111]" />
+                                                        </div>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
@@ -341,7 +473,7 @@ export default function LeadsSection({ leads, onRefresh }: LeadsSectionProps) {
                         ))
                     ) : (
                         <div className="text-center py-8 text-gray-500 bg-white border border-gray-200 rounded-xl">
-                            {statusFilter ? 'No leads match your filter' : 'No leads yet'}
+                            {statusFilter || sourceFilter ? 'No leads match your filter' : 'No leads yet'}
                         </div>
                     )}
                 </div>

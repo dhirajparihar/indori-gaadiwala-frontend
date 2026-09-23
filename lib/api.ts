@@ -52,7 +52,7 @@ export const authApi = {
 
 // Leads API
 export const leadsApi = {
-    create: (data: { name: string; phone: string }) =>
+    create: (data: { name: string; phone: string; source?: string; notes?: string }) =>
         api.post('/leads', data),
     getAll: () => api.get('/leads'),
     update: (id: string, data: Record<string, unknown>) => api.put(`/leads/${id}`, data),

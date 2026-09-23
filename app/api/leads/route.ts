@@ -7,7 +7,7 @@ import { validators, handleValidationError } from '@/lib/validation';
 export async function POST(req: NextRequest) {
     try {
         await dbConnect();
-        const { name, phone, source } = await req.json();
+        const { name, phone, source, notes } = await req.json();
 
         // Validate required fields
         validators.required(name, 'Name');
@@ -23,12 +23,16 @@ export async function POST(req: NextRequest) {
         const existingLead = await Lead.findOne({ phone });
 
         if (existingLead) {
-            // Update existing lead with new visit timestamp
+            // Update existing lead with new visit timestamp & notes if provided
             existingLead.updatedAt = new Date();
+            if (source) existingLead.source = source;
+            if (notes) {
+                existingLead.notes = existingLead.notes ? `${existingLead.notes} | ${notes}` : notes;
+            }
             await existingLead.save();
             return NextResponse.json({
                 success: true,
-                message: 'Lead already exists, updated timestamp',
+                message: 'Lead already exists, updated timestamp and details',
                 data: existingLead
             });
         }
@@ -36,7 +40,8 @@ export async function POST(req: NextRequest) {
         const lead = await Lead.create({
             name,
             phone,
-            source: source || 'welcome_popup'
+            source: source || 'welcome_popup',
+            notes: notes || ''
         });
 
         return NextResponse.json({
