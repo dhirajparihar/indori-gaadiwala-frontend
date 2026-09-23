@@ -39,27 +39,16 @@ export async function POST(req: NextRequest) {
 
         const name = formData.get('name') as string;
         const vehicleName = formData.get('vehicleName') as string;
-        const review = formData.get('review') as string;
-        const ratingVal = formData.get('rating');
-        const rating = ratingVal ? Number(ratingVal) : 5;
-        const deliveryDate = formData.get('deliveryDate') as string;
 
         // Validate required fields
         validators.required(name, 'Name');
         validators.required(vehicleName, 'Vehicle name');
-        validators.required(review, 'Review');
 
         // Validate name length
         validators.name(name);
 
         // Validate vehicle name length
         validators.minLength(vehicleName, 3, 'Vehicle name');
-
-        // Validate review length
-        validators.minLength(review, 10, 'Review');
-
-        // Validate rating range
-        validators.rating(rating);
 
         const file = formData.get('image') as File;
         if (!file || file.size === 0) {
@@ -83,10 +72,7 @@ export async function POST(req: NextRequest) {
         const newCustomer = await HappyCustomer.create({
             name,
             vehicleName,
-            review,
-            rating,
-            imageUrl,
-            deliveryDate: deliveryDate || undefined
+            imageUrl
         });
 
         return NextResponse.json({
