@@ -67,6 +67,15 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                     >
                         <FaShareAlt className="text-xs sm:text-sm" />
                     </button>
+                    {vehicle.status === 'sold' && (
+                        <div className="absolute inset-0 flex items-center justify-center z-20 p-4 pointer-events-none">
+                            <img
+                                src="/Sold_out.png"
+                                alt="Sold Out"
+                                className="w-3/4 max-w-[180px] h-auto object-contain drop-shadow-xl select-none"
+                            />
+                        </div>
+                    )}
                 </div>
 
                 {/* Content */}

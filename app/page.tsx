@@ -139,7 +139,7 @@ export default function HomePage() {
 
   const loadFeaturedVehicles = async () => {
     try {
-      const fields = 'title,price,originalPrice,discount,images,year,fuelType,transmission,mileage,type,status';
+      const fields = 'title,price,originalPrice,discount,images,year,fuelType,transmission,mileage,type,status,displayOrder,createdAt';
       // First try to fetch only featured vehicles, up to 6
       const response = await vehiclesApi.getAll({ featured: 'true', limit: 6, fields });
       let displayVehicles = response.data.data || [];

@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
             if (maxPrice && !isNaN(Number(maxPrice))) filter.price.$lte = Number(maxPrice);
         }
 
-        let query = Vehicle.find(filter).sort({ createdAt: -1 });
+        let query = Vehicle.find(filter).sort({ displayOrder: 1, createdAt: -1 });
 
         if (fields) {
             query = query.select(fields.split(',').join(' '));

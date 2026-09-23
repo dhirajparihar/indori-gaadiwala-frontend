@@ -191,6 +191,7 @@ export default function AdminDashboardPage() {
                     vehicles={vehicles}
                     onEdit={setEditingVehicle}
                     onDelete={handleDeleteVehicle}
+                    onReorder={setVehicles}
                 />
             )}
 

@@ -79,6 +79,11 @@ const vehicleSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
     index: true
+  },
+  displayOrder: {
+    type: Number,
+    default: 0,
+    index: true
   }
 }, {
   timestamps: true
@@ -91,5 +96,6 @@ vehicleSchema.pre('save', function () {
   }
 });
 
+delete (mongoose.models as any).Vehicle;
 const Vehicle = mongoose.models.Vehicle || mongoose.model('Vehicle', vehicleSchema);
 export default Vehicle;

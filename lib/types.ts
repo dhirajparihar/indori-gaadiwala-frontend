@@ -19,6 +19,7 @@ export interface Vehicle {
     ownerCount?: number;
     location?: string;
     featured?: boolean;
+    displayOrder?: number;
     createdAt: string;
     updatedAt: string;
 }

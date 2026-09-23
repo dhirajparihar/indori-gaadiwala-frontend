@@ -338,6 +338,16 @@ export default function VehicleDetailPage() {
                                     </div>
                                 )}
 
+                                {vehicle.status === 'sold' && (
+                                    <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none p-6">
+                                        <img
+                                            src="/Sold_out.png"
+                                            alt="Sold Out"
+                                            className="w-2/3 max-w-[280px] sm:max-w-[340px] h-auto object-contain drop-shadow-2xl select-none"
+                                        />
+                                    </div>
+                                )}
+
                                 {/* Navigation Arrows for Main Image */}
                                 {images.length > 1 && (
                                     <>
@@ -378,6 +388,15 @@ export default function VehicleDetailPage() {
                                                 fill
                                                 className="object-cover"
                                             />
+                                            {vehicle.status === 'sold' && (
+                                                <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                                                    <img
+                                                        src="/Sold_out.png"
+                                                        alt="Sold Out"
+                                                        className="w-3/4 max-w-[44px] h-auto object-contain drop-shadow"
+                                                    />
+                                                </div>
+                                            )}
                                         </button>
                                     ))}
                                 </div>

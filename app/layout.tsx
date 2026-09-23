@@ -4,6 +4,7 @@ import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import WhatsAppFloatingButton from "@/components/layout/WhatsAppFloatingButton";
 import { ToastContainer } from "react-toastify";
 import { Suspense } from "react";
 import { headers } from "next/headers";
@@ -83,6 +84,7 @@ export default async function RootLayout({
           {children}
         </main>
         {!isAdminRoute && <Footer />}
+        <WhatsAppFloatingButton />
       </body>
     </html>
   );

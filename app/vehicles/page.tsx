@@ -39,7 +39,7 @@ function VehiclesContent() {
         setLoading(true);
         try {
             const params: Record<string, string> = {
-                fields: 'title,price,originalPrice,discount,images,year,fuelType,transmission,mileage,type,status'
+                fields: 'title,price,originalPrice,discount,images,year,fuelType,transmission,mileage,type,status,displayOrder,createdAt'
             };
             if (currentFilters.type) params.type = currentFilters.type;
             if (currentFilters.fuelType) params.fuelType = currentFilters.fuelType;

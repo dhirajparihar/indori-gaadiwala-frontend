@@ -31,6 +31,7 @@ export const vehiclesApi = {
     }),
     update: (id: string, data: Record<string, unknown> | FormData) => api.put(`/vehicles/${id}`, data),
     delete: (id: string) => api.delete(`/vehicles/${id}`),
+    reorder: (items: { id: string; displayOrder: number }[]) => api.put('/vehicles/reorder', { items }),
 };
 
 // Bookings API
