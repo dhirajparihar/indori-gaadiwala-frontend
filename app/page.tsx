@@ -298,106 +298,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Happy Customers Photo Show & Relocated Stats Section */}
-      <section className="py-12 sm:py-16 bg-[#F5F3ED] bg-road-pattern border-b border-[#E7E2D8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Relocated Statistics Bar */}
-          <div className="mb-10 sm:mb-14 -mt-10 sm:-mt-16 relative z-10">
-            <div className="bg-white border border-[#E7E2D8] rounded-[24px] p-6 sm:p-8 shadow-soft grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
-              {[
-                { icon: <FaCar />, end: 1000, suffix: '+', label: 'Vehicles Sold' },
-                { icon: <FaUsers />, end: 1000, suffix: '+', label: 'Happy Customers' },
-                { icon: <FaAward />, end: 7, suffix: '+', label: 'Years of Trust' },
-                { icon: <FaFileContract />, end: 100, suffix: '%', label: 'RTO Compliant' }
-              ].map((stat, idx) => (
-                <div key={idx} className={`flex items-center space-x-4 pl-4 ${idx >= 2 ? 'pt-6 lg:pt-0' : ''} ${idx === 1 ? 'pt-6 sm:pt-0' : ''} ${idx === 0 ? 'pt-0' : ''}`}>
-                  <div className="w-12 h-12 rounded-full bg-[#D4A63F]/10 text-[#D4A63F] flex items-center justify-center text-lg flex-shrink-0">
-                    {stat.icon}
-                  </div>
-                  <div className="text-left">
-                    <div className="text-xl sm:text-2xl font-black text-[#111111] font-display leading-tight">
-                      <AnimatedCounter end={stat.end} suffix={stat.suffix} />
-                    </div>
-                    <div className="text-xs text-[#536579] font-semibold font-sans">
-                      {stat.label}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Header */}
-          <div className="text-left mb-8 sm:mb-10">
-            <span className="text-[#D4A63F] text-xs font-extrabold uppercase tracking-widest block mb-3 font-sans">Delivering Smiles</span>
-            <h2 className="text-3xl md:text-5xl font-black text-[#111111] mb-2 tracking-tight font-display text-left">
-              Happy Customers Photo Show
-            </h2>
-            <p className="text-[#536579] font-medium text-base font-sans">Real delivery moments from Indori Gaadiwala</p>
-          </div>          {/* Photo Carousel Slider */}
-          <div className="relative max-w-7xl mx-auto overflow-hidden px-1 py-2">
-            <div 
-              className="carousel-track flex gap-6"
-              style={{ 
-                transform: `translateX(calc(-${currentCustomerIndex} * (var(--slide-width) + var(--slide-gap))))`,
-                transition: isTransitioning ? 'transform 700ms cubic-bezier(0.25, 1, 0.5, 1)' : 'none'
-              }}
-            >
-              {extendedCustomers.map((cust, idx) => (
+
+      {/* Photo Marquee (Warm Ivory Ribbon) */}
+      <section className="bg-[#FAF9F5] bg-road-pattern border-y border-[#E7E2D8] py-3.5 relative overflow-hidden shadow-soft z-10">
+        {/* Subtle background golden ambient glow */}
+        <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-96 h-20 bg-[#D4A63F]/8 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="w-full flex flex-row flex-nowrap items-center overflow-hidden">
+          {/* Marquee Track */}
+          <div className="relative overflow-hidden w-full py-0.5 flex flex-row flex-nowrap items-center">
+            <div className="animate-marquee flex flex-row flex-nowrap items-center gap-3.5 sm:gap-4.5">
+              {[...displayCustomers, ...displayCustomers, ...displayCustomers, ...displayCustomers].map((cust, idx) => (
                 <div 
-                  key={`${cust._id || 'cust'}-${idx}`}
-                  className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.3333%-1rem)] flex-shrink-0 bg-white border border-[#E5E7EB] rounded-[24px] overflow-hidden shadow-medium flex flex-col group"
+                  key={`marquee-${cust._id || 'cust'}-${idx}`}
+                  className="w-40 sm:w-48 h-20 sm:h-24 flex-shrink-0 relative rounded-xl overflow-hidden border-2 border-white hover:border-[#D4A63F] transition-all duration-300 group cursor-pointer shadow-soft"
                 >
-                  {/* Photo Container */}
-                  <div className="h-72 sm:h-80 relative overflow-hidden bg-gray-100">
-                    <Image 
-                      src={getOptimizedImageUrl(cust.imageUrl, 600, 450)} 
-                      alt={cust.name} 
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-90 group-hover:opacity-75 transition-opacity" />
-                    
-
-                    {/* Customer & Vehicle Info Overlay */}
-                    <div className="absolute bottom-4 left-4 right-4 z-10 text-left">
-                      <div className="inline-flex items-center gap-1.5 text-[10px] text-[#D4A63F] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md font-sans border border-[#D4A63F]/30 mb-2">
-                        <FaCar size={10} />
-                        <span>{cust.vehicleName}</span>
-                      </div>
-                      <h4 className="text-white font-black text-xl font-display tracking-tight leading-tight drop-shadow-md">
-                        {cust.name}
-                      </h4>
-                    </div>
-                  </div>
+                  <Image 
+                    src={getOptimizedImageUrl(cust.imageUrl, 400, 300)} 
+                    alt={cust.name} 
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-108"
+                    sizes="200px"
+                  />
                 </div>
               ))}
             </div>
-
-            {/* Pagination Indicator Dots */}
-            {displayCustomers.length > 1 && (
-              <div className="flex justify-center gap-2 mt-8">
-                {displayCustomers.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      setIsTransitioning(true);
-                      setCurrentCustomerIndex(idx);
-                    }}
-                    className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      (currentCustomerIndex % displayCustomers.length) === idx
-                        ? 'w-8 bg-[#D4A63F]'
-                        : 'w-2.5 bg-gray-300 hover:bg-gray-400'
-                    }`}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            )}
           </div>
-
         </div>
       </section>
 
@@ -594,8 +521,112 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Happy Customers Photo Show Section */}
+      <section className="py-12 sm:py-16 bg-[#F5F3ED] bg-road-pattern border-b border-[#E7E2D8]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Trust Statistics Bar */}
+          <div className="mb-12">
+            <div className="bg-white border border-[#E7E2D8] rounded-[24px] p-6 sm:p-8 shadow-soft grid grid-cols-2 lg:grid-cols-4 gap-6 divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
+              {[
+                { icon: <FaCar />, end: 1000, suffix: '+', label: 'Vehicles Sold' },
+                { icon: <FaUsers />, end: 1000, suffix: '+', label: 'Happy Customers' },
+                { icon: <FaAward />, end: 7, suffix: '+', label: 'Years of Trust' },
+                { icon: <FaFileContract />, end: 100, suffix: '%', label: 'RTO Compliant' }
+              ].map((stat, idx) => (
+                <div key={idx} className={`flex items-center space-x-4 pl-4 ${idx >= 2 ? 'pt-6 lg:pt-0' : ''} ${idx === 1 ? 'pt-6 sm:pt-0' : ''} ${idx === 0 ? 'pt-0' : ''}`}>
+                  <div className="w-12 h-12 rounded-full bg-[#D4A63F]/10 text-[#D4A63F] flex items-center justify-center text-lg flex-shrink-0">
+                    {stat.icon}
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xl sm:text-2xl font-black text-[#111111] font-display leading-tight">
+                      <AnimatedCounter end={stat.end} suffix={stat.suffix} />
+                    </div>
+                    <div className="text-xs text-[#536579] font-semibold font-sans">
+                      {stat.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Header */}
+          <div className="text-center mb-8 sm:mb-10">
+            <span className="text-[#D4A63F] text-xs font-extrabold uppercase tracking-widest block mb-3 font-sans">Delivering Smiles</span>
+            <h2 className="text-3xl md:text-5xl font-black text-[#111111] mb-2 tracking-tight font-display">
+              Happy Customers Photo Show
+            </h2>
+            <p className="text-[#536579] font-medium text-base font-sans">Real delivery moments from Indori Gaadiwala</p>
+          </div>
+
+          {/* Photo Carousel Slider */}
+          <div className="relative max-w-7xl mx-auto overflow-hidden px-1 py-2">
+            <div 
+              className="carousel-track flex gap-6"
+              style={{ 
+                transform: `translateX(calc(-${currentCustomerIndex} * (var(--slide-width) + var(--slide-gap))))`,
+                transition: isTransitioning ? 'transform 700ms cubic-bezier(0.25, 1, 0.5, 1)' : 'none'
+              }}
+            >
+              {extendedCustomers.map((cust, idx) => (
+                <div 
+                  key={`${cust._id || 'cust'}-${idx}`}
+                  className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.3333%-1rem)] flex-shrink-0 bg-white border border-[#E7E2D8] rounded-[24px] overflow-hidden shadow-medium flex flex-col group"
+                >
+                  {/* Photo Container */}
+                  <div className="h-72 sm:h-80 relative overflow-hidden bg-gray-100">
+                    <Image 
+                      src={getOptimizedImageUrl(cust.imageUrl, 600, 450)} 
+                      alt={cust.name} 
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-90 group-hover:opacity-75 transition-opacity" />
+                    
+
+                    {/* Customer & Vehicle Info Overlay */}
+                    <div className="absolute bottom-4 left-4 right-4 z-10 text-left">
+                      <div className="inline-flex items-center gap-1.5 text-[10px] text-[#D4A63F] font-bold uppercase tracking-wider bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md font-sans border border-[#D4A63F]/30 mb-2">
+                        <FaCar size={10} />
+                        <span>{cust.vehicleName}</span>
+                      </div>
+                      <h4 className="text-white font-black text-xl font-display tracking-tight leading-tight drop-shadow-md">
+                        {cust.name}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pagination Indicator Dots */}
+            {displayCustomers.length > 1 && (
+              <div className="flex justify-center gap-2 mt-8">
+                {displayCustomers.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setIsTransitioning(true);
+                      setCurrentCustomerIndex(idx);
+                    }}
+                    className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                      (currentCustomerIndex % displayCustomers.length) === idx
+                        ? 'w-8 bg-[#D4A63F]'
+                        : 'w-2.5 bg-gray-300 hover:bg-gray-400'
+                    }`}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-12 sm:py-14 bg-[#F5F3ED] bg-road-pattern">
+      <section className="py-12 sm:py-14 bg-[#FAF9F5]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[#111111] rounded-[24px] p-8 md:p-14 text-center text-white relative overflow-hidden group shadow-medium border border-neutral-800">
             {/* Golden radial background glow */}
