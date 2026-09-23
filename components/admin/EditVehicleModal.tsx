@@ -169,12 +169,12 @@ export default function EditVehicleModal({ vehicle, onClose, onSuccess }: EditVe
                             <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                             <select
                                 value={form.status || 'available'}
-                                onChange={(e) => setForm({ ...form, status: e.target.value as 'available' | 'sold' | 'reserved' })}
+                                onChange={(e) => setForm({ ...form, status: e.target.value as 'available' | 'sold' | 'booked' })}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="available">Available</option>
                                 <option value="sold">Sold</option>
-                                <option value="reserved">Reserved</option>
+                                <option value="booked">Booked</option>
                             </select>
                         </div>
                         <div>

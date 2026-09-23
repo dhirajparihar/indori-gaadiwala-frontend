@@ -15,7 +15,7 @@ export interface Vehicle {
     description: string;
     images: string[];
     features: string[];
-    status: 'available' | 'sold' | 'reserved';
+    status: 'available' | 'sold' | 'booked';
     ownerCount?: number;
     location?: string;
     featured?: boolean;

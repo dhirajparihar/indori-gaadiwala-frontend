@@ -126,7 +126,7 @@ export default function OverviewCharts({ vehicles, bookings, leads, sellerInquir
     const vehicleStatusData = [
         { name: 'Available', value: vehicles.filter(v => v.status === 'available').length, color: EMERALD },
         { name: 'Sold', value: vehicles.filter(v => v.status === 'sold').length, color: RED },
-        { name: 'Reserved', value: vehicles.filter(v => v.status === 'reserved').length, color: GOLD },
+        { name: 'booked', value: vehicles.filter(v => v.status === 'booked').length, color: GOLD },
     ].filter(d => d.value > 0);
 
     const fuelTypeData = groupCount(vehicles, 'fuelType').sort((a, b) => b.value - a.value);

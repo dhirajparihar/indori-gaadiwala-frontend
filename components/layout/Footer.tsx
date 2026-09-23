@@ -66,16 +66,16 @@ export default function Footer() {
                     <div>
                         <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-xs font-sans">Follow Us</h4>
                         <div className="flex space-x-3">
-                            <a 
-                                href="https://www.instagram.com/shree_dadaji_motors?igsh=MTgwenE5ZnRyN3hjNQ==" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
+                            <a
+                                href="https://www.instagram.com/shree_dadaji_motors?igsh=MTgwenE5ZnRyN3hjNQ=="
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white hover:border-[#D4A63F] hover:text-[#D4A63F] hover:scale-105 transition-all duration-300"
                             >
                                 <FaInstagram size={18} />
                             </a>
-                            <a 
-                                href="#" 
+                            <a
+                                href="#"
                                 className="w-10 h-10 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white hover:border-[#D4A63F] hover:text-[#D4A63F] hover:scale-105 transition-all duration-300"
                             >
                                 <FaFacebook size={18} />
