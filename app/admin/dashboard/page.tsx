@@ -47,13 +47,43 @@ export default function AdminDashboardPage() {
     const [showAddVehicleModal, setShowAddVehicleModal] = useState(false);
     const [editingVehicle, setEditingVehicle] = useState<Vehicle | null>(null);
 
-    // Auth check
+    // Tab handler with persistence
+    const handleTabChange = (tab: string) => {
+        setActiveTab(tab);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('adminActiveTab', tab);
+            const url = new URL(window.location.href);
+            url.searchParams.set('tab', tab);
+            window.history.replaceState({}, '', url.toString());
+        }
+    };
+
+    // Auth check & tab persistence
     useEffect(() => {
         const token = localStorage.getItem('adminToken');
         if (!token) {
             router.push('/admin/login');
             return;
         }
+
+        if (typeof window !== 'undefined') {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabFromUrl = urlParams.get('tab');
+            const savedTab = localStorage.getItem('adminActiveTab');
+            const targetTab = tabFromUrl || savedTab;
+            const validTabs = ['overview', 'vehicles', 'bookings', 'leads', 'seller-inquiries', 'happy-customers'];
+
+            if (targetTab && validTabs.includes(targetTab)) {
+                setActiveTab(targetTab);
+                localStorage.setItem('adminActiveTab', targetTab);
+                const url = new URL(window.location.href);
+                if (url.searchParams.get('tab') !== targetTab) {
+                    url.searchParams.set('tab', targetTab);
+                    window.history.replaceState({}, '', url.toString());
+                }
+            }
+        }
+
         loadDashboardData();
     }, []);
 
@@ -107,6 +137,7 @@ export default function AdminDashboardPage() {
     // Handlers
     const handleLogout = () => {
         localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminActiveTab');
         router.push('/admin/login');
     };
 
@@ -137,7 +168,7 @@ export default function AdminDashboardPage() {
             stats={stats}
             onAddVehicle={() => setShowAddVehicleModal(true)}
             activeTab={activeTab}
-            onTabChange={setActiveTab}
+            onTabChange={handleTabChange}
         >
             {/* Overview Section */}
             {activeTab === 'overview' && (
@@ -192,6 +223,7 @@ export default function AdminDashboardPage() {
                     onEdit={setEditingVehicle}
                     onDelete={handleDeleteVehicle}
                     onReorder={setVehicles}
+                    onRefresh={loadDashboardData}
                 />
             )}
 

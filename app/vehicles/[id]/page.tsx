@@ -333,7 +333,7 @@ export default function VehicleDetailPage() {
                                     </span>
                                 </div>
                                 {vehicle.discount > 0 && (
-                                    <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-[#D4A63F] text-black px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm font-extrabold z-10 uppercase shadow-md">
+                                    <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#D4A63F] text-black px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm font-extrabold z-10 uppercase shadow-md">
                                         {vehicle.discount}% OFF
                                     </div>
                                 )}
@@ -344,6 +344,15 @@ export default function VehicleDetailPage() {
                                             src="/Sold_out.png"
                                             alt="Sold Out"
                                             className="w-2/3 max-w-[280px] sm:max-w-[340px] h-auto object-contain drop-shadow-2xl select-none"
+                                        />
+                                    </div>
+                                )}
+                                {vehicle.status === 'booked' && (
+                                    <div className="absolute bottom-4 right-4 z-20 pointer-events-none">
+                                        <img
+                                            src="/Booked_icon.png"
+                                            alt="Booked"
+                                            className="w-24 sm:w-32 h-auto object-contain drop-shadow-xl select-none"
                                         />
                                     </div>
                                 )}
@@ -394,6 +403,15 @@ export default function VehicleDetailPage() {
                                                         src="/Sold_out.png"
                                                         alt="Sold Out"
                                                         className="w-3/4 max-w-[44px] h-auto object-contain drop-shadow"
+                                                    />
+                                                </div>
+                                            )}
+                                            {vehicle.status === 'booked' && (
+                                                <div className="absolute bottom-1 right-1 z-10 pointer-events-none">
+                                                    <img
+                                                        src="/Booked_icon.png"
+                                                        alt="Booked"
+                                                        className="w-6 sm:w-8 h-auto object-contain drop-shadow-sm"
                                                     />
                                                 </div>
                                             )}

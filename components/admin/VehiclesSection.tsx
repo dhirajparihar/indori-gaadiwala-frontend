@@ -10,11 +10,13 @@ interface VehiclesSectionProps {
     onEdit: (vehicle: Vehicle) => void;
     onDelete: (id: string) => void;
     onReorder?: (updatedVehicles: Vehicle[]) => void;
+    onRefresh?: () => void;
 }
 
 const statusOptions = [
     { value: 'available', label: 'Available' },
     { value: 'sold', label: 'Sold' },
+    { value: 'booked', label: 'Booked' },
 ];
 
 const typeOptions = [
@@ -46,14 +48,31 @@ const exportColumns = [
     { key: 'status', label: 'Status' },
 ];
 
-export default function VehiclesSection({ vehicles, onEdit, onDelete, onReorder }: VehiclesSectionProps) {
+export default function VehiclesSection({ vehicles, onEdit, onDelete, onReorder, onRefresh }: VehiclesSectionProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+    const [updatingStatusId, setUpdatingStatusId] = useState<string | null>(null);
     const [statusFilter, setStatusFilter] = useState('');
     const [typeFilter, setTypeFilter] = useState('');
     const [sortBy, setSortBy] = useState('custom');
     const [savingOrder, setSavingOrder] = useState(false);
+
+    const handleStatusUpdate = async (id: string, newStatus: 'available' | 'sold' | 'booked') => {
+        try {
+            setUpdatingStatusId(id);
+            await vehiclesApi.update(id, { status: newStatus });
+            toast.success(`Vehicle status updated to ${newStatus}`);
+            if (onRefresh) {
+                onRefresh();
+            }
+        } catch (error) {
+            console.error('Failed to update status:', error);
+            toast.error('Failed to update vehicle status');
+        } finally {
+            setUpdatingStatusId(null);
+        }
+    };
 
     // Drag and Drop state
     const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -356,6 +375,11 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete, onReorder 
                                                                 <img src="/Sold_out.png" alt="Sold Out" className="w-full h-auto object-contain max-h-12 select-none drop-shadow" />
                                                             </div>
                                                         )}
+                                                        {vehicle.status === 'booked' && (
+                                                            <div className="absolute bottom-0 right-0 p-0.5 pointer-events-none">
+                                                                <img src="/Booked_icon.png" alt="Booked" className="w-8 h-auto object-contain select-none drop-shadow-sm" />
+                                                            </div>
+                                                        )}
                                                     </div>
                                                     <div>
                                                         <div className="text-sm font-medium text-gray-900">{vehicle.title}</div>
@@ -380,10 +404,22 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete, onReorder 
                                                 )}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 py-1 text-xs font-medium rounded-full ${vehicle.status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                                    }`}>
-                                                    {vehicle.status}
-                                                </span>
+                                                <select
+                                                    value={vehicle.status || 'available'}
+                                                    onChange={(e) => handleStatusUpdate(vehicle._id, e.target.value as 'available' | 'sold' | 'booked')}
+                                                    disabled={updatingStatusId === vehicle._id}
+                                                    className={`text-xs px-2.5 py-1 rounded-full border font-semibold cursor-pointer outline-none transition-colors capitalize ${
+                                                        vehicle.status === 'available' ? 'border-green-300 bg-green-50 text-green-700 hover:bg-green-100' :
+                                                        vehicle.status === 'booked' ? 'border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100' :
+                                                        'border-red-300 bg-red-50 text-red-700 hover:bg-red-100'
+                                                    } ${updatingStatusId === vehicle._id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                >
+                                                    {statusOptions.map(opt => (
+                                                        <option key={opt.value} value={opt.value} className="bg-white text-gray-800 font-medium">
+                                                            {opt.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm">
                                                 <div className="flex items-center space-x-4">
@@ -462,6 +498,11 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete, onReorder 
                                                     <img src="/Sold_out.png" alt="Sold Out" className="w-full h-auto object-contain max-h-12 select-none drop-shadow" />
                                                 </div>
                                             )}
+                                            {vehicle.status === 'booked' && (
+                                                <div className="absolute bottom-0 right-0 p-0.5 pointer-events-none">
+                                                    <img src="/Booked_icon.png" alt="Booked" className="w-8 h-auto object-contain select-none drop-shadow-sm" />
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex justify-between items-start">
@@ -500,10 +541,22 @@ export default function VehiclesSection({ vehicles, onEdit, onDelete, onReorder 
                                                     {vehicle.type === 'car' ? <FaCar /> : vehicle.type === 'bike' ? <FaMotorcycle /> : <FaTruck />}
                                                     <span className="capitalize">{vehicle.type}</span>
                                                 </span>
-                                                <span className={`px-1.5 py-0.5 text-[10px] font-semibold rounded ${vehicle.status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                                    }`}>
-                                                    {vehicle.status}
-                                                </span>
+                                                <select
+                                                    value={vehicle.status || 'available'}
+                                                    onChange={(e) => handleStatusUpdate(vehicle._id, e.target.value as 'available' | 'sold' | 'booked')}
+                                                    disabled={updatingStatusId === vehicle._id}
+                                                    className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border cursor-pointer outline-none transition-colors capitalize ${
+                                                        vehicle.status === 'available' ? 'border-green-300 bg-green-50 text-green-700' :
+                                                        vehicle.status === 'booked' ? 'border-amber-300 bg-amber-50 text-amber-700' :
+                                                        'border-red-300 bg-red-50 text-red-700'
+                                                    } ${updatingStatusId === vehicle._id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                >
+                                                    {statusOptions.map(opt => (
+                                                        <option key={opt.value} value={opt.value} className="bg-white text-gray-800 font-medium">
+                                                            {opt.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

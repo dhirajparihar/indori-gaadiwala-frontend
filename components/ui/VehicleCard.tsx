@@ -51,28 +51,38 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                             target.src = '/placeholder-car.jpg';
                         }}
                     />
-                    <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-white/95 backdrop-blur-sm p-2 sm:p-2.5 rounded-full border border-[#E5E7EB] z-10 text-[#D4A63F] shadow-sm">
-                        {vehicle.type === 'car' ? <FaCar className="text-xs sm:text-sm" /> : vehicle.type === 'bike' ? <FaMotorcycle className="text-xs sm:text-sm" /> : <FaTruck className="text-xs sm:text-sm" />}
-                    </div>
+                    
                     {vehicle.discount > 0 && (
-                        <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-[#D4A63F] text-black px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold z-10 tracking-wider uppercase shadow-sm">
+                        <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-[#D4A63F] text-black px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold tracking-wider uppercase shadow-sm flex items-center z-10">
                             {vehicle.discount}% OFF
                         </div>
                     )}
-                    <button
-                        onClick={handleShare}
-                        className={`absolute top-2 sm:top-3 ${vehicle.discount > 0 ? 'right-[4.5rem] sm:right-20' : 'right-2 sm:right-3'} bg-white/95 backdrop-blur-sm p-2 sm:p-2.5 rounded-full border border-[#E5E7EB] z-10 text-gray-600 hover:text-[#D4A63F] shadow-sm transition-colors`}
-                        aria-label="Share"
-                        title="Share Vehicle"
-                    >
-                        <FaShareAlt className="text-xs sm:text-sm" />
-                    </button>
+
+                    <div className="absolute top-2 sm:top-3 right-2 sm:right-3 flex items-center gap-2 z-10">
+                        <button
+                            onClick={handleShare}
+                            className="bg-white/95 backdrop-blur-sm p-2 sm:p-2.5 rounded-full border border-[#E5E7EB] text-gray-600 hover:text-[#D4A63F] shadow-sm transition-colors flex items-center justify-center"
+                            aria-label="Share"
+                            title="Share Vehicle"
+                        >
+                            <FaShareAlt className="text-xs sm:text-sm" />
+                        </button>
+                    </div>
                     {vehicle.status === 'sold' && (
                         <div className="absolute inset-0 flex items-center justify-center z-20 p-4 pointer-events-none">
                             <img
                                 src="/Sold_out.png"
                                 alt="Sold Out"
                                 className="w-3/4 max-w-[180px] h-auto object-contain drop-shadow-xl select-none"
+                            />
+                        </div>
+                    )}
+                    {vehicle.status === 'booked' && (
+                        <div className="absolute bottom-2 right-2 z-20 pointer-events-none">
+                            <img
+                                src="/Booked_icon.png"
+                                alt="Booked"
+                                className="w-16 sm:w-20 lg:w-24 h-auto object-contain drop-shadow-lg select-none"
                             />
                         </div>
                     )}
